@@ -36,6 +36,24 @@ module.exports = (defFunc, api, ctx) => {
         msgs_recv: msgsRecv,
     };
 
+    let handleMessagingEvents = (event) => {
+
+        let fmtMsg;
+        switch (event.event) {
+            // "read_receipt" event triggers when other people read the user's messages.
+            case "read_receipt":
+                fmtMsg = formatter.readReceipt(event);
+                globalCallback(null, fmtMsg);
+                return true;
+            // "read event" triggers when the user read other people's messages.
+            case "read":
+                fmtMsg = formatter.read(event);
+                globalCallback(null, fmtMsg);
+                return true;
+            default:
+                return false;
+        }
+    };
     let listen = (callback) => {
         mCallback = callback;
 
@@ -45,6 +63,7 @@ module.exports = (defFunc, api, ctx) => {
         utils.get("https://0-edge-chat.facebook.com/pull", ctx.jar, form)
             .then(utils.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
+                log.info(JSON.stringify(body, null, 4));
                 if (body.seq) {
                     form.seq = body.seq;
                 }
@@ -80,10 +99,10 @@ module.exports = (defFunc, api, ctx) => {
                 if (body.ms) {
                     msgsRecv += body.ms.length;
                     let atLeastOne = false;
-                    body.ms.sort(function (a, b) {
-                        console.log('a', a);
-                        return a.timestamp - b.timestamp;
-                    })
+                    body.ms
+                        .sort(function (a, b) {
+                            return a.timestamp - b.timestamp;
+                        })
                         .forEach(msg => {
                             switch (msg.type) {
                                 //deltaflow buddylist_overlay
@@ -125,12 +144,15 @@ module.exports = (defFunc, api, ctx) => {
 
 
                                     break;
-
+                                case 'message':
+                                    handleMessagingEvents(msg);
+                                    break;
                                 default:
                                     log.warn('don\'t have handle for ' + msg.type);
                                     log.warn(JSON.stringify(msg));
                             }
-                        })
+                        });
+
                 }
 
 

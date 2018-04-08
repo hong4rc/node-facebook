@@ -89,7 +89,8 @@ let createApi = (option, body, jar) => {
     };
     let apiNames = [
         'sendTyping',
-        'listen'
+        'listen',
+        'markAsRead'
     ];
     let defFunc = utils.makeDefaults(body, userID, ctx);
     apiNames.map(func => {

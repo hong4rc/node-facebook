@@ -6,7 +6,7 @@ let user = process.env.user;
 if (user) {
     user = {appState: JSON.parse(user)}
 } else {
-    user = {appState: JSON.parse(fs.readFileSync('App.json', 'utf8'))};
+    user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
 }
 
 let last_typing = [0, 0, 0, 0];
@@ -22,6 +22,8 @@ login(user)
             }
             if (msg.type === 'presence') {
                 console.log(msg.userID, msg.statUser ? 'online' : 'idle');
+            } else if (msg.type === 'message') {
+                api.markAsRead(msg.threadID);
             } else if (msg.type === 'typ') {
                 let from = msg.from;
                 if (msg.isTyping) {

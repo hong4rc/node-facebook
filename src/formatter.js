@@ -39,5 +39,27 @@ module.exports = {
             timestamp: metaData.timestamp,
             isGroup: !!metaData.threadKey.threadFbId
         };
+    },
+
+    readReceipt: event => {
+        return {
+            reader: event.reader.toString(),
+            time: event.time,
+            threadID: formatID((event.thread_fbid || event.reader).toString()),
+            type: "read_receipt"
+        };
+    },
+
+    read: event => {
+        return {
+            threadID: formatID(
+                (
+                    (event.chat_ids && event.chat_ids[0]) ||
+                    (event.thread_fbids && event.thread_fbids[0])
+                ).toString()
+            ),
+            time: event.timestamp,
+            type: "read"
+        };
     }
 };
