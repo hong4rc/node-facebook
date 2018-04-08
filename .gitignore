@@ -1,0 +1,15 @@
+# Yarn
+yarn.lock
+yarn-error.log
+
+# Cookie
+App.json
+
+#Test
+__test__.js
+
+#Intellij
+.idea/
+
+# Node module
+node_modules/
