@@ -35,7 +35,6 @@ module.exports = {
                 (metaData.threadKey.threadFbId || metaData.threadKey.otherUserFbId).toString()
             ),
             messageID: metaData.messageId,
-            attachments: (msg.delta.attachments || []).map(v => _formatAttachment(v)),
             timestamp: metaData.timestamp,
             isGroup: !!metaData.threadKey.threadFbId
         };
