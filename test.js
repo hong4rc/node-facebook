@@ -1,6 +1,8 @@
-"use strict";
+'use strict';
 const fs = require('fs');
+const request = require('request');
 let login = require('./index');
+
 // let user = {email: 'your username/id', pass: 'your pass'};
 let user = process.env.user;
 if (user) {
@@ -12,6 +14,8 @@ if (user) {
 let last_typing = [0, 0, 0, 0];
 
 const TIME_OUT_MSG = 30000;
+const TIME_IDLING = 600000;
+const URL_IDLING = process.env.URL_IDLING;
 login(user)
     .then(api => {
         // fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
@@ -54,11 +58,11 @@ login(user)
 
 
 //For server
-let express = require("express");
+let express = require('express');
 let app = express();
 
 let port = process.env.PORT || 1997;
-app.listen(port, () => console.log("This app is running in Port: " + port));
+app.listen(port, () => console.log('This app is running in Port: ' + port));
 app.get("/", (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'text/json; charset=utf-8'
@@ -69,3 +73,10 @@ app.get("/", (req, res) => {
     };
     res.end(JSON.stringify(data, null, 4))
 });
+setInterval(() => {
+    request(URL_IDLING, (err, res, body) => {
+        if (res && res.statusCode === 200) {
+            console.log('Trigger success !!!')
+        }
+    });
+}, TIME_IDLING);

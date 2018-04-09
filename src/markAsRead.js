@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-let utils = require("./utils");
-let log = require("npmlog");
+let utils = require('./utils');
+let log = require('npmlog');
 
 module.exports = function (defFunc, api, ctx) {
     return threadID => {

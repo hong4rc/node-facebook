@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 let log = require('npmlog');
 let utils = require('./utils');
 let formatter = require('./formatter');
@@ -24,15 +24,15 @@ module.exports = (defFunc, api, ctx) => {
     let msgsRecv = 0;
     let currentlyRunning = null;
     let form = {
-        channel: "p_" + ctx.userID,
-        seq: "0",
-        partition: "-2",
+        channel: 'p_' + ctx.userID,
+        seq: '0',
+        partition: '-2',
         clientid: ctx.clientID,
         viewer_uid: ctx.userID,
         uid: ctx.userID,
-        state: "active",
+        state: 'active',
         idle: 0,
-        cap: "8",
+        cap: '8',
         msgs_recv: msgsRecv,
     };
 
@@ -40,13 +40,13 @@ module.exports = (defFunc, api, ctx) => {
 
         let fmtMsg;
         switch (event.event) {
-            // "read_receipt" event triggers when other people read the user's messages.
-            case "read_receipt":
+            // 'read_receipt' event triggers when other people read the user's messages.
+            case 'read_receipt':
                 fmtMsg = formatter.readReceipt(event);
                 globalCallback(null, fmtMsg);
                 return true;
-            // "read event" triggers when the user read other people's messages.
-            case "read":
+            // 'read event' triggers when the user read other people's messages.
+            case 'read':
                 fmtMsg = formatter.read(event);
                 globalCallback(null, fmtMsg);
                 return true;
@@ -60,7 +60,7 @@ module.exports = (defFunc, api, ctx) => {
         form.idle = ~~(Date.now() / 1000) - prev;
         prev = ~~(Date.now() / 1000);
 
-        utils.get("https://0-edge-chat.facebook.com/pull", ctx.jar, form)
+        utils.get('https://0-edge-chat.facebook.com/pull', ctx.jar, form)
             .then(utils.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
                 log.info(JSON.stringify(body, null, 4));
@@ -83,11 +83,11 @@ module.exports = (defFunc, api, ctx) => {
                             .then(() => {
                                 lastSync = ~~(Date.now() / 1000);
                                 let formAll = {
-                                    client: 'mercury"',
+                                    client: 'mercury',
                                     'folders[0]': 'inbox',
                                     last_action_timestamp: ~~(Date.now() - 60)
                                 };
-                                defFunc.post("https://www.facebook.com/ajax/mercury/thread_sync.php", ctx.jar, formAll)
+                                defFunc.post('https://www.facebook.com/ajax/mercury/thread_sync.php', ctx.jar, formAll)
                                     .then((res) => {
                                         currentlyRunning = setTimeout(listen, 1000);
                                     });
@@ -161,11 +161,11 @@ module.exports = (defFunc, api, ctx) => {
                 }
             })
             .catch(function (err) {
-                if (err.code === "ETIMEDOUT") {
-                    log.info("listen", "Suppressed timeout error.");
-                } else if (err.code === "EAI_AGAIN") {
+                if (err.code === 'ETIMEDOUT') {
+                    log.info('listen', 'Suppressed timeout error.');
+                } else if (err.code === 'EAI_AGAIN') {
                 } else {
-                    log.error("listen", err);
+                    log.error('listen', err);
                     globalCallback(err);
                 }
                 if (currentlyRunning) {

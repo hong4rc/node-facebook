@@ -2,7 +2,7 @@
 // jar: true to save cookie
 let request = require('request').defaults({jar: true});
 let cheerio = require('cheerio');
-let log = require("npmlog");
+let log = require('npmlog');
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_MSG = 'https://www.messenger.com';
@@ -30,32 +30,31 @@ let makeLogin = (body, jar, user, option) => {
     form.pass = user.pass;
     form.locale = LOCATE;
     form.timezone = new Date().getTimezoneOffset();
-    form.lgndim = new Buffer("{\"w\":1440,\"h\":900,\"aw\":1440,\"ah\":834,\"c\":24}").toString('base64');
+    form.lgndim = new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64');
     form.lgnjs = ~~(Date.now() / 1000);
     form.default_persistent = '0';
 
     log.info('form', form);
 
-    let willBeCookies = body.split("\"_js_");
+    let willBeCookies = body.split('"_js_');
     willBeCookies.slice(1).map(function (val) {
-        let cookieData = JSON.parse("[\"" + utils.findForm(val, "", "]") + "]");
-        jar.setCookie(utils.formatCookie(cookieData, "facebook.com"), URL_HOME);
+        let cookieData = JSON.parse('["' + utils.findForm(val, '', ']') + ']');
+        jar.setCookie(utils.formatCookie(cookieData, 'facebook.com'), URL_HOME);
     });
-    // ---------- Very Hacky Part Ends -----------------
 
-    log.info("login", "Logging in...");
+    log.info('login', 'Logging in...');
     return utils
         .post(URL_LOGIN, jar, form)
         .then(utils.saveCookies(jar))
         .then(res => {
             let headers = res.headers;
             if (!headers.location) {
-                throw {error: "Wrong username/password."};
+                throw {error: 'Wrong username/password.'};
             }
 
             // This means the account has login approvals turned on.
             if (headers.location.indexOf('https://www.facebook.com/checkpoint/') >= 0) {
-                throw new Error("This account is blocked by Facebook !!!")
+                throw new Error('This account is blocked by Facebook !!!');
             }
 
             return utils
@@ -65,14 +64,14 @@ let makeLogin = (body, jar, user, option) => {
 };
 let createApi = (option, body, jar) => {
     let cUser = jar.getCookies(URL_HOME)
-        .filter(val => val.cookieString().split("=")[0] === "c_user");
+        .filter(val => val.cookieString().split('=')[0] === 'c_user');
 
     if (cUser.length === 0) {
         throw new Error('Can\'t find your ID.');
     }
     let userID = cUser[0].cookieString().split('=')[1].toString();
-    log.info("login", "Logged in");
-    log.info("Your id", userID);
+    log.info('login', 'Logged in');
+    log.info('Your id', userID);
     let clientID = (Math.random() * 2147483648 | 0).toString(16);
 
     let ctx = {
