@@ -1,3 +1,4 @@
+"use strict";
 let formatID = (id) => {
     if (id) {
         return id.replace(/(fb)?id[:.]/, '');
@@ -53,5 +54,8 @@ module.exports = {
             time: event.timestamp,
             type: 'read'
         };
+    },
+    clientPayload: payload => {
+        return JSON.parse(String.fromCharCode.apply(null, payload));
     }
 };

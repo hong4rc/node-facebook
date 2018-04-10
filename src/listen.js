@@ -137,6 +137,27 @@ module.exports = (defFunc, api, ctx) => {
                                             let fmtMsg = formatter.deltaMessage(msg);
                                             globalCallback(null, fmtMsg);
                                             break;
+                                        case 'ClientPayload':
+                                            let clientPayload = formatter.clientPayload(msg.delta.payload);
+                                            if (clientPayload && clientPayload.deltas) {
+                                                for (let delta of clientPayload.deltas) {
+                                                    let msgRea = delta.deltaMessageReaction;
+                                                    if (msgRea) {
+                                                        globalCallback(null, {
+                                                            type: "message_reaction",
+                                                            threadID: msgRea.threadKey.threadFbId
+                                                            || msgRea.threadKey.otherUserFbId,
+                                                            messageID: msgRea.messageId,
+                                                            reaction: msgRea.reaction,
+                                                            senderID: msgRea.senderId,
+                                                            userID: msgRea.userId,
+                                                            timestamp: msg.ofd_ts
+                                                        });
+                                                    }
+                                                }
+                                                return;
+                                            }
+                                            break;
                                         default:
                                             log.warn(msg.delta.class + ' is not has case');
                                             log.warn(JSON.stringify(msg))
