@@ -5,7 +5,6 @@ let cheerio = require('cheerio');
 let log = require('npmlog');
 
 const URL_HOME = 'https://www.facebook.com';
-const URL_MSG = 'https://www.messenger.com';
 const URL_LOGIN = URL_HOME + '/login.php?login_attempt=1&lwv=111';
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
@@ -16,6 +15,9 @@ let getUrlPull = (num = 0) => {
     return 'https://number-edge-chat.facebook.com/pull'.replace('number', num);
 };
 let makeLogin = (body, jar, user, option) => {
+    if (option){
+        console.log('Option wil be used in future');
+    }
     let $ = cheerio.load(body);
     let form = {};
     $(QR_LOGIN).map((index, elem) => {
@@ -89,7 +91,8 @@ let createApi = (option, body, jar) => {
     let apiNames = [
         'sendTyping',
         'listen',
-        'markAsRead'
+        'markAsRead',
+        'sendMessage',
     ];
     let defFunc = utils.makeDefaults(body, userID, ctx);
     apiNames.map(func => {
@@ -147,7 +150,7 @@ let login = (user, option) => new Promise((resolve, inject) => {
                 .get(URL_HOME + '/ajax/presence/reconnect.php', ctx.jar, form)
                 .then(utils.saveCookies(ctx.jar));
         })
-        .then((res) => {
+        .then(() => {
             log.info('login', 'Request to pull 1');
             let form = {
                 channel: 'p_' + ctx.userID,

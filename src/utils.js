@@ -1,8 +1,8 @@
 'use strict';
 let fs = require('fs');
 let log = require('npmlog');
-let bluebird = require('bluebird');
 let request = require('request').defaults({jar: true});
+
 let getHeaders = url => {
     return {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -29,6 +29,7 @@ let method = (method) => (url, jar, form, qs) => {
     }
     if (qs) {
         option.qs = qs;
+        option.headers["Content-Type"] = "multipart/form-data";
     }
 
     return new Promise(resolve => {
@@ -87,7 +88,7 @@ let makeDefaults = (body, id, ctx) => {
             __rev: revision,
             __a: 1,
             fb_dtsg: ctx.fb_dtsg ? ctx.fb_dtsg : fb_dtsg,
-            ttstamp: ctx.ttstamp ? ctx.ttstamp : ttstamp,
+            jazoest: ctx.ttstamp ? ctx.ttstamp : ttstamp,
         };
 
         if (!obj) return mObj;
@@ -204,121 +205,94 @@ let makeParsable = (html) => {
 };
 
 
-let parseAndCheckLogin = (ctx, defaultFuncs, retryCount) => {
+let parseAndCheckLogin = (ctx, defFunc, retryCount = 0) => {
     //TODO: try to understand it
-    if (retryCount === undefined) {
-        retryCount = 0;
-    }
-    return function (data) {
-        return bluebird.try(function () {
-            log.verbose('parseAndCheckLogin', data.body);
-            if (data.statusCode >= 500 && data.statusCode < 600) {
-                if (retryCount >= 5) {
-                    throw {
-                        error:
-                            'Request retry failed. Check the `res` and `statusCode` property on this error.',
-                        statusCode: data.statusCode,
-                        res: data.body
-                    };
-                }
-                retryCount++;
-                let retryTime = Math.floor(Math.random() * 5000);
-                log.warn(
-                    'parseAndCheckLogin',
-                    'Got status code ' +
-                    data.statusCode +
-                    ' - ' +
-                    retryCount +
-                    '. attempt to retry in ' +
-                    retryTime +
-                    ' milliseconds...'
-                );
-                let url =
-                    data.request.uri.protocol +
-                    '//' +
-                    data.request.uri.hostname +
-                    data.request.uri.pathname;
-                if (
-                    data.request.headers['Content-Type'].split(';')[0] ===
-                    'multipart/form-data'
-                ) {
-                    return bluebird
-                        .delay(retryTime)
-                        .then(function () {
-                            return defaultFuncs.postFormData(
-                                url,
-                                ctx.jar,
-                                data.request.formData,
-                                {}
-                            );
-                        })
-                        .then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
-                } else {
-                    return bluebird
-                        .delay(retryTime)
-                        .then(function () {
-                            return defaultFuncs.post(url, ctx.jar, data.request.formData);
-                        })
-                        .then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
-                }
-            }
-            if (data.statusCode !== 200)
-                throw new Error(
-                    'parseAndCheckLogin got status code: ' +
-                    data.statusCode +
-                    '. Bailing out of trying to parse response.'
-                );
-
-            let res = null;
-            try {
-                res = JSON.parse(makeParsable(data.body));
-            } catch (e) {
+    return data => {
+        log.verbose('parseAndCheckLogin', data.body);
+        if (data.statusCode >= 500 && data.statusCode < 600) {
+            if (retryCount >= 5) {
                 throw {
-                    error: 'JSON.parse error. Check the `detail` property on this error.',
-                    detail: e,
+                    error:
+                        'Request retry failed. Check the `res` and `statusCode` property on this error.',
+                    statusCode: data.statusCode,
                     res: data.body
                 };
             }
-
-            // TODO: handle multiple cookies?
-            if (
-                res.jsmods &&
-                res.jsmods.require &&
-                Array.isArray(res.jsmods.require[0]) &&
-                res.jsmods.require[0][0] === 'Cookie'
-            ) {
-                res.jsmods.require[0][3][0] = res.jsmods.require[0][3][0].replace('_js_', '');
-                let cookie = formatCookie(res.jsmods.require[0][3], 'facebook');
-                let cookie2 = formatCookie(res.jsmods.require[0][3], 'messenger');
-                ctx.jar.setCookie(cookie, 'https://www.facebook.com');
-                ctx.jar.setCookie(cookie2, 'https://www.messenger.com');
+            retryCount++;
+            let retryTime = Math.floor(Math.random() * 5000);
+            log.warn('parseAndCheckLogin', `Got status code ${data.statusCode} - ${retryCount}. attempt to retry in ${retryTime} ms`);
+            let url = data.request.uri.href;
+            let mPost = defFunc.post;
+            if (data.request.headers['Content-Type'].split(';')[0] === 'multipart/form-data') {
+                mPost = defFunc.postFormData;
             }
+            return new Promise(rel => setTimeout(() => rel(), retryTime))
+                .then(() => mPost(url, ctx.jar, data.request.formData, {}))
+                .then(parseAndCheckLogin(ctx, defFunc, retryCount))
+        }
+        if (data.statusCode !== 200)
+            throw new Error(
+                'parseAndCheckLogin got status code: ' +
+                data.statusCode +
+                '. Bailing out of trying to parse response.'
+            );
 
-            // On every request we check if we got a DTSG and we mutate the context so that we use the latest
-            // one for the next requests.
-            if (res.jsmods && Array.isArray(res.jsmods.require)) {
-                let arr = res.jsmods.require;
-                for (let i in arr) {
-                    if (arr[i][0] === 'DTSG' && arr[i][1] === 'setToken') {
-                        ctx.fb_dtsg = arr[i][3][0];
+        let res = null;
+        try {
+            res = JSON.parse(makeParsable(data.body));
+        } catch (e) {
+            throw {
+                error: 'JSON.parse error. Check the `detail` property on this error.',
+                detail: e,
+                res: data.body
+            };
+        }
 
-                        // Update ttstamp since that depends on fb_dtsg
-                        ctx.ttstamp = '2';
-                        for (let i = 0; i < ctx.fb_dtsg.length; i++) {
-                            ctx.ttstamp += ctx.fb_dtsg.charCodeAt(i);
-                        }
+        // TODO: handle multiple cookies?
+        if (
+            res.jsmods &&
+            res.jsmods.require &&
+            Array.isArray(res.jsmods.require[0]) &&
+            res.jsmods.require[0][0] === 'Cookie'
+        ) {
+            res.jsmods.require[0][3][0] = res.jsmods.require[0][3][0].replace('_js_', '');
+            let cookie = formatCookie(res.jsmods.require[0][3], 'facebook');
+            let cookie2 = formatCookie(res.jsmods.require[0][3], 'messenger');
+            ctx.jar.setCookie(cookie, 'https://www.facebook.com');
+            ctx.jar.setCookie(cookie2, 'https://www.messenger.com');
+        }
+
+        // On every request we check if we got a DTSG and we mutate the context so that we use the latest
+        // one for the next requests.
+        if (res.jsmods && Array.isArray(res.jsmods.require)) {
+            let arr = res.jsmods.require;
+            for (let i in arr) {
+                if (arr[i][0] === 'DTSG' && arr[i][1] === 'setToken') {
+                    ctx.fb_dtsg = arr[i][3][0];
+
+                    // Update ttstamp since that depends on fb_dtsg
+                    ctx.ttstamp = '2';
+                    for (let i = 0; i < ctx.fb_dtsg.length; i++) {
+                        ctx.ttstamp += ctx.fb_dtsg.charCodeAt(i);
                     }
                 }
             }
+        }
 
-            if (res.error === 1357001) {
-                throw {error: 'Not logged in.'};
-            }
-            return res;
-        });
+        if (res.error === 1357001) {
+            throw {error: 'Not logged in.'};
+        }
+        return res;
     };
 };
 
+
+let generateOfflineThreadingID = () => {
+    let ret = Date.now();
+    let value = Math.floor(Math.random() * 4294967296);
+    let msg = (ret * 4194304 + value).toString(2);
+    return parseInt(msg, 2);
+};
 module.exports = {
     get,
     post,
@@ -329,6 +303,7 @@ module.exports = {
     makeDefaults,
     generatePresence,
     generateA11yCookie,
+    generateOfflineThreadingID,
     makeParsable,
     parseAndCheckLogin
 };

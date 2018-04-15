@@ -73,8 +73,8 @@ app.get("/", (req, res) => {
     };
     res.end(JSON.stringify(data, null, 4))
 });
-setInterval(() => {
-    request(URL_IDLING, (err, res, body) => {
+URL_IDLING && setInterval(() => {
+    request(URL_IDLING, (err, res) => {
         if (res && res.statusCode === 200) {
             console.log('Trigger success !!!')
         }
