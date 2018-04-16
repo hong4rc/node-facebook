@@ -1,7 +1,9 @@
 'use strict';
 const fs = require('fs');
 const request = require('request');
+
 let login = require('./index');
+let timer = require('./timer');
 
 // let user = {email: 'your username/id', pass: 'your pass'};
 let user = process.env.user;
@@ -24,34 +26,42 @@ login(user)
             if (err) {
                 console.log(err);
             }
-            if (msg.type === 'presence') {
-                console.log(msg.userID, msg.statUser ? 'online' : 'idle');
-            } else if (msg.type === 'message') {
-                api.markAsRead(msg.threadID);
-            } else if (msg.type === 'typ') {
-                let from = msg.from;
-                if (msg.isTyping) {
-                    console.log(from + ' is typing.');
-                    let index = last_typing.indexOf(from);
-                    if (index > -1) {
-                        last_typing.splice(index, 1);
-                    } else {
-                        last_typing.shift();
+            switch (msg.type) {
+                case 'presence':
+                    console.log(msg.userID, msg.statUser ? 'online' : 'idle');
+                    if (msg.statUser) {
+                        let nowHour = timer.getCurrentTime().getHours();
+                        if (nowHour >= 1 && nowHour <= 3) {
+                            api.sendMessage('Chào bạn buổi sáng tốt lành, chúc ngủ ngon !!!', msg.userID);
+                        }
                     }
-                    last_typing.push(from);
-                    stopper[from] = api.sendTyping(from);
-                    setTimeout(() => {
-                        delete stopper[from]
-                    }, TIME_OUT_MSG);
+                    break;
+                case 'typ':
+                    let from = msg.from;
+                    if (msg.isTyping) {
+                        console.log(from + ' is typing.');
+                        let index = last_typing.indexOf(from);
+                        if (index > -1) {
+                            last_typing.splice(index, 1);
+                        } else {
+                            last_typing.shift();
+                        }
+                        last_typing.push(from);
+                        stopper[from] = api.sendTyping(from);
+                        setTimeout(() => {
+                            delete stopper[from]
+                        }, TIME_OUT_MSG);
 
-                } else {
-                    console.log(from + ' is not typing.');
-                    if (stopper[from]) {
-                        stopper[from]();
+                    } else {
+                        console.log(from + ' is not typing.');
+                        if (stopper[from]) {
+                            stopper[from]();
+                        }
                     }
-                }
-            } else {
-                console.log(msg);
+                    break;
+                default:
+                    console.log(msg);
+
             }
         });
     });

@@ -85,6 +85,9 @@ module.exports = (defFunc, api, ctx) => {
     };
 
     return (msg, threadID) => {
+        if (typeof msg === 'string') {
+            msg = {body: msg};
+        }
         let messageAndOTID = utils.generateOfflineThreadingID();
         let form = {
             client: 'mercury',
