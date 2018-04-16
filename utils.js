@@ -24,12 +24,12 @@ let method = (method) => (url, jar, form, qs) => {
     };
     if (method.toUpperCase() === 'GET') {
         option.qs = form;
-    } else {
-        option.form = form
-    }
-    if (qs) {
+    } else if (qs) {
+        option.formData = form;
         option.qs = qs;
         option.headers['Content-Type'] = 'multipart/form-data';
+    } else {
+        option.form = form;
     }
 
     return new Promise(resolve => {
