@@ -4,17 +4,35 @@ const utils = require('../utils');
 
 module.exports = (defFunc, api, ctx) => {
 
-    let uploadAttachments = (attachments) => {
-        //TODO send attachments
-    };
     let handleAttachment = (msg, form) => {
-        if (msg.attachments) {
-            if (!Array.isArray(msg.attachments)) {
-                msg.attachments = [msg.attachments];
-            }
-            // uploadAttachment(msg.attachment);
+        if (!msg.attachments) {
+            return;
         }
-        return uploadAttachments(msg.attachments)
+        form['image_ids'] = [];
+        form['gif_ids'] = [];
+        form['file_ids'] = [];
+        form['video_ids'] = [];
+        form['audio_ids'] = [];
+
+        let files = [];
+        for (let attachment of msg.attachments) {
+            let formAtt = {
+                upload_1024: attachment,
+                voice_clip: 'true'
+            };
+            files.push(
+                defFunc.postFormData('https://upload.facebook.com/ajax/mercury/upload.php', ctx.jar, formAtt, {})
+                    .then(utils.parseAndCheckLogin(ctx, defFunc))
+                    .then(res => res.payload.metadata[0]));
+        }
+        return Promise.all(files)
+            .then(files => {
+                files.forEach(file => {
+                    let key = Object.keys(file);
+                    let type = key[0];
+                    form['' + type + 's'].push(file[type]);
+                });
+            });
     };
     let handleUrl = (msg, form) => {
         if (!msg.url) {
@@ -89,9 +107,6 @@ module.exports = (defFunc, api, ctx) => {
             .then(() => handleUrl(msg, form))
             .then(() => handleMention(msg, form))
             .then(() => sendMsg(msg, form, threadID));
-        //Send
-
-
     }
 
 };
