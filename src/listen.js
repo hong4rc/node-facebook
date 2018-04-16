@@ -1,7 +1,7 @@
 'use strict';
 let log = require('npmlog');
-let utils = require('./utils');
-let formatter = require('./formatter');
+let utils = require('../utils');
+let formatter = require('../formatter');
 
 let mCallback;
 let identity = () => {
@@ -10,7 +10,7 @@ module.exports = (defFunc, api, ctx) => {
 
     let globalCallback = identity;
 
-    let stopListening = function () {
+    let stopListening = () => {
         globalCallback = identity;
         if (currentlyRunning) {
             clearTimeout(currentlyRunning);
@@ -63,6 +63,9 @@ module.exports = (defFunc, api, ctx) => {
         utils.get('https://0-edge-chat.facebook.com/pull', ctx.jar, form)
             .then(utils.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
+                let now = Date.now();
+                log.info('listen', 'Got answer in ' + (now - tmpPrev));
+                tmpPrev = now;
                 log.info(JSON.stringify(body, null, 4));
                 if (body.seq) {
                     form.seq = body.seq;
@@ -100,9 +103,7 @@ module.exports = (defFunc, api, ctx) => {
                     msgsRecv += body.ms.length;
                     let atLeastOne = false;
                     body.ms
-                        .sort(function (a, b) {
-                            return a.timestamp - b.timestamp;
-                        })
+                        .sort((a, b) => a.timestamp - b.timestamp)
                         .forEach(msg => {
                             switch (msg.type) {
                                 //deltaflow buddylist_overlay
@@ -144,7 +145,7 @@ module.exports = (defFunc, api, ctx) => {
                                                     let msgRea = delta.deltaMessageReaction;
                                                     if (msgRea) {
                                                         globalCallback(null, {
-                                                            type: "message_reaction",
+                                                            type: 'message_reaction',
                                                             threadID: msgRea.threadKey.threadFbId
                                                             || msgRea.threadKey.otherUserFbId,
                                                             messageID: msgRea.messageId,
@@ -181,7 +182,7 @@ module.exports = (defFunc, api, ctx) => {
                     currentlyRunning = setTimeout(listen, Math.random() * 200 + 50);
                 }
             })
-            .catch(function (err) {
+            .catch(err => {
                 if (err.code === 'ETIMEDOUT') {
                     log.info('listen', 'Suppressed timeout error.');
                 } else if (err.code === 'EAI_AGAIN') {
@@ -194,7 +195,7 @@ module.exports = (defFunc, api, ctx) => {
                 }
             });
     };
-    return function (callback) {
+    return callback => {
         globalCallback = callback;
 
         if (!currentlyRunning) {

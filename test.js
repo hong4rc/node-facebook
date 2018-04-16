@@ -63,7 +63,7 @@ let app = express();
 
 let port = process.env.PORT || 1997;
 app.listen(port, () => console.log('This app is running in Port: ' + port));
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'text/json; charset=utf-8'
     });

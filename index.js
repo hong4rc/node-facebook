@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // jar: true to save cookie
 let request = require('request').defaults({jar: true});
 let cheerio = require('cheerio');
@@ -8,7 +8,7 @@ const URL_HOME = 'https://www.facebook.com';
 const URL_LOGIN = URL_HOME + '/login.php?login_attempt=1&lwv=111';
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
-let utils = require('./src/utils');
+let utils = require('./utils');
 const LOCATE = 'en_US';
 
 let getUrlPull = (num = 0) => {
@@ -39,7 +39,7 @@ let makeLogin = (body, jar, user, option) => {
     log.info('form', form);
 
     let willBeCookies = body.split('"_js_');
-    willBeCookies.slice(1).map(function (val) {
+    willBeCookies.slice(1).map(val => {
         let cookieData = JSON.parse('["' + utils.findForm(val, '', ']') + ']');
         jar.setCookie(utils.formatCookie(cookieData, 'facebook.com'), URL_HOME);
     });
@@ -195,5 +195,3 @@ let login = (user, option) => new Promise((resolve, inject) => {
 
 
 module.exports = login;
-
-//Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36

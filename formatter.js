@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 let formatID = (id) => {
     if (id) {
         return id.replace(/(fb)?id[:.]/, '');

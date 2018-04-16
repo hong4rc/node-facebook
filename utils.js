@@ -29,7 +29,7 @@ let method = (method) => (url, jar, form, qs) => {
     }
     if (qs) {
         option.qs = qs;
-        option.headers["Content-Type"] = "multipart/form-data";
+        option.headers['Content-Type'] = 'multipart/form-data';
     }
 
     return new Promise(resolve => {
@@ -44,7 +44,6 @@ let post = method('POST');
 let saveCookies = (jar) => res => {
     let cookies = res.headers['set-cookie'] || [];
     cookies.forEach(c => {
-        console.log(c);
         if (c.indexOf('.facebook.com') > -1) {
             jar.setCookie(c, 'https://www.facebook.com');
         }
@@ -55,7 +54,7 @@ let saveCookies = (jar) => res => {
 };
 let findForm = (body, head, tail) => {
     let start = body.indexOf(head) + head.length;
-    if (start < head.length) return "";
+    if (start < head.length) return '';
 
     let lastHalf = body.substring(start);
     let end = lastHalf.indexOf(tail);
