@@ -29,12 +29,12 @@ login(user)
             switch (msg.type) {
                 case 'presence':
                     console.log(msg.userId, msg.statUser ? 'online' : 'idle');
-                    if (msg.statUser) {
-                        let nowHour = timer.getCurrentTime().getHours();
-                        if (nowHour >= 1 && nowHour <= 3) {
-                            api.sendMessage('Chào bạn buổi sáng tốt lành, chúc ngủ ngon !!!', msg.userId);
-                        }
-                    }
+                    // if (msg.statUser) {
+                    //     let nowHour = timer.getCurrentTime().getHours();
+                    //     if (nowHour >= 1 && nowHour <= 3) {
+                    //         api.sendMessage('Chào bạn buổi sáng tốt lành, chúc ngủ ngon !!!', msg.userId);
+                    //     }
+                    // }
                     break;
                 case 'typ':
                     let from = msg.from;
