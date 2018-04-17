@@ -1,17 +1,17 @@
 'use strict';
 module.exports = (defFunc, api, ctx) => {
-    let makeTyping = (threadID, typing) => {
+    let makeTyping = (threadId, typing) => {
         let form = {
             typ: ~~typing,
-            to: threadID,
+            to: threadId,
             source: 'mercury-chat',
-            thread: threadID
+            thread: threadId
         };
         defFunc.post('https://www.facebook.com/ajax/messaging/typ.php', ctx.jar, form)
     };
-    return (threadID, timeout) => {
-        makeTyping(threadID, true);
-        let stopTyping = () => makeTyping(threadID, false);
+    return (threadId, timeout) => {
+        makeTyping(threadId, true);
+        let stopTyping = () => makeTyping(threadId, false);
         if (typeof timeout === 'number' && timeout < 30000) {
             setTimeout(stopTyping, timeout);
         }

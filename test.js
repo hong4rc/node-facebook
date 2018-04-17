@@ -16,8 +16,8 @@ if (user) {
 let last_typing = [0, 0, 0, 0];
 
 const TIME_OUT_MSG = 30000;
-const TIME_IDLING = 600000;
-const URL_IDLING = process.env.URL_IDLING;
+const TIME_IdLING = 600000;
+const URL_IdLING = process.env.URL_IdLING;
 login(user)
     .then(api => {
         // fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
@@ -28,11 +28,11 @@ login(user)
             }
             switch (msg.type) {
                 case 'presence':
-                    console.log(msg.userID, msg.statUser ? 'online' : 'idle');
+                    console.log(msg.userId, msg.statUser ? 'online' : 'idle');
                     if (msg.statUser) {
                         let nowHour = timer.getCurrentTime().getHours();
                         if (nowHour >= 1 && nowHour <= 3) {
-                            api.sendMessage('Chào bạn buổi sáng tốt lành, chúc ngủ ngon !!!', msg.userID);
+                            api.sendMessage('Chào bạn buổi sáng tốt lành, chúc ngủ ngon !!!', msg.userId);
                         }
                     }
                     break;
@@ -83,10 +83,10 @@ app.get('/', (req, res) => {
     };
     res.end(JSON.stringify(data, null, 4))
 });
-URL_IDLING && setInterval(() => {
-    request(URL_IDLING, (err, res) => {
+URL_IdLING && setInterval(() => {
+    request(URL_IdLING, (err, res) => {
         if (res && res.statusCode === 200) {
             console.log('Trigger success !!!')
         }
     });
-}, TIME_IDLING);
+}, TIME_IdLING);

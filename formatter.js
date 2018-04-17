@@ -1,5 +1,5 @@
 'use strict';
-let formatID = (id) => {
+let formatId = (id) => {
     if (id) {
         return id.replace(/(fb)?id[:.]/, '');
     } else {
@@ -7,35 +7,41 @@ let formatID = (id) => {
     }
 };
 module.exports = {
-    proxyPresence: (presence, userID) => {
+    proxyPresence: (presence, userId) => {
         if (presence.lat === undefined || presence.p === undefined) return null;
         return {
             type: 'presence',
             timestamp: presence.lat * 1000,
-            userID: userID,
+            userId: userId,
             statUser: presence.p
         };
     },
-    presence: (presence, userID) => {
+    presence: (presence, userId) => {
         return {
             type: 'presence',
             timestamp: presence.la * 1000,
-            userID: userID,
+            userId: userId,
             statUser: presence.a
         };
     },
-    deltaMessage: msg => {
-        console.log(msg);
-        let metaData = msg.delta.messageMetadata;
+    deltaMessage: delta => {
+        console.log(JSON.stringify(msg, null, 4));
+        let metaData = delta.messageMetadata;
 
+        let mData = delta.data && delta.data.prng && JSON.parse(delta.data.prng);
+        let mentions = {};
+        for (let data of mData) {
+            mentions[data.i] = delta.body.substring(data.o, data.o + data.l);
+        }
         return {
             type: 'message',
-            senderID: formatID(metaData.actorFbId.toString()),
+            senderId: formatId(metaData.actorFbId.toString()),
             body: msg.delta.body || '',
-            threadID: formatID((metaData.threadKey.threadFbId || metaData.threadKey.otherUserFbId).toString()),
-            messageID: metaData.messageId,
+            threadId: formatId((metaData.threadKey.threadFbId || metaData.threadKey.otherUserFbId).toString()),
+            messageId: metaData.messageId,
             timestamp: metaData.timestamp,
-            isGroup: !!metaData.threadKey.threadFbId
+            isGroup: !!metaData.threadKey.threadFbId,
+            mentions,
         };
     },
 
@@ -43,14 +49,14 @@ module.exports = {
         return {
             reader: event.reader.toString(),
             time: event.time,
-            threadID: formatID((event.thread_fbid || event.reader).toString()),
+            threadId: formatId((event.thread_fbid || event.reader).toString()),
             type: 'read_receipt'
         };
     },
 
     read: event => {
         return {
-            threadID: formatID(((event.chat_ids && event.chat_ids[0]) || (event.thread_fbids && event.thread_fbids[0])).toString()),
+            threadId: formatId(((event.chat_ids && event.chat_ids[0]) || (event.thread_fbids && event.thread_fbids[0])).toString()),
             time: event.timestamp,
             type: 'read'
         };

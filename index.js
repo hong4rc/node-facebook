@@ -69,17 +69,17 @@ let createApi = (option, body, jar) => {
         .filter(val => val.cookieString().split('=')[0] === 'c_user');
 
     if (cUser.length === 0) {
-        throw new Error('Can\'t find your ID.');
+        throw new Error('Can\'t find your Id.');
     }
-    let userID = cUser[0].cookieString().split('=')[1].toString();
+    let userId = cUser[0].cookieString().split('=')[1].toString();
     log.info('login', 'Logged in');
-    log.info('Your id', userID);
-    let clientID = (Math.random() * 2147483648 | 0).toString(16);
+    log.info('Your id', userId);
+    let clientId = (Math.random() * 2147483648 | 0).toString(16);
 
     let ctx = {
-        userID: userID,
+        userId: userId,
         jar: jar,
-        clientID: clientID,
+        clientId: clientId,
         globalOptions: option,
         loggedIn: true,
         access_token: 'NONE',
@@ -94,7 +94,7 @@ let createApi = (option, body, jar) => {
         'markAsRead',
         'sendMessage',
     ];
-    let defFunc = utils.makeDefaults(body, userID, ctx);
+    let defFunc = utils.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
         api[func] = require(DIR_SRC + func)(defFunc, api, ctx);
     });
@@ -153,12 +153,12 @@ let login = (user, option) => new Promise((resolve, inject) => {
         .then(() => {
             log.info('login', 'Request to pull 1');
             let form = {
-                channel: 'p_' + ctx.userID,
+                channel: 'p_' + ctx.userId,
                 seq: 0,
                 partition: -2,
-                clientid: ctx.clientID,
-                viewer_uid: ctx.userID,
-                uid: ctx.userID,
+                clientid: ctx.clientId,
+                viewer_uid: ctx.userId,
+                uid: ctx.userId,
                 state: 'active',
                 idle: 0,
                 cap: 8,

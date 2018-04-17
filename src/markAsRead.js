@@ -3,12 +3,12 @@
 let utils = require('../utils');
 let log = require('npmlog');
 
-module.exports = (defFunc, api, ctx) => threadID => {
+module.exports = (defFunc, api, ctx) => threadId => {
 
     let form = {
         shouldSendReadReceipt: true,
     };
-    form['ids[' + threadID + ']'] = true;
+    form['ids[' + threadId + ']'] = true;
 
     defFunc
         .post('https://www.facebook.com/ajax/mercury/change_read_status.php', ctx.jar, form)

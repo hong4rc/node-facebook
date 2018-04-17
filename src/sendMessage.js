@@ -74,9 +74,9 @@ module.exports = (defFunc, api, ctx) => {
             form['profile_xmd'].push({offset, length, id, type: 'p'});
         }
     };
-    let sendMsg = (msg, form, threadID) => {
-        form['specific_to_list'] = ['fbid:' + threadID, 'fbid:' + ctx.userID];
-        form['other_user_fbid'] = threadID;
+    let sendMsg = (msg, form, threadId) => {
+        form['specific_to_list'] = ['fbid:' + threadId, 'fbid:' + ctx.userId];
+        form['other_user_fbid'] = threadId;
 
         console.log('form', form);
         return defFunc
@@ -84,11 +84,11 @@ module.exports = (defFunc, api, ctx) => {
             .then(utils.parseAndCheckLogin(ctx, defFunc))
     };
 
-    return (msg, threadID) => {
+    return (msg, threadId) => {
         if (typeof msg === 'string') {
             msg = {body: msg};
         }
-        let messageAndOTID = utils.generateOfflineThreadingID();
+        let messageAndOTId = utils.generateOfflineThreadingId();
         let form = {
             client: 'mercury',
             action_type: 'ma-type:user-generated-message',
@@ -96,8 +96,8 @@ module.exports = (defFunc, api, ctx) => {
             source: 'source:chat:web',
             body: msg.body ? msg.body.toString() : '',
             ui_push_phase: 'C3',
-            offline_threading_id: messageAndOTID,
-            message_id: messageAndOTID,
+            offline_threading_id: messageAndOTId,
+            message_id: messageAndOTId,
             has_attachment: !!(msg.attachment || msg.url || msg.sticker)
         };
 
@@ -109,7 +109,7 @@ module.exports = (defFunc, api, ctx) => {
             .then(() => handleAttachment(msg, form))
             .then(() => handleUrl(msg, form))
             .then(() => handleMention(msg, form))
-            .then(() => sendMsg(msg, form, threadID));
+            .then(() => sendMsg(msg, form, threadId));
     }
 
 };

@@ -24,12 +24,12 @@ module.exports = (defFunc, api, ctx) => {
     let msgsRecv = 0;
     let currentlyRunning = null;
     let form = {
-        channel: 'p_' + ctx.userID,
+        channel: 'p_' + ctx.userId,
         seq: '0',
         partition: '-2',
-        clientid: ctx.clientID,
-        viewer_uid: ctx.userID,
-        uid: ctx.userID,
+        clientid: ctx.clientId,
+        viewer_uid: ctx.userId,
+        uid: ctx.userId,
         state: 'active',
         idle: 0,
         cap: '8',
@@ -66,7 +66,7 @@ module.exports = (defFunc, api, ctx) => {
                 let now = Date.now();
                 log.info('listen', 'Got answer in ' + (now - tmpPrev));
                 tmpPrev = now;
-                log.info(JSON.stringify(body, null, 4));
+                log.info('body', JSON.stringify(body, null, 4));
                 if (body.seq) {
                     form.seq = body.seq;
                 }
@@ -116,16 +116,16 @@ module.exports = (defFunc, api, ctx) => {
                                     globalCallback(null, msg);
                                     break;
                                 case 'chatproxy-presence':
-                                    for (let userID in msg.buddyList) {
-                                        let formattedPresence = formatter.proxyPresence(msg.buddyList[userID], userID);
+                                    for (let userId in msg.buddyList) {
+                                        let formattedPresence = formatter.proxyPresence(msg.buddyList[userId], userId);
                                         if (formattedPresence !== null) {
                                             globalCallback(null, formattedPresence);
                                         }
                                     }
                                     break;
                                 case 'buddylist_overlay':
-                                    for (let userID in msg.buddyList) {
-                                        let formattedPresence = formatter.presence(msg.overlay[userID], userID);
+                                    for (let userId in msg.buddyList) {
+                                        let formattedPresence = formatter.presence(msg.overlay[userId], userId);
                                         if (formattedPresence !== null) {
                                             globalCallback(null, formattedPresence);
                                         }
@@ -135,7 +135,7 @@ module.exports = (defFunc, api, ctx) => {
                                     switch (msg.delta.class) {
                                         case 'NewMessage':
                                             let attachments = msg.delta.attachments;
-                                            let fmtMsg = formatter.deltaMessage(msg);
+                                            let fmtMsg = formatter.deltaMessage(msg.delta);
                                             globalCallback(null, fmtMsg);
                                             break;
                                         case 'ClientPayload':
@@ -146,12 +146,12 @@ module.exports = (defFunc, api, ctx) => {
                                                     if (msgRea) {
                                                         globalCallback(null, {
                                                             type: 'message_reaction',
-                                                            threadID: msgRea.threadKey.threadFbId
+                                                            threadId: msgRea.threadKey.threadFbId
                                                             || msgRea.threadKey.otherUserFbId,
-                                                            messageID: msgRea.messageId,
+                                                            messageId: msgRea.messageId,
                                                             reaction: msgRea.reaction,
-                                                            senderID: msgRea.senderId,
-                                                            userID: msgRea.userId,
+                                                            senderId: msgRea.senderId,
+                                                            userId: msgRea.userId,
                                                             timestamp: msg.ofd_ts
                                                         });
                                                     }
