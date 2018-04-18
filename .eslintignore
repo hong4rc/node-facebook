@@ -1,0 +1,18 @@
+# Yarn
+yarn-error.log
+yarn.lock
+
+# Intellij
+/.idea
+
+# Other
+.gitignore
+package.json
+README.md
+state.json
+
+# Node modules
+/node_modules
+
+.eslintignore
+.eslintrc
