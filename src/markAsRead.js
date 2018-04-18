@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require('../utils');
+const browser = require('../utils/browser');
 const log = require('npmlog');
 
 module.exports = (defFunc, api, ctx) => threadId => {
@@ -12,8 +12,8 @@ module.exports = (defFunc, api, ctx) => threadId => {
 
     defFunc
         .post('https://www.facebook.com/ajax/mercury/change_read_status.php', ctx.jar, form)
-        .then(utils.saveCookies(ctx.jar))
-        .then(utils.parseAndCheckLogin(ctx, defFunc))
+        .then(browser.saveCookies(ctx.jar))
+        .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(body => {
             if (body.error) {
                 throw body.error;

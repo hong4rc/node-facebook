@@ -1,6 +1,6 @@
 'use strict';
 
-const utils = require('../utils');
+const browser = require('../utils/browser');
 const FIRST = 0;
 
 module.exports = (defFunc, api, ctx) => {
@@ -23,7 +23,7 @@ module.exports = (defFunc, api, ctx) => {
             };
             files.push(
                 defFunc.postFormData('https://upload.facebook.com/ajax/mercury/upload.php', ctx.jar, formAtt, {})
-                    .then(utils.parseAndCheckLogin(ctx, defFunc))
+                    .then(browser.parseAndCheckLogin(ctx, defFunc))
                     .then(res => res.payload.metadata[FIRST]));
         }
         return Promise.all(files)
@@ -48,7 +48,7 @@ module.exports = (defFunc, api, ctx) => {
         };
 
         return defFunc.post('https://www.facebook.com/message_share_attachment/fromURI/', ctx.jar, formUrl)
-            .then(utils.parseAndCheckLogin(ctx, defFunc))
+            .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
                 form['shareable_attachment[share_params]'] = res.payload.share_data.share_params;
             });
@@ -82,14 +82,14 @@ module.exports = (defFunc, api, ctx) => {
         console.log('form', form);
         return defFunc
             .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
-            .then(utils.parseAndCheckLogin(ctx, defFunc));
+            .then(browser.parseAndCheckLogin(ctx, defFunc));
     };
 
     return (msg, threadId) => {
         if (typeof msg === 'string') {
             msg = {body: msg};
         }
-        const messageAndOTId = utils.generateOfflineThreadingId();
+        const messageAndOTId = browser.generateOfflineThreadingId();
         const form = {
             client: 'mercury',
             action_type: 'ma-type:user-generated-message',

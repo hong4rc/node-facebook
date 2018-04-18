@@ -10,7 +10,7 @@ const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 const REDIRECT_URL = 1;
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
-const utils = require('./utils');
+const browser = require('./utils/browser');
 const LOCATE = 'en_US';
 const FIRST = 0;
 const COOKIE_VALUE = 1;
@@ -44,14 +44,14 @@ const makeLogin = (body, jar, user, option) => {
 
     const willBeCookies = body.split('"_js_').shift();
     willBeCookies.map(val => {
-        const cookieData = JSON.parse(`["${utils.findForm(val, '', ']')}]`);
-        jar.setCookie(utils.formatCookie(cookieData, 'facebook.com'), URL_HOME);
+        const cookieData = JSON.parse(`["${browser.findForm(val, '', ']')}]`);
+        jar.setCookie(browser.formatCookie(cookieData, 'facebook.com'), URL_HOME);
     });
 
     log.info('login', 'Logging in...');
-    return utils
+    return browser
         .post(URL_LOGIN, jar, form)
-        .then(utils.saveCookies(jar))
+        .then(browser.saveCookies(jar))
         .then(res => {
             const headers = res.headers;
             if (!headers.location) {
@@ -63,9 +63,9 @@ const makeLogin = (body, jar, user, option) => {
                 throw new Error('This account is blocked by Facebook !!!');
             }
 
-            return utils
+            return browser
                 .get(URL_HOME, jar)
-                .then(utils.saveCookies(jar));
+                .then(browser.saveCookies(jar));
         });
 };
 const createApi = (option, body, jar) => {
@@ -90,7 +90,7 @@ const createApi = (option, body, jar) => {
         clientMutationId: 0
     };
     const api = {
-        getAppState: () => utils.getAppState(jar)
+        getAppState: () => browser.getAppState(jar)
     };
     const apiNames = [
         'sendTyping',
@@ -98,7 +98,7 @@ const createApi = (option, body, jar) => {
         'markAsRead',
         'sendMessage',
     ];
-    const defFunc = utils.makeDefaults(body, userId, ctx);
+    const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
         api[func] = require(DIR_SRC + func)(defFunc, api, ctx);
     });
@@ -113,15 +113,15 @@ const login = (user, option) => new Promise((resolve, inject) => {
             jar.setCookie(str, `http://${c.domain}`);
         });
 
-        mPromise = utils
+        mPromise = browser
             .get(URL_HOME, jar)
-            .then(utils.saveCookies(jar));
+            .then(browser.saveCookies(jar));
     } else {
-        mPromise = utils.get(URL_HOME, null)
-            .then(utils.saveCookies(jar))
+        mPromise = browser.get(URL_HOME, null)
+            .then(browser.saveCookies(jar))
             .then(res => makeLogin(res.body, jar, user, option))
-            .then(() => utils.get(URL_HOME, jar)
-                .then(utils.saveCookies(jar)));
+            .then(() => browser.get(URL_HOME, jar)
+                .then(browser.saveCookies(jar)));
     }
     let {ctx, defFunc, api} = {};
 
@@ -133,9 +133,9 @@ const login = (user, option) => new Promise((resolve, inject) => {
             const redirect = reg.exec(res.body);
             const url = redirect && redirect[REDIRECT_URL];
             if (url) {
-                return utils
+                return browser
                     .get(url, jar)
-                    .then(utils.saveCookies(jar));
+                    .then(browser.saveCookies(jar));
             }
             return res;
         })
@@ -154,7 +154,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
             log.info('login', 'Request to reconnect');
             return defFunc
                 .get(`${URL_HOME}/ajax/presence/reconnect.php`, ctx.jar, form)
-                .then(utils.saveCookies(ctx.jar));
+                .then(browser.saveCookies(ctx.jar));
         })
         .then(() => {
             log.info('login', 'Request to pull 1');
@@ -171,13 +171,13 @@ const login = (user, option) => new Promise((resolve, inject) => {
                 msgs_recv: 0
             };
 
-            return utils
-                .get(utils.getUrlPull(), ctx.jar, form)
-                .then(utils.saveCookies(ctx.jar))
+            return browser
+                .get(browser.getUrlPull(), ctx.jar, form)
+                .then(browser.saveCookies(ctx.jar))
                 .then(res => {
                     let body = null;
                     try {
-                        body = JSON.parse(utils.makeParsable(res.body));
+                        body = JSON.parse(browser.makeParsable(res.body));
                     } catch (e) {
                         throw {error: 'Received HTML instead of JSON.'};
                     }

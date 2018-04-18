@@ -1,7 +1,7 @@
 'use strict';
 const log = require('npmlog');
-const utils = require('../utils');
-const formatter = require('../formatter');
+const browser = require('../utils/browser');
+const formatter = require('../utils/formatter');
 
 const MILLI_SECOND = 1000;
 const MILLI_TIMEOUT = 200;
@@ -67,8 +67,8 @@ module.exports = (defFunc, api, ctx) => {
         form.idle = ~~(Date.now() / MILLI_SECOND) - prev;
         prev = ~~(Date.now() / MILLI_SECOND);
 
-        utils.get(utils.getUrlPull(), ctx.jar, form)
-            .then(utils.parseAndCheckLogin(ctx, defFunc))
+        browser.get(browser.getUrlPull(), ctx.jar, form)
+            .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
                 const now = Date.now();
                 log.info('listen', `Got answer in ${now - tmpPrev}`);
@@ -89,7 +89,7 @@ module.exports = (defFunc, api, ctx) => {
                         delete form.sticky_pool;
                         delete form.sticky_token;
                         defFunc.get('https://www.facebook.com/notifications/sync/', ctx.jar, {lastSync})
-                            .then(utils.saveCookies(ctx.jar))
+                            .then(browser.saveCookies(ctx.jar))
                             .then(() => {
                                 lastSync = ~~(Date.now() / MILLI_SECOND);
                                 const formAll = {
@@ -203,7 +203,7 @@ module.exports = (defFunc, api, ctx) => {
                 if (err.code === 'ETIMEDOUT') {
                     log.info('listen', 'Suppressed timeout error.');
                 } else if (err.code === 'EAI_AGAIN') {
-                    utils.changeServer();
+                    browser.changeServer();
                 } else {
                     log.error('listen', err);
                     globalCallback(err);
