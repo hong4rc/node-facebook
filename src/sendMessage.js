@@ -1,6 +1,7 @@
 'use strict';
 
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 const FIRST = 0;
 
 module.exports = (defFunc, api, ctx) => {
@@ -64,11 +65,11 @@ module.exports = (defFunc, api, ctx) => {
             const offset = msg.body.indexOf(tag, mention.index || FIRST);
 
             if (offset < FIRST) {
-                console.log('warn', 'handleMention', `Mention for "${tag}" not found in message string.`);
+                log.warn('handleMention', `Mention for "${tag}" not found in message string.`);
             }
 
             if (mention.id === null) {
-                console.log('warn', 'handleMention', 'Mention id should be non-null.');
+                log.warn('handleMention', 'Mention id should be non-null.');
             }
             const id = mention.id || FIRST;
             const length = tag.length;
@@ -79,7 +80,7 @@ module.exports = (defFunc, api, ctx) => {
         form.specific_to_list = [`fbid:${threadId}`, `fbid:${ctx.userId}`];
         form.other_user_fbid = threadId;
 
-        console.log('form', form);
+        log.info('form', form);
         return defFunc
             .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
             .then(browser.parseAndCheckLogin(ctx, defFunc));

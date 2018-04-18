@@ -1,5 +1,5 @@
 'use strict';
-const log = require('npmlog');
+const log = require('./log');
 const request = require('request').defaults({jar: true});
 
 const FIRST = 0;
@@ -190,7 +190,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
 
     // TODO change FIRST, ONE, I_PATH to real constant
     if (jRequire && Array.isArray(jRequire[FIRST]) && jRequire[FIRST][FIRST] === 'Cookie') {
-        console.log('jRequire', jRequire);
+        log.info('jRequire', jRequire);
         const jCookie = jRequire[FIRST][I_PATH];
         jCookie[FIRST] = jCookie[FIRST].replace('_js_', '');
         const cookie = formatCookie(jCookie, 'facebook');

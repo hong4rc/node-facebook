@@ -3,7 +3,7 @@
 // jar: true to save cookie
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
-const log = require('npmlog');
+const log = require('./utils/log');
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
@@ -20,7 +20,7 @@ const POWER_2_31 = 2147483648;
 
 const makeLogin = (body, jar, user, option) => {
     if (option) {
-        console.log('Option wil be used in future');
+        log.info('Option wil be used in future');
     }
     const $ = cheerio.load(body);
     const form = {};

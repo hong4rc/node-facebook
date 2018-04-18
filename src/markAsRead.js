@@ -1,7 +1,7 @@
 'use strict';
 
 const browser = require('../utils/browser');
-const log = require('npmlog');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => threadId => {
 

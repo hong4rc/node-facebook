@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const request = require('request');
-
+const log = require('./utils/log');
 const login = require('./index');
 
 // const timer = require('./timer');
@@ -28,13 +28,13 @@ login(user)
         const stopper = {};
         api.listen((err, msg) => {
             if (err) {
-                console.log(err);
+                log.error(err);
             }
             let index,
                 from;
             switch (msg.type) {
                 case 'presence':
-                    console.log(msg.userId, msg.statUser ? 'online' : 'idle');
+                    log.info(msg.userId, msg.statUser ? 'online' : 'idle');
 
                     // if (msg.statUser) {
                     //     let nowHour = timer.getCurrentTime().getHours();
@@ -46,7 +46,7 @@ login(user)
                 case 'typ':
                     from = msg.from;
                     if (msg.isTyping) {
-                        console.log(`${from} is typing.`);
+                        log.info(`${from} is typing.`);
                         index = lastTypings.indexOf(from);
                         if (index >= FIRST) {
                             lastTypings.splice(index, ONE);
@@ -60,14 +60,14 @@ login(user)
                         }, TIME_OUT_MSG);
 
                     } else {
-                        console.log(`${from} is not typing.`);
+                        log.info(`${from} is not typing.`);
                         if (stopper[from]) {
                             stopper[from]();
                         }
                     }
                     break;
                 default:
-                    console.log(msg);
+                    log.info(msg);
 
             }
         });
@@ -81,7 +81,7 @@ const app = express();
 const DEFAULT_PORT = 1997;
 const STT_CODE_OK = 200;
 const port = process.env.PORT || DEFAULT_PORT;
-app.listen(port, () => console.log(`This app is running in Port: ${port}`));
+app.listen(port, () => log.info(`This app is running in Port: ${port}`));
 app.get('/', (req, res) => {
     res.writeHead(STT_CODE_OK, {
         'Content-Type': 'text/json; charset=utf-8'
@@ -95,7 +95,7 @@ app.get('/', (req, res) => {
 URL_IdLING && setInterval(() => {
     request(URL_IdLING, (error, res) => {
         if (res && res.statusCode === STT_CODE_OK) {
-            console.log('Trigger success !!!');
+            log.info('Trigger success !!!');
         }
     });
 }, TIME_IdLING);

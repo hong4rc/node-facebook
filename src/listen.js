@@ -1,5 +1,5 @@
 'use strict';
-const log = require('npmlog');
+const log = require('../utils/log');
 const browser = require('../utils/browser');
 const formatter = require('../utils/formatter');
 
@@ -8,7 +8,7 @@ const MILLI_TIMEOUT = 200;
 const SPACE_INDENT = 4;
 
 const identity = () => {
-    console.log('This is identity function !!!');
+    log.info('This is identity function !!!');
 };
 module.exports = (defFunc, api, ctx) => {
 
@@ -104,7 +104,7 @@ module.exports = (defFunc, api, ctx) => {
                             });
                         break;
                     default:
-                        console.log(body.t);
+                        log.verbose(body.t);
                 }
 
                 if (body.ms) {
@@ -119,7 +119,7 @@ module.exports = (defFunc, api, ctx) => {
                             // deltaflow buddylist_overlay
                             switch (msg.type) {
                                 case 'typ':
-                                    console.log(msg);
+                                    log.verbose(msg);
                                     msg.isTyping = msg.st;
                                     delete msg.st;
                                     globalCallback(null, msg);
@@ -149,7 +149,7 @@ module.exports = (defFunc, api, ctx) => {
                                     switch (msg.delta.class) {
                                         case 'NewMessage':
                                             attachments = msg.delta.attachments;
-                                            console.log('need handle for ', attachments);
+                                            log.warn('need handle for ', attachments);
                                             fmtMsg = formatter.deltaMessage(msg.delta);
                                             if (fmtMsg) {
                                                 globalCallback(null, fmtMsg);
