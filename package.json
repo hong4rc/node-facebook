@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node test.js",
-    "lint": "eslint src/*"
+    "lint": "eslint **/*"
   },
   "author": "Hongarc",
   "license": "MIT",
