@@ -1,16 +1,20 @@
 'use strict';
-let log = require('npmlog');
-let utils = require('../utils');
-let formatter = require('../formatter');
+const log = require('npmlog');
+const utils = require('../utils');
+const formatter = require('../formatter');
 
-let mCallback;
-let identity = () => {
+const MILLI_SECOND = 1000;
+const MILLI_TIMEOUT = 200;
+const SPACE_INDENT = 4;
+
+const identity = () => {
+    console.log('This is identity function !!!');
 };
 module.exports = (defFunc, api, ctx) => {
 
     let globalCallback = identity;
 
-    let stopListening = () => {
+    const stopListening = () => {
         globalCallback = identity;
         if (currentlyRunning) {
             clearTimeout(currentlyRunning);
@@ -19,12 +23,12 @@ module.exports = (defFunc, api, ctx) => {
     };
     let prev = Date.now();
     let tmpPrev = Date.now();
-    let lastSync = ~~(Date.now() / 1000);
+    let lastSync = ~~(Date.now() / MILLI_SECOND);
 
     let msgsRecv = 0;
     let currentlyRunning = null;
-    let form = {
-        channel: 'p_' + ctx.userId,
+    const form = {
+        channel: `p_${ctx.userId}`,
         seq: '0',
         partition: '-2',
         clientid: ctx.clientId,
@@ -36,37 +40,40 @@ module.exports = (defFunc, api, ctx) => {
         msgs_recv: msgsRecv,
     };
 
-    let handleMessagingEvents = (event) => {
+    const handleMessagingEvents = event => {
 
         let fmtMsg;
         switch (event.event) {
-            // 'read_receipt' event triggers when other people read the user's messages.
             case 'read_receipt':
                 fmtMsg = formatter.readReceipt(event);
-                globalCallback(null, fmtMsg);
+                if (fmtMsg) {
+                    globalCallback(null, fmtMsg);
+                }
                 return true;
+
             // 'read event' triggers when the user read other people's messages.
             case 'read':
                 fmtMsg = formatter.read(event);
-                globalCallback(null, fmtMsg);
+                if (fmtMsg) {
+                    globalCallback(null, fmtMsg);
+                }
                 return true;
             default:
                 return false;
         }
     };
-    let listen = (callback) => {
-        mCallback = callback;
+    const listen = () => {
 
-        form.idle = ~~(Date.now() / 1000) - prev;
-        prev = ~~(Date.now() / 1000);
+        form.idle = ~~(Date.now() / MILLI_SECOND) - prev;
+        prev = ~~(Date.now() / MILLI_SECOND);
 
-        utils.get('https://0-edge-chat.facebook.com/pull', ctx.jar, form)
+        utils.get(utils.getUrlPull(), ctx.jar, form)
             .then(utils.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
-                let now = Date.now();
-                log.info('listen', 'Got answer in ' + (now - tmpPrev));
+                const now = Date.now();
+                log.info('listen', `Got answer in ${now - tmpPrev}`);
                 tmpPrev = now;
-                log.info('body', JSON.stringify(body, null, 4));
+                log.info('body', JSON.stringify(body, null, SPACE_INDENT));
                 if (body.seq) {
                     form.seq = body.seq;
                 }
@@ -84,65 +91,75 @@ module.exports = (defFunc, api, ctx) => {
                         defFunc.get('https://www.facebook.com/notifications/sync/', ctx.jar, {lastSync})
                             .then(utils.saveCookies(ctx.jar))
                             .then(() => {
-                                lastSync = ~~(Date.now() / 1000);
-                                let formAll = {
+                                lastSync = ~~(Date.now() / MILLI_SECOND);
+                                const formAll = {
                                     client: 'mercury',
                                     'folders[0]': 'inbox',
-                                    last_action_timestamp: ~~(Date.now() - 60)
+                                    last_action_timestamp: ~~Date.now()
                                 };
                                 defFunc.post('https://www.facebook.com/ajax/mercury/thread_sync.php', ctx.jar, formAll)
-                                    .then((res) => {
-                                        currentlyRunning = setTimeout(listen, 1000);
+                                    .then(() => {
+                                        currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);
                                     });
                             });
-                        return null;
                         break;
+                    default:
+                        console.log(body.t);
                 }
 
                 if (body.ms) {
                     msgsRecv += body.ms.length;
-                    let atLeastOne = false;
                     body.ms
                         .sort((a, b) => a.timestamp - b.timestamp)
                         .forEach(msg => {
+                            let attachments,
+                                clientPayload,
+                                fmtMsg;
+
+                            // deltaflow buddylist_overlay
                             switch (msg.type) {
-                                //deltaflow buddylist_overlay
                                 case 'typ':
-                                    //TODO: check to return
                                     console.log(msg);
                                     msg.isTyping = msg.st;
                                     delete msg.st;
-
                                     globalCallback(null, msg);
                                     break;
                                 case 'chatproxy-presence':
-                                    for (let userId in msg.buddyList) {
-                                        let formattedPresence = formatter.proxyPresence(msg.buddyList[userId], userId);
-                                        if (formattedPresence !== null) {
-                                            globalCallback(null, formattedPresence);
+                                    for (const userId in msg.buddyList) {
+                                        if (msg.buddyList.hasOwnProperty(userId)) {
+                                            fmtMsg = formatter.proxyPresence(msg.buddyList[userId], userId);
+                                            if (fmtMsg) {
+                                                globalCallback(null, fmtMsg);
+                                            }
                                         }
+
                                     }
                                     break;
                                 case 'buddylist_overlay':
-                                    for (let userId in msg.buddyList) {
-                                        let formattedPresence = formatter.presence(msg.overlay[userId], userId);
-                                        if (formattedPresence !== null) {
-                                            globalCallback(null, formattedPresence);
+                                    for (const userId in msg.buddyList) {
+                                        if (msg.buddyList.hasOwnProperty(userId)) {
+                                            fmtMsg = formatter.presence(msg.overlay[userId], userId);
+                                            if (fmtMsg) {
+                                                globalCallback(null, fmtMsg);
+                                            }
                                         }
                                     }
                                     break;
                                 case 'delta':
                                     switch (msg.delta.class) {
                                         case 'NewMessage':
-                                            let attachments = msg.delta.attachments;
-                                            let fmtMsg = formatter.deltaMessage(msg.delta);
-                                            globalCallback(null, fmtMsg);
+                                            attachments = msg.delta.attachments;
+                                            console.log('need handle for ', attachments);
+                                            fmtMsg = formatter.deltaMessage(msg.delta);
+                                            if (fmtMsg) {
+                                                globalCallback(null, fmtMsg);
+                                            }
                                             break;
                                         case 'ClientPayload':
-                                            let clientPayload = formatter.clientPayload(msg.delta.payload);
+                                            clientPayload = formatter.clientPayload(msg.delta.payload);
                                             if (clientPayload && clientPayload.deltas) {
-                                                for (let delta of clientPayload.deltas) {
-                                                    let msgRea = delta.deltaMessageReaction;
+                                                for (const delta of clientPayload.deltas) {
+                                                    const msgRea = delta.deltaMessageReaction;
                                                     if (msgRea) {
                                                         globalCallback(null, {
                                                             type: 'message_reaction',
@@ -160,8 +177,8 @@ module.exports = (defFunc, api, ctx) => {
                                             }
                                             break;
                                         default:
-                                            log.warn(msg.delta.class + ' is not has case');
-                                            log.warn(JSON.stringify(msg))
+                                            log.warn(`${msg.delta.class} is not has case`);
+                                            log.warn(JSON.stringify(msg));
                                     }
 
 
@@ -170,7 +187,7 @@ module.exports = (defFunc, api, ctx) => {
                                     handleMessagingEvents(msg);
                                     break;
                                 default:
-                                    log.warn('don\'t have handle for ' + msg.type);
+                                    log.warn(`don't have handle for ${msg.type}`);
                                     log.warn(JSON.stringify(msg));
                             }
                         });
@@ -179,19 +196,20 @@ module.exports = (defFunc, api, ctx) => {
 
 
                 if (currentlyRunning) {
-                    currentlyRunning = setTimeout(listen, Math.random() * 200 + 50);
+                    currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);
                 }
             })
             .catch(err => {
                 if (err.code === 'ETIMEDOUT') {
                     log.info('listen', 'Suppressed timeout error.');
                 } else if (err.code === 'EAI_AGAIN') {
+                    utils.changeServer();
                 } else {
                     log.error('listen', err);
                     globalCallback(err);
                 }
                 if (currentlyRunning) {
-                    currentlyRunning = setTimeout(listen, Math.random() * 200 + 50);
+                    currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);
                 }
             });
     };
@@ -199,7 +217,7 @@ module.exports = (defFunc, api, ctx) => {
         globalCallback = callback;
 
         if (!currentlyRunning) {
-            currentlyRunning = setTimeout(listen, Math.random() * 200 + 50, callback);
+            currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);
         }
 
         return stopListening;

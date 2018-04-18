@@ -1,14 +1,14 @@
 'use strict';
 
-let utils = require('../utils');
-let log = require('npmlog');
+const utils = require('../utils');
+const log = require('npmlog');
 
 module.exports = (defFunc, api, ctx) => threadId => {
 
-    let form = {
+    const form = {
         shouldSendReadReceipt: true,
     };
-    form['ids[' + threadId + ']'] = true;
+    form[`ids[${threadId}]`] = true;
 
     defFunc
         .post('https://www.facebook.com/ajax/mercury/change_read_status.php', ctx.jar, form)

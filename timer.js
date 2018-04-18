@@ -1,17 +1,19 @@
 'use strict';
 
-let TimeZone = 7;//default is my timezone
+// default is my timezone
+let TimeZone = 7;
+const HOUR = 60;
 
 /**
  * Return real time in your location
  * @returns {Date}
  * */
-let getCurrentTime = () => {
-    let now = new Date();
-    now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + TimeZone * 60);
+const getCurrentTime = () => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + TimeZone * HOUR);
     return now;
 };
-let setTimeZone = timeZone => {
+const setTimeZone = timeZone => {
     TimeZone = timeZone;
 };
 module.exports = {

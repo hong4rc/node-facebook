@@ -23,7 +23,7 @@
         "dot-notation": "error",
         "eol-last": "error",
         "eqeqeq": "error",
-        "global-require": "error",
+        "global-require": "off",
         "guard-for-in": "warn",
         "handle-callback-err": "error",
         "implicit-arrow-linebreak": ["error", "beside"],

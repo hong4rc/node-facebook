@@ -1,28 +1,32 @@
 'use strict';
+
 // jar: true to save cookie
-let request = require('request').defaults({jar: true});
-let cheerio = require('cheerio');
-let log = require('npmlog');
+const request = require('request').defaults({jar: true});
+const cheerio = require('cheerio');
+const log = require('npmlog');
 
 const URL_HOME = 'https://www.facebook.com';
-const URL_LOGIN = URL_HOME + '/login.php?login_attempt=1&lwv=111';
+const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
+const REDIRECT_URL = 1;
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
-let utils = require('./utils');
+const utils = require('./utils');
 const LOCATE = 'en_US';
+const FIRST = 0;
+const COOKIE_VALUE = 1;
+const HEX = 16;
+const MILLIS = 1000;
+const POWER_2_31 = 2147483648;
 
-let getUrlPull = (num = 0) => {
-    return 'https://number-edge-chat.facebook.com/pull'.replace('number', num);
-};
-let makeLogin = (body, jar, user, option) => {
-    if (option){
+const makeLogin = (body, jar, user, option) => {
+    if (option) {
         console.log('Option wil be used in future');
     }
-    let $ = cheerio.load(body);
-    let form = {};
+    const $ = cheerio.load(body);
+    const form = {};
     $(QR_LOGIN).map((index, elem) => {
-        let name = $(elem).attr('name');
-        let val = $(elem).val();
+        const name = $(elem).attr('name');
+        const val = $(elem).val();
         if (val && name) {
             form[name] = val;
         }
@@ -33,14 +37,14 @@ let makeLogin = (body, jar, user, option) => {
     form.locale = LOCATE;
     form.timezone = new Date().getTimezoneOffset();
     form.lgndim = new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64');
-    form.lgnjs = ~~(Date.now() / 1000);
+    form.lgnjs = ~~(Date.now() / MILLIS);
     form.default_persistent = '0';
 
     log.info('form', form);
 
-    let willBeCookies = body.split('"_js_');
-    willBeCookies.slice(1).map(val => {
-        let cookieData = JSON.parse('["' + utils.findForm(val, '', ']') + ']');
+    const willBeCookies = body.split('"_js_').shift();
+    willBeCookies.map(val => {
+        const cookieData = JSON.parse(`["${utils.findForm(val, '', ']')}]`);
         jar.setCookie(utils.formatCookie(cookieData, 'facebook.com'), URL_HOME);
     });
 
@@ -49,13 +53,13 @@ let makeLogin = (body, jar, user, option) => {
         .post(URL_LOGIN, jar, form)
         .then(utils.saveCookies(jar))
         .then(res => {
-            let headers = res.headers;
+            const headers = res.headers;
             if (!headers.location) {
                 throw {error: 'Wrong username/password.'};
             }
 
             // This means the account has login approvals turned on.
-            if (headers.location.indexOf('https://www.facebook.com/checkpoint/') >= 0) {
+            if (headers.location.indexOf('https://www.facebook.com/checkpoint/') >= FIRST) {
                 throw new Error('This account is blocked by Facebook !!!');
             }
 
@@ -64,19 +68,19 @@ let makeLogin = (body, jar, user, option) => {
                 .then(utils.saveCookies(jar));
         });
 };
-let createApi = (option, body, jar) => {
-    let cUser = jar.getCookies(URL_HOME)
-        .filter(val => val.cookieString().split('=')[0] === 'c_user');
+const createApi = (option, body, jar) => {
+    const cUser = jar.getCookies(URL_HOME)
+        .filter(val => val.cookieString().split('=')[FIRST] === 'c_user');
 
-    if (cUser.length === 0) {
+    if (cUser.length === FIRST) {
         throw new Error('Can\'t find your Id.');
     }
-    let userId = cUser[0].cookieString().split('=')[1].toString();
+    const userId = cUser[FIRST].cookieString().split('=')[COOKIE_VALUE].toString();
     log.info('login', 'Logged in');
     log.info('Your id', userId);
-    let clientId = (Math.random() * 2147483648 | 0).toString(16);
+    const clientId = (Math.random() * POWER_2_31).toString(HEX);
 
-    let ctx = {
+    const ctx = {
         userId: userId,
         jar: jar,
         clientId: clientId,
@@ -85,28 +89,28 @@ let createApi = (option, body, jar) => {
         access_token: 'NONE',
         clientMutationId: 0
     };
-    let api = {
+    const api = {
         getAppState: () => utils.getAppState(jar)
     };
-    let apiNames = [
+    const apiNames = [
         'sendTyping',
         'listen',
         'markAsRead',
         'sendMessage',
     ];
-    let defFunc = utils.makeDefaults(body, userId, ctx);
+    const defFunc = utils.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
         api[func] = require(DIR_SRC + func)(defFunc, api, ctx);
     });
     return {ctx, defFunc, api};
 };
-let login = (user, option) => new Promise((resolve, inject) => {
+const login = (user, option) => new Promise((resolve, inject) => {
     let mPromise = undefined;
-    let jar = request.jar();
+    const jar = request.jar();
     if (user.appState) {
         user.appState.map(c => {
-            let str = `${c.key}=${c.value}; expires=${c.expires}; domain=${c.domain}; path=${c.path};`;
-            jar.setCookie(str, "http://" + c.domain);
+            const str = `${c.key}=${c.value}; expires=${c.expires}; domain=${c.domain}; path=${c.path};`;
+            jar.setCookie(str, `http://${c.domain}`);
         });
 
         mPromise = utils
@@ -123,37 +127,39 @@ let login = (user, option) => new Promise((resolve, inject) => {
 
     mPromise = mPromise
         .then(res => {
+
             // Hacky check for the redirection that happens on some ISPs, which doesn't return statusCode 3xx
-            let reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
-            let redirect = reg.exec(res.body);
-            if (redirect && redirect[1]) {
+            const reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
+            const redirect = reg.exec(res.body);
+            const url = redirect && redirect[REDIRECT_URL];
+            if (url) {
                 return utils
-                    .get(redirect[1], jar)
+                    .get(url, jar)
                     .then(utils.saveCookies(jar));
             }
             return res;
         })
 
         .then(res => {
-            let stuff = createApi(option, res.body, jar);
+            const stuff = createApi(option, res.body, jar);
             ctx = stuff.ctx;
             defFunc = stuff.defFunc;
             api = stuff.api;
             return res;
         })
         .then(() => {
-            let form = {
+            const form = {
                 reason: 6
             };
-            log.info("login", 'Request to reconnect');
+            log.info('login', 'Request to reconnect');
             return defFunc
-                .get(URL_HOME + '/ajax/presence/reconnect.php', ctx.jar, form)
+                .get(`${URL_HOME}/ajax/presence/reconnect.php`, ctx.jar, form)
                 .then(utils.saveCookies(ctx.jar));
         })
         .then(() => {
             log.info('login', 'Request to pull 1');
-            let form = {
-                channel: 'p_' + ctx.userId,
+            const form = {
+                channel: `p_${ctx.userId}`,
                 seq: 0,
                 partition: -2,
                 clientid: ctx.clientId,
@@ -166,28 +172,31 @@ let login = (user, option) => new Promise((resolve, inject) => {
             };
 
             return utils
-                .get(getUrlPull(), ctx.jar, form)
+                .get(utils.getUrlPull(), ctx.jar, form)
                 .then(utils.saveCookies(ctx.jar))
                 .then(res => {
                     let body = null;
                     try {
                         body = JSON.parse(utils.makeParsable(res.body));
                     } catch (e) {
-                        throw {error: "Error inside first pull request. Received HTML instead of JSON. Logging in inside a browser might help fix this."};
+                        throw {error: 'Received HTML instead of JSON.'};
                     }
-                    if (body.t !== 'lb') throw {error: "Bad response from pull 1"};
+                    if (body.t !== 'lb') {
+                        throw {error: 'Bad response from pull 1'};
+                    }
                     return body;
                 });
         })
+
         /* ╔════════════════════════════════════════╗
           ║  remove pull 2 + thread_sync   ║
          ╚════════════════════════════════════════╝*/
         .then(() => {
-            log.info("login", 'Done logging in.');
+            log.info('login', 'Done logging in.');
             resolve(api);
         })
         .catch(e => {
-            log.error("login", e.error || e);
+            log.error('login', e.error || e);
             inject(e);
         });
     return mPromise;

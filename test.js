@@ -2,33 +2,40 @@
 const fs = require('fs');
 const request = require('request');
 
-let login = require('./index');
-let timer = require('./timer');
+const login = require('./index');
+
+// const timer = require('./timer');
 
 // let user = {email: 'your username/id', pass: 'your pass'};
 let user = process.env.user;
 if (user) {
-    user = {appState: JSON.parse(user)}
+    user = {appState: JSON.parse(user)};
 } else {
     user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
 }
-
-let last_typing = [0, 0, 0, 0];
-
+const FIRST = 0;
+const ONE = 1;
+const SPACE_INDENT = 4;
+const MAX_TYPING_SAVED = 4;
 const TIME_OUT_MSG = 30000;
 const TIME_IdLING = 600000;
+const lastTypings = new Array(MAX_TYPING_SAVED);
 const URL_IdLING = process.env.URL_IdLING;
 login(user)
     .then(api => {
+
         // fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
-        let stopper = {};
+        const stopper = {};
         api.listen((err, msg) => {
             if (err) {
                 console.log(err);
             }
+            let index,
+                from;
             switch (msg.type) {
                 case 'presence':
                     console.log(msg.userId, msg.statUser ? 'online' : 'idle');
+
                     // if (msg.statUser) {
                     //     let nowHour = timer.getCurrentTime().getHours();
                     //     if (nowHour >= 1 && nowHour <= 3) {
@@ -37,23 +44,23 @@ login(user)
                     // }
                     break;
                 case 'typ':
-                    let from = msg.from;
+                    from = msg.from;
                     if (msg.isTyping) {
-                        console.log(from + ' is typing.');
-                        let index = last_typing.indexOf(from);
-                        if (index > -1) {
-                            last_typing.splice(index, 1);
+                        console.log(`${from} is typing.`);
+                        index = lastTypings.indexOf(from);
+                        if (index >= FIRST) {
+                            lastTypings.splice(index, ONE);
                         } else {
-                            last_typing.shift();
+                            lastTypings.shift();
                         }
-                        last_typing.push(from);
+                        lastTypings.push(from);
                         stopper[from] = api.sendTyping(from);
                         setTimeout(() => {
-                            delete stopper[from]
+                            delete stopper[from];
                         }, TIME_OUT_MSG);
 
                     } else {
-                        console.log(from + ' is not typing.');
+                        console.log(`${from} is not typing.`);
                         if (stopper[from]) {
                             stopper[from]();
                         }
@@ -67,26 +74,28 @@ login(user)
     });
 
 
-//For server
-let express = require('express');
-let app = express();
+// For server
+const express = require('express');
+const app = express();
 
-let port = process.env.PORT || 1997;
-app.listen(port, () => console.log('This app is running in Port: ' + port));
+const DEFAULT_PORT = 1997;
+const STT_CODE_OK = 200;
+const port = process.env.PORT || DEFAULT_PORT;
+app.listen(port, () => console.log(`This app is running in Port: ${port}`));
 app.get('/', (req, res) => {
-    res.writeHead(200, {
+    res.writeHead(STT_CODE_OK, {
         'Content-Type': 'text/json; charset=utf-8'
     });
-    let data = {
+    const data = {
         isRunning: true,
-        last_typing: last_typing.filter(val => val)
+        last_typing: lastTypings.filter(val => val)
     };
-    res.end(JSON.stringify(data, null, 4))
+    res.end(JSON.stringify(data, null, SPACE_INDENT));
 });
 URL_IdLING && setInterval(() => {
-    request(URL_IdLING, (err, res) => {
-        if (res && res.statusCode === 200) {
-            console.log('Trigger success !!!')
+    request(URL_IdLING, (error, res) => {
+        if (res && res.statusCode === STT_CODE_OK) {
+            console.log('Trigger success !!!');
         }
     });
 }, TIME_IdLING);

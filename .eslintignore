@@ -11,8 +11,5 @@ package.json
 README.md
 state.json
 
-# Node modules
-/node_modules
-
-.eslintignore
-.eslintrc
+# Test
+__test__.js
