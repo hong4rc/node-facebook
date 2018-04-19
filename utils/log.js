@@ -8,6 +8,7 @@ const log = {
     ERROR: 4
 };
 let level = log.INFO;
+const STREAM = process.stderr;
 const COLOR_NORMAL = cslCtr.color('magenta');
 const COLOR_RESET = cslCtr.color('reset');
 const NEXT_PREFIX = '││││';
@@ -29,7 +30,7 @@ const createLevel = (lvl, fb, bg, disp) => (...args) => {
         output += `\n${PREFIX} ${line}`;
     }
     output += endLine + COLOR_RESET;
-    console.log(output);
+    STREAM.write(output);
 };
 log.verbose = createLevel(log.VERBOSE, 'blue', 'bgBlack', 'VERB');
 log.info = createLevel(log.INFO, 'green', 'bgBlack', 'INFO');
