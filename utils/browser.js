@@ -185,7 +185,6 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
         };
     }
 
-    // TODO: handle multiple cookies?
     const jRequire = getRequire(res.jsmods);
 
     // TODO change FIRST, ONE, I_PATH to real constant
