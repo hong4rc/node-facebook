@@ -9,28 +9,48 @@ const log = {
 };
 let level = log.INFO;
 const STREAM = process.stderr;
+let colorEnabled = STREAM.isTTY;
 const COLOR_NORMAL = cslCtr.color('magenta');
 const COLOR_RESET = cslCtr.color('reset');
 const NEXT_PREFIX = '││││';
 const END_PREFIX = '└┴┴┘';
+const SPACE = ' ';
 
 const createLevel = (lvl, fb, bg, disp) => (...args) => {
     if (lvl < level) {
         return;
     }
     const COLOR = cslCtr.color(fb, bg, 'bold');
-    const PREFIX = COLOR + NEXT_PREFIX + COLOR_NORMAL;
+
+    const logLine = (prefix, msg) => {
+        const output = [prefix];
+        if (colorEnabled) {
+            output.unshift(COLOR);
+            output.push(COLOR_NORMAL);
+        }
+        output.push(SPACE);
+        output.push(msg);
+
+        STREAM.write(`${output.join('')}\n`);
+    };
     const lines = util.format(...args).split('\n');
-    let output = `${COLOR + disp + COLOR_NORMAL} ${lines.shift()}`;
-    let endLine = '';
+    logLine(disp, lines.shift());
+    let endLine;
     if (lines.length) {
-        endLine = `\n${COLOR}${END_PREFIX}${COLOR_NORMAL} ${lines.pop()}`;
+        endLine = lines.pop();
     }
     for (const line of lines) {
-        output += `\n${PREFIX} ${line}`;
+        logLine(NEXT_PREFIX, line);
     }
-    output += endLine + COLOR_RESET;
-    STREAM.write(output);
+    endLine && logLine(END_PREFIX, endLine);
+    STREAM.write(COLOR_RESET);
+};
+
+log.enableColor = () => {
+    colorEnabled = true;
+};
+log.disableColor = () => {
+    colorEnabled = false;
 };
 log.verbose = createLevel(log.VERBOSE, 'blue', 'bgBlack', 'VERB');
 log.info = createLevel(log.INFO, 'green', 'bgBlack', 'INFO');
