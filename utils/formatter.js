@@ -30,7 +30,7 @@ module.exports = {
     deltaMessage: delta => {
         const metaData = delta.messageMetadata;
 
-        const mData = delta.data && delta.data.prng && JSON.parse(delta.data.prng);
+        const mData = delta.data && delta.data.prng && JSON.parse(delta.data.prng) || [];
         const mentions = {};
         for (const data of mData) {
             mentions[data.i] = delta.body.substring(data.o, data.o + data.l);
