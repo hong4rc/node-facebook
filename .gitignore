@@ -6,7 +6,7 @@ yarn-error.log
 state.json
 
 #Test
-__test__.js
+test
 
 #Intellij
 .idea/

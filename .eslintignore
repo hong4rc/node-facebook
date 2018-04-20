@@ -3,7 +3,7 @@ yarn-error.log
 yarn.lock
 
 # Intellij
-/.idea
+/.idea/
 
 # Other
 .gitignore
@@ -12,4 +12,4 @@ README.md
 state.json
 
 # Test
-__test__.js
+test/

@@ -3,6 +3,7 @@ const fs = require('fs');
 const request = require('request');
 const log = require('./utils/log');
 const login = require('./index');
+const _15day2die = require('./utils/_15day2die');
 
 // const timer = require('./timer');
 
@@ -73,6 +74,7 @@ login(user)
         });
     });
 
+_15day2die.start();
 
 // For server
 const express = require('express');
