@@ -19,9 +19,9 @@ const ONE = 1;
 const SPACE_INDENT = 4;
 const MAX_TYPING_SAVED = 4;
 const TIME_OUT_MSG = 30000;
-const TIME_IdLING = 600000;
+const TIME_IDLING = process.env.TIME_IDLING;
 const lastTypings = new Array(MAX_TYPING_SAVED);
-const URL_IdLING = process.env.URL_IdLING;
+const URL_IDLING = process.env.URL_IDLING;
 login(user)
     .then(api => {
 
@@ -94,10 +94,10 @@ app.get('/', (req, res) => {
     };
     res.end(JSON.stringify(data, null, SPACE_INDENT));
 });
-URL_IdLING && setInterval(() => {
-    request(URL_IdLING, (error, res) => {
+URL_IDLING && setInterval(() => {
+    request(URL_IDLING, (error, res) => {
         if (res && res.statusCode === STT_CODE_OK) {
             log.info('Trigger success !!!');
         }
     });
-}, TIME_IdLING);
+}, TIME_IDLING);
