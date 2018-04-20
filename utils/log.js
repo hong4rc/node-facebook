@@ -43,7 +43,9 @@ const createLevel = (lvl, fb, bg, disp) => (...args) => {
         logLine(NEXT_PREFIX, line);
     }
     endLine && logLine(END_PREFIX, endLine);
-    STREAM.write(COLOR_RESET);
+    if (colorEnabled) {
+        STREAM.write(COLOR_RESET);
+    }
 };
 
 log.enableColor = () => {
