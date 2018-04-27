@@ -67,6 +67,9 @@ login(user)
                         }
                     }
                     break;
+                case 'message':
+                    api.markAsRead(msg.threadId);
+                    break;
                 default:
                     log.info(msg);
 
