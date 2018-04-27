@@ -1,6 +1,8 @@
 'use strict';
+const fs = require('fs');
 const cslCtr = require('console-control-strings');
 const util = require('util');
+const LOG_FILE_PATH = './public/log.txt';
 const log = {
     VERBOSE: 0,
     INFO: 2,
@@ -15,6 +17,7 @@ const COLOR_RESET = cslCtr.color('reset');
 const NEXT_PREFIX = '││││';
 const END_PREFIX = '└┴┴┘';
 const SPACE = ' ';
+const logToFile = fs.createWriteStream(LOG_FILE_PATH);
 
 const createLevel = (lvl, fb, bg, disp) => (...args) => {
     if (lvl < level) {
@@ -32,6 +35,7 @@ const createLevel = (lvl, fb, bg, disp) => (...args) => {
         output.push(msg);
 
         STREAM.write(`${output.join('')}\n`);
+        logToFile.write(`${prefix + SPACE + msg}\n`);
     };
     const lines = util.format(...args).split('\n');
     logLine(disp, lines.shift());

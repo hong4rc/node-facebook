@@ -10,6 +10,7 @@ yarn.lock
 package.json
 README.md
 state.json
+public/log.txt
 
 # Test
 test/

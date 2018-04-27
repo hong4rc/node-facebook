@@ -84,6 +84,7 @@ const DEFAULT_PORT = 1997;
 const STT_CODE_OK = 200;
 const port = process.env.PORT || DEFAULT_PORT;
 app.listen(port, () => log.info(`This app is running in Port: ${port}`));
+app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.writeHead(STT_CODE_OK, {
         'Content-Type': 'text/json; charset=utf-8'

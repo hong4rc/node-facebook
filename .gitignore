@@ -6,10 +6,13 @@ yarn-error.log
 state.json
 
 #Test
-test
+/test/
 
 #Intellij
 .idea/
 
 # Node module
 node_modules/
+
+# Log
+public/log.txt
