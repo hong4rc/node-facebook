@@ -39,7 +39,37 @@ module.exports = (defFunc, api, ctx) => {
         cap: '8',
         msgs_recv: msgsRecv,
     };
-
+    const handleDeltaEvents = (msg, fmtMsg) => {
+        let attachments,
+            payload;
+        const delta = msg.delta;
+        switch (delta.class) {
+            case 'NewMessage':
+                attachments = delta.attachments;
+                log.warn('need handle for ', attachments);
+                fmtMsg = formatter.deltaMessage(delta);
+                if (fmtMsg) {
+                    globalCallback(null, fmtMsg);
+                }
+                break;
+            case 'ClientPayload':
+                payload = formatter.clientPayload(delta.payload);
+                if (payload && payload.deltas) {
+                    for (const delta of payload.deltas) {
+                        const msgRea = delta.deltaMessageReaction;
+                        if (msgRea) {
+                            fmtMsg = formatter.reaction(msgRea, msg.ofd_ts);
+                            globalCallback(null, fmtMsg);
+                        }
+                    }
+                    return;
+                }
+                break;
+            default:
+                log.warn(`${delta.class} is not has case`);
+                log.warn(JSON.stringify(msg));
+        }
+    };
     const handleMessagingEvents = event => {
 
         let fmtMsg;
@@ -112,9 +142,7 @@ module.exports = (defFunc, api, ctx) => {
                     body.ms
                         .sort((a, b) => a.timestamp - b.timestamp)
                         .forEach(msg => {
-                            let attachments,
-                                clientPayload,
-                                fmtMsg;
+                            let fmtMsg;
 
                             // deltaflow buddylist_overlay
                             switch (msg.type) {
@@ -122,6 +150,11 @@ module.exports = (defFunc, api, ctx) => {
                                     log.verbose(msg);
                                     msg.isTyping = msg.st;
                                     delete msg.st;
+                                    fmtMsg = formatter.typing(msg, ctx.userId);
+                                    if (fmtMsg) {
+                                        globalCallback(null, fmtMsg);
+                                    }
+                                    log.info('typing', msg);
                                     globalCallback(null, msg);
                                     break;
                                 case 'chatproxy-presence':
@@ -146,42 +179,7 @@ module.exports = (defFunc, api, ctx) => {
                                     }
                                     break;
                                 case 'delta':
-                                    switch (msg.delta.class) {
-                                        case 'NewMessage':
-                                            attachments = msg.delta.attachments;
-                                            log.warn('need handle for ', attachments);
-                                            fmtMsg = formatter.deltaMessage(msg.delta);
-                                            if (fmtMsg) {
-                                                globalCallback(null, fmtMsg);
-                                            }
-                                            break;
-                                        case 'ClientPayload':
-                                            clientPayload = formatter.clientPayload(msg.delta.payload);
-                                            if (clientPayload && clientPayload.deltas) {
-                                                for (const delta of clientPayload.deltas) {
-                                                    const msgRea = delta.deltaMessageReaction;
-                                                    if (msgRea) {
-                                                        globalCallback(null, {
-                                                            type: 'message_reaction',
-                                                            threadId: msgRea.threadKey.threadFbId
-                                                            || msgRea.threadKey.otherUserFbId,
-                                                            messageId: msgRea.messageId,
-                                                            reaction: msgRea.reaction,
-                                                            senderId: msgRea.senderId,
-                                                            userId: msgRea.userId,
-                                                            timestamp: msg.ofd_ts
-                                                        });
-                                                    }
-                                                }
-                                                return;
-                                            }
-                                            break;
-                                        default:
-                                            log.warn(`${msg.delta.class} is not has case`);
-                                            log.warn(JSON.stringify(msg));
-                                    }
-
-
+                                    handleDeltaEvents(msg, fmtMsg);
                                     break;
                                 case 'message':
                                     handleMessagingEvents(msg);

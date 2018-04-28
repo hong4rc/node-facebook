@@ -27,6 +27,28 @@ module.exports = {
         userId: userId,
         statUser: presence.a
     }),
+    typing: (msg, userId) => {
+        let threadID = msg.thread_fbid || msg.from;
+        if (msg.to.toString() !== userId) {
+            threadID = msg.to;
+        }
+        return {
+            type: 'typ',
+            isTyping: msg.st,
+            fromMobile: msg.hasOwnProperty('from_mobile') ? msg.from_mobile : true,
+            from: msg.from,
+            threadID
+        };
+    },
+    reaction: (msgRea, timestamp) => ({
+        type: 'message_reaction',
+        threadId: msgRea.threadKey.threadFbId || msgRea.threadKey.otherUserFbId,
+        messageId: msgRea.messageId,
+        reaction: msgRea.reaction,
+        senderId: msgRea.senderId,
+        userId: msgRea.userId,
+        timestamp
+    }),
     deltaMessage: delta => {
         const metaData = delta.messageMetadata;
 
