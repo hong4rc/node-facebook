@@ -35,7 +35,7 @@ module.exports = {
         return {
             type: 'typ',
             isTyping: msg.st,
-            fromMobile: msg.hasOwnProperty('from_mobile') ? msg.from_mobile : true,
+            fromMobile: !(msg.from_mobile === false),
             from: msg.from,
             threadID
         };

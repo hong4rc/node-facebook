@@ -147,15 +147,10 @@ module.exports = (defFunc, api, ctx) => {
                             // deltaflow buddylist_overlay
                             switch (msg.type) {
                                 case 'typ':
-                                    log.verbose(msg);
-                                    msg.isTyping = msg.st;
-                                    delete msg.st;
                                     fmtMsg = formatter.typing(msg, ctx.userId);
                                     if (fmtMsg) {
                                         globalCallback(null, fmtMsg);
                                     }
-                                    log.info('typing', msg);
-                                    globalCallback(null, msg);
                                     break;
                                 case 'chatproxy-presence':
                                     for (const userId in msg.buddyList) {
