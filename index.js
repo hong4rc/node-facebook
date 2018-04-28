@@ -1,6 +1,4 @@
 'use strict';
-
-// jar: true to save cookie
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
 const log = require('./utils/log');
@@ -187,10 +185,6 @@ const login = (user, option) => new Promise((resolve, inject) => {
                     return body;
                 });
         })
-
-        /* ╔════════════════════════════════════════╗
-          ║  remove pull 2 + thread_sync   ║
-         ╚════════════════════════════════════════╝*/
         .then(() => {
             log.info('login', 'Done logging in.');
             resolve(api);
