@@ -110,7 +110,10 @@ module.exports = (defFunc, api, ctx) => {
             .then(() => handleAttachment(msg, form))
             .then(() => handleUrl(msg, form))
             .then(() => handleMention(msg, form))
-            .then(() => sendMsg(msg, form, threadId));
+            .then(() => sendMsg(msg, form, threadId))
+            .catch(error => {
+                log.error(error);
+            });
     };
 
 };
