@@ -1,9 +1,9 @@
 'use strict';
 const fs = require('fs');
-const request = require('request');
 const log = require('./utils/log');
 const login = require('./index');
 const _15day2die = require('./utils/_15day2die');
+const requestMyself = require('./utils/requestMyself');
 
 // const timer = require('./timer');
 
@@ -14,14 +14,7 @@ if (user) {
 } else {
     user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
 }
-const FIRST = 0;
-const ONE = 1;
-const SPACE_INDENT = 4;
-const MAX_TYPING_SAVED = 4;
 const TIME_OUT_MSG = 30000;
-const TIME_IDLING = process.env.TIME_IDLING;
-const lastTypings = new Array(MAX_TYPING_SAVED);
-const URL_IDLING = process.env.URL_IDLING;
 login(user)
     .then(api => {
 
@@ -31,8 +24,7 @@ login(user)
             if (err) {
                 log.error(err);
             }
-            let index,
-                from;
+            let from;
             switch (msg.type) {
                 case 'presence':
                     log.info(msg.userId, msg.statUser ? 'online' : 'idle');
@@ -48,13 +40,6 @@ login(user)
                     from = msg.from;
                     if (msg.isTyping) {
                         log.info(`${from} is typing.`);
-                        index = lastTypings.indexOf(from);
-                        if (index >= FIRST) {
-                            lastTypings.splice(index, ONE);
-                        } else {
-                            lastTypings.shift();
-                        }
-                        lastTypings.push(from);
                         stopper[from] = api.sendTyping(from);
                         setTimeout(() => {
                             delete stopper[from];
@@ -84,24 +69,7 @@ const express = require('express');
 const app = express();
 
 const DEFAULT_PORT = 1997;
-const STT_CODE_OK = 200;
 const port = process.env.PORT || DEFAULT_PORT;
 app.listen(port, () => log.info(`This app is running in Port: ${port}`));
 app.use(express.static('public'));
-app.get('/', (req, res) => {
-    res.writeHead(STT_CODE_OK, {
-        'Content-Type': 'text/json; charset=utf-8'
-    });
-    const data = {
-        isRunning: true,
-        last_typing: lastTypings.filter(val => val)
-    };
-    res.end(JSON.stringify(data, null, SPACE_INDENT));
-});
-URL_IDLING && setInterval(() => {
-    request(URL_IDLING, (error, res) => {
-        if (res && res.statusCode === STT_CODE_OK) {
-            log.info('Trigger success !!!');
-        }
-    });
-}, TIME_IDLING);
+app.use(requestMyself);
