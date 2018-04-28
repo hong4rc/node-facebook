@@ -36,7 +36,6 @@
         "max-len": ["warn", {"code": 120, "ignoreComments": true}],
         "new-cap": "warn",
         "no-cond-assign": "warn",
-        "no-console": "off",
         "no-constant-condition": "warn",
         "no-duplicate-imports": "error",
         "no-empty-function": "error",
