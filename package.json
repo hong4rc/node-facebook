@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node test.js",
-    "lint": "eslint **/*"
+    "heroku-postbuild": "eslint **/* --fix"
   },
   "author": "Hongarc",
   "license": "MIT",
@@ -16,5 +16,9 @@
   },
   "devDependencies": {
     "eslint": "^4.19.1"
+  },
+  "engines": {
+    "node": "9.7.1",
+    "yarn": "1.5.1"
   }
 }
