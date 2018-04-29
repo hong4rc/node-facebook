@@ -14,8 +14,9 @@ const SERVER_ERROR = 500;
 const MAX_RETRY_TIME = 5000;
 const ERR_LOGIN = 1357001;
 
-const FAKE_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
+const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
     + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
+const FAKE_USER_AGENT = process.env.USER_AGENT || DEFAULT_USER_AGENT;
 const getHeaders = url => ({
     'Content-Type': 'application/x-www-form-urlencoded',
     Referer: 'https://www.facebook.com/',

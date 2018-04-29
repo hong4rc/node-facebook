@@ -5,7 +5,8 @@ const timer = require('./timer');
 const URL_REQUEST_MYSELF = '/myself';
 const SPACE_INDENT = 4;
 const STT_CODE_OK = 200;
-const TIME_IDLING = process.env.TIME_IDLING;
+const DEFAULT_TIME_IDLING = 60000;
+const TIME_IDLING = process.env.TIME_IDLING || DEFAULT_TIME_IDLING;
 let baseUrl = '';
 
 const timeRequest = [];
