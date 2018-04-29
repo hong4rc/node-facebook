@@ -38,6 +38,7 @@ const createLevel = (lvl, fb, bg, disp) => (...args) => {
         logToFile.write(`${prefix + SPACE + msg}\n`);
     };
     const lines = util.format(...args).split('\n');
+    logToFile.cork();
     logLine(disp, lines.shift());
     let endLine;
     if (lines.length) {
@@ -47,6 +48,7 @@ const createLevel = (lvl, fb, bg, disp) => (...args) => {
         logLine(NEXT_PREFIX, line);
     }
     endLine && logLine(END_PREFIX, endLine);
+    logToFile.uncork();
     if (colorEnabled) {
         STREAM.write(COLOR_RESET);
     }
