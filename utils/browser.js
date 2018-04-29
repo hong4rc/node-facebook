@@ -13,6 +13,8 @@ const STT_CODE_OK = 200;
 const SERVER_ERROR = 500;
 const MAX_RETRY_TIME = 5000;
 const ERR_LOGIN = 1357001;
+const POWER_2_32 = 4294967296;
+const POWER_2_22 = 4194304;
 
 const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
     + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
@@ -220,6 +222,11 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     }
     return res;
 };
+const generateOfflineThreadingId = () => {
+    const ret = Date.now();
+    const value = Math.floor(Math.random() * POWER_2_32);
+    return ret * POWER_2_22 + value;
+};
 module.exports = {
     get,
     post,
@@ -228,6 +235,7 @@ module.exports = {
     formatCookie,
     getAppState,
     makeDefaults,
+    generateOfflineThreadingId,
     getUrlPull,
     changeServer,
     makeParsable,
