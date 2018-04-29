@@ -65,17 +65,21 @@ module.exports = (defFunc, api, ctx) => {
                     return;
                 }
                 break;
+            case 'MarkRead':
+                fmtMsg = formatter.markRead(delta);
+                globalCallback(null, fmtMsg);
+                break;
             default:
                 log.warn(`${delta.class} is not has case`);
                 log.warn(JSON.stringify(msg));
         }
     };
-    const handleMessagingEvents = event => {
+    const handleMessagingEvents = msg => {
 
         let fmtMsg;
-        switch (event.event) {
+        switch (msg.event) {
             case 'read_receipt':
-                fmtMsg = formatter.readReceipt(event);
+                fmtMsg = formatter.readReceipt(msg);
                 if (fmtMsg) {
                     globalCallback(null, fmtMsg);
                 }
@@ -83,7 +87,7 @@ module.exports = (defFunc, api, ctx) => {
 
             // 'read event' triggers when the user read other people's messages.
             case 'read':
-                fmtMsg = formatter.read(event);
+                fmtMsg = formatter.read(msg);
                 if (fmtMsg) {
                     globalCallback(null, fmtMsg);
                 }

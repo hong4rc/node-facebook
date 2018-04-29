@@ -84,5 +84,10 @@ module.exports = {
             type: 'read'
         };
     },
-    clientPayload: payload => JSON.parse(String.fromCharCode.apply(null, payload))
+    clientPayload: payload => JSON.parse(String.fromCharCode.apply(null, payload)),
+    markRead: delta => ({
+        threadId: delta.threadKeys.otherUserFbId,
+        time: delta.actionTimestamp,
+        type: 'mark_read'
+    }),
 };
