@@ -17,6 +17,7 @@ if (user) {
 const TIME_OUT_MSG = 30000;
 login(user)
     .then(api => {
+        log.setApi(api);
 
         // fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
         const stopper = {};
@@ -56,7 +57,8 @@ login(user)
                     api.markAsRead(msg.threadId);
                     break;
                 default:
-                    log.info(msg);
+
+                    // log.info(msg);
 
             }
         });

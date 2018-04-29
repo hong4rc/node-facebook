@@ -33,3 +33,5 @@ You should create some environment variable :
 - `TIME_IDLING`: timeout request to your server.
 - `URL_NEXT`: url of next server (if you want exit and turn on other server).
 - `DAY_TO_DIE`: set date of month to close your process and change other server.
+- `LOG_TIMEOUT`: timeout to send log file.
+- `LOG_THREAD_ID`: id of user receive file log.

@@ -71,7 +71,7 @@ module.exports = (defFunc, api, ctx) => {
                 break;
             default:
                 log.warn(`${delta.class} is not has case`);
-                log.warn(JSON.stringify(msg));
+                log.warn(JSON.stringify(msg, null, SPACE_INDENT));
         }
     };
     const handleMessagingEvents = msg => {
@@ -107,7 +107,8 @@ module.exports = (defFunc, api, ctx) => {
                 const now = Date.now();
                 log.info('listen', `Got answer in ${now - tmpPrev}`);
                 tmpPrev = now;
-                log.info('body', JSON.stringify(body, null, SPACE_INDENT));
+
+                // log.info('body', JSON.stringify(body, null, SPACE_INDENT));
                 if (body.seq) {
                     form.seq = body.seq;
                 }

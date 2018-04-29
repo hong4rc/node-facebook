@@ -106,7 +106,7 @@ module.exports = (defFunc, api, ctx) => {
         if (msg.sticker) {
             form.sticker_id = msg.sticker;
         }
-        new Promise(resolve => resolve())
+        return new Promise(resolve => resolve())
             .then(() => handleAttachment(msg, form))
             .then(() => handleUrl(msg, form))
             .then(() => handleMention(msg, form))

@@ -2,7 +2,11 @@
 const fs = require('fs');
 const cslCtr = require('console-control-strings');
 const util = require('util');
+const timer = require('./timer');
+
 const LOG_FILE_PATH = './public/log.txt';
+const LOG_THREAD_ID = process.env.LOG_THREAD_ID;
+const LOG_TIMEOUT = process.env.LOG_TIMEOUT;
 const log = {
     VERBOSE: 0,
     INFO: 2,
@@ -17,7 +21,7 @@ const COLOR_RESET = cslCtr.color('reset');
 const NEXT_PREFIX = '││││';
 const END_PREFIX = '└┴┴┘';
 const SPACE = ' ';
-const logToFile = fs.createWriteStream(LOG_FILE_PATH);
+let logToFile = fs.createWriteStream(LOG_FILE_PATH);
 
 const createLevel = (lvl, fb, bg, disp) => (...args) => {
     if (lvl < level) {
@@ -69,5 +73,27 @@ log.setLevel = lvl => {
     if (typeof lvl === 'number') {
         level = lvl;
     }
+};
+log.setApi = api => {
+    let logName;
+    if (!LOG_TIMEOUT) {
+        log.error('Please init LOG_TIMEOUT');
+        return;
+    }
+    setInterval(() => {
+        logName = LOG_FILE_PATH.replace(/(\.\w+|)$/, '_' + timer.getCurrentTime().toISOString());
+        // File name can't contain :
+        logName = logName.replace(/:/g, '_');
+        fs.renameSync(LOG_FILE_PATH, logName);
+        logToFile.close();
+        logToFile = fs.createWriteStream(LOG_FILE_PATH);
+        const msg = {
+            attachments: [fs.createReadStream(logName)]
+        };
+        api.sendMessage(msg, LOG_THREAD_ID)
+            .then(() => {
+                fs.unlinkSync(logName);
+            });
+    }, LOG_TIMEOUT);
 };
 module.exports = log;
