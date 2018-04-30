@@ -10,14 +10,17 @@ const TIME_IDLING = process.env.TIME_IDLING || DEFAULT_TIME_IDLING;
 let baseUrl = '';
 
 const timeRequest = [];
+const requestMyself = () => {
+    request(baseUrl + URL_REQUEST_MYSELF, (error, res) => {
+        if (res && res.statusCode === STT_CODE_OK) {
+            timeRequest.push({time: timer.getCurrentTime()});
+        } else {
+            requestMyself();
+        }
+    });
+};
 const intervalRequest = () => {
-    setInterval(() => {
-        request(baseUrl + URL_REQUEST_MYSELF, (error, res) => {
-            if (res && res.statusCode === STT_CODE_OK) {
-                timeRequest.push({time: timer.getCurrentTime()});
-            }
-        });
-    }, TIME_IDLING);
+    setInterval(requestMyself, TIME_IDLING);
 };
 
 module.exports = (req, res, next) => {

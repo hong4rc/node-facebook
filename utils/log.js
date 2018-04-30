@@ -81,7 +81,8 @@ log.setApi = api => {
         return;
     }
     setInterval(() => {
-        logName = LOG_FILE_PATH.replace(/(\.\w+|)$/, '_' + timer.getCurrentTime().toISOString());
+        logName = LOG_FILE_PATH.replace(/(\.\w+|null)$/, `_${timer.getCurrentTime().toISOString()}`);
+
         // File name can't contain :
         logName = logName.replace(/:/g, '_');
         fs.renameSync(LOG_FILE_PATH, logName);
