@@ -11,21 +11,21 @@ Run test.js to auto send typing when they are typing to you.
 ### Usage
 Change in `test.js`
 - In first time, you should login with email and password with [this code](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L10):
-```
+```js
 let user = {email: 'your username/id', pass: 'your pass'};
 ```
 - When you logged in, use [this code](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L21) to save cookie:
-````
+```js
 fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
-````
+```
 - Now, you can login with cookie with file `state.json` [here](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L15):
-````
+```js
 user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
-````
+```
 or use environment variable to login [here](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L11):
-````
+```js
 user = process.env.user
-````
+```
 
 ### Deploy with Heroku
 You should create some environment variable :
