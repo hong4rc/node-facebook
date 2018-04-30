@@ -74,4 +74,4 @@ const DEFAULT_PORT = 1997;
 const port = process.env.PORT || DEFAULT_PORT;
 app.listen(port, () => log.info(`This app is running in Port: ${port}`));
 app.use(express.static('public'));
-app.use(requestMyself);
+app.use(requestMyself());
