@@ -19,14 +19,17 @@ const POWER_2_22 = 4194304;
 const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
     + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
 const FAKE_USER_AGENT = process.env.USER_AGENT || DEFAULT_USER_AGENT;
-const getHeaders = url => ({
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Referer: 'https://www.facebook.com/',
-    Host: url.replace('https://', '').split('/')[FIRST],
-    Origin: 'https://www.facebook.com',
-    'User-Agent': FAKE_USER_AGENT,
-    Connection: 'keep-alive',
-});
+const getHeaders = url => {
+    url = new URL(url);
+    return {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Referer: url.origin,
+        Host: url.host,
+        Origin: url.origin,
+        'User-Agent': FAKE_USER_AGENT,
+        Connection: 'keep-alive',
+    };
+};
 let serverNumber = 0;
 const getUrlPull = () => `https://${serverNumber}-edge-chat.facebook.com/pull`;
 const changeServer = () => {
