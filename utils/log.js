@@ -86,7 +86,7 @@ log.setApi = api => {
         logToFile.close();
         logToFile = fs.createWriteStream(LOG_FILE_PATH);
         const msg = {
-            body:timer.getCurrentTime().toISOString(),
+            body: timer.getCurrentTime().toISOString(),
             attachments: [fs.createReadStream(LOG_REPORT_PATH)]
         };
         api.sendMessage(msg, LOG_THREAD_ID);
