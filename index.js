@@ -40,7 +40,8 @@ const makeLogin = (body, jar, user, option) => {
 
     log.info('form', form);
 
-    const willBeCookies = body.split('"_js_').shift();
+    const willBeCookies = body.split('"_js_');
+    willBeCookies.shift();
     willBeCookies.map(val => {
         const cookieData = JSON.parse(`["${browser.findForm(val, '', ']')}]`);
         jar.setCookie(browser.formatCookie(cookieData, 'facebook.com'), URL_HOME);
