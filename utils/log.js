@@ -5,6 +5,7 @@ const util = require('util');
 const timer = require('./timer');
 
 const LOG_FILE_PATH = './public/log.txt';
+const LOG_REPORT_PATH = './public/log_report.txt';
 const LOG_THREAD_ID = process.env.LOG_THREAD_ID;
 const LOG_TIMEOUT = process.env.LOG_TIMEOUT;
 const log = {
@@ -75,26 +76,20 @@ log.setLevel = lvl => {
     }
 };
 log.setApi = api => {
-    let logName;
     if (!LOG_TIMEOUT) {
         log.error('Please init LOG_TIMEOUT');
         return;
     }
     setInterval(() => {
-        logName = LOG_FILE_PATH.replace(/(\.\w+|null)$/, `_${timer.getCurrentTime().toISOString()}`);
 
-        // File name can't contain :
-        logName = logName.replace(/:/g, '_');
-        fs.renameSync(LOG_FILE_PATH, logName);
+        fs.renameSync(LOG_FILE_PATH, LOG_REPORT_PATH);
         logToFile.close();
         logToFile = fs.createWriteStream(LOG_FILE_PATH);
         const msg = {
-            attachments: [fs.createReadStream(logName)]
+            body:timer.getCurrentTime().toISOString(),
+            attachments: [fs.createReadStream(LOG_REPORT_PATH)]
         };
-        api.sendMessage(msg, LOG_THREAD_ID)
-            .then(() => {
-                fs.unlinkSync(logName);
-            });
+        api.sendMessage(msg, LOG_THREAD_ID);
     }, LOG_TIMEOUT);
 };
 module.exports = log;
