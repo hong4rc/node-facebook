@@ -2,7 +2,6 @@
 const fs = require('fs');
 const log = require('./utils/log');
 const login = require('./index');
-const _15day2die = require('./utils/_15day2die');
 const server = require('./server');
 
 // const timer = require('./timer');
@@ -64,6 +63,3 @@ login(user)
             }
         });
     });
-
-_15day2die.start();
-

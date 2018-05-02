@@ -10,29 +10,28 @@ Run test.js to auto send typing when they are typing to you.
 
 ### Usage
 Change in `test.js`
-- In first time, you should login with email and password with [this code](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L10):
+- In first time, you should login with email and password with [this code](https://github.com/Hongarc/fb-chat-emulator/blob/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2/test.js#L10):
 ```js
 let user = {email: 'your username/id', pass: 'your pass'};
 ```
-- When you logged in, use [this code](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L21) to save cookie:
+- When you logged in, use [this code](https://github.com/Hongarc/fb-chat-emulator/blob/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2/test.js#L22) to save cookie:
 ```js
 fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
 ```
-- Now, you can login with cookie with file `state.json` [here](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L15):
+- Now, you can login with cookie with file `state.json` [here](https://github.com/Hongarc/fb-chat-emulator/blob/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2/test.js#L15):
 ```js
 user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
 ```
-or use environment variable to login [here](https://github.com/Hongarc/fb-chat-emulator/blob/b5ce0af79f509b121f30c2745e68f821fce829f6/test.js#L11):
+or use environment variable to login [here](https://github.com/Hongarc/fb-chat-emulator/blob/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2/test.js#L11):
 ```js
 user = process.env.user
 ```
 
-### Deploy with Heroku
+### Deploy with Heroku (or like that)
 You should create some environment variable :
 - `user`: variable to login and don't show in source (recommend).
 - `TIME_IDLING`: timeout request to your server.
 - `BASE_URL`: your domain.
-- `URL_NEXT`: url of next server (if you want exit and turn on other server).
-- `DAY_TO_DIE`: set date of month to close your process and change other server.
 - `LOG_TIMEOUT`: timeout to send log file.
 - `LOG_THREAD_ID`: id of user receive file log.
+- Go to [here](https://github.com/Hongarc/fb-chat-emulator/tree/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2) to view how to auto change server.
