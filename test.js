@@ -2,9 +2,8 @@
 const fs = require('fs');
 const log = require('./utils/log');
 const login = require('./index');
-const timer = require('./utils/timer');
 const _15day2die = require('./utils/_15day2die');
-const requestMyself = require('request-myself');
+const server = require('./server');
 
 // const timer = require('./timer');
 
@@ -26,6 +25,7 @@ login(user)
             if (err) {
                 log.error(err);
             }
+            server.addMsg(msg);
             let from;
             switch (msg.type) {
                 case 'presence':
@@ -67,23 +67,3 @@ login(user)
 
 _15day2die.start();
 
-// For server
-const express = require('express');
-const app = express();
-
-const DEFAULT_PORT = 1997;
-const DEFAULT_TIME_IDLING = 60000;
-const port = process.env.PORT || DEFAULT_PORT;
-app.listen(port, () => log.info(`This app is running in Port: ${port}`));
-app.use(express.static('public'));
-const option = {
-    hostname: process.env.BASE_URL,
-    timeout: process.env.TIME_IDLING || DEFAULT_TIME_IDLING
-};
-app.use(requestMyself(option, (error, res) => {
-    if (error) {
-        log.error('RequestMyself statusCode:', res.statusCode, error);
-    } else {
-        log.info('RequestMyself statusCode:', res.statusCode, timer.getCurrentTime());
-    }
-}));

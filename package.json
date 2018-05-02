@@ -13,7 +13,8 @@
     "console-control-strings": "^1.1.0",
     "express": "^4.16.3",
     "request": "^2.83.0",
-    "request-myself": "latest"
+    "request-myself": "latest",
+    "socket.io": "^2.1.0"
   },
   "devDependencies": {
     "eslint": "^4.19.1"
