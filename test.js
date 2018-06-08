@@ -8,8 +8,13 @@ const server = require('./server');
 
 // let user = {email: 'your username/id', pass: 'your pass'};
 let user = process.env.user;
+if (typeof user === 'string') {
+    user = JSON.parse(user);
+}
 if (user) {
-    user = {appState: JSON.parse(user)};
+    if (!user.email || !user.pass) {
+        user = {appState: user};
+    }
 } else {
     user = {appState: JSON.parse(fs.readFileSync('state.json', 'utf8'))};
 }

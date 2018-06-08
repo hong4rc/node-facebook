@@ -29,7 +29,7 @@ module.exports = (defFunc, api, ctx) => {
     let currentlyRunning = null;
     const form = {
         channel: `p_${ctx.userId}`,
-        seq: '0',
+        seq: msgsRecv,
         partition: '-2',
         clientid: ctx.clientId,
         viewer_uid: ctx.userId,
