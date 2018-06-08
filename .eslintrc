@@ -34,7 +34,7 @@
         "linebreak-style": ["error", "windows"],
         "lines-around-comment": ["error", {"beforeLineComment": true}],
         "max-len": ["warn", {"code": 120, "ignoreComments": true}],
-        "new-cap": "warn",
+        "new-cap": ["warn", {"capIsNew": false}],
         "no-cond-assign": "warn",
         "no-constant-condition": "warn",
         "no-duplicate-imports": "error",
