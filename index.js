@@ -92,11 +92,11 @@ const createApi = (option, body, jar) => {
         getAppState: () => browser.getAppState(jar)
     };
     const apiNames = [
+        'getUserInfo',
         'sendTyping',
         'listen',
         'markAsRead',
         'sendMessage',
-        'getUserInfo'
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {

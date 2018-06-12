@@ -77,13 +77,19 @@ module.exports = (defFunc, api, ctx) => {
         }
     };
     const sendMsg = (msg, form, threadId) => {
-        form.specific_to_list = [`fbid:${threadId}`, `fbid:${ctx.userId}`];
-        form.other_user_fbid = threadId;
-
-        log.info('form', form);
-        return defFunc
-            .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
-            .then(browser.parseAndCheckLogin(ctx, defFunc));
+        api.getUserInfo(threadId)
+            .then(res => {
+                if (Object.keys(res).length > 0) {
+                    form.specific_to_list = [`fbid:${threadId}`, `fbid:${ctx.userId}`];
+                    form.other_user_fbid = threadId;
+                } else {
+                    form.thread_fbid = threadId;
+                }
+                log.info('form', form);
+                return defFunc
+                    .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
+                    .then(browser.parseAndCheckLogin(ctx, defFunc));
+            });
     };
 
     return (msg, threadId) => {
@@ -106,7 +112,7 @@ module.exports = (defFunc, api, ctx) => {
         if (msg.sticker) {
             form.sticker_id = msg.sticker;
         }
-        return new Promise.resolve()
+        return Promise.resolve()
             .then(() => handleAttachment(msg, form))
             .then(() => handleUrl(msg, form))
             .then(() => handleMention(msg, form))
