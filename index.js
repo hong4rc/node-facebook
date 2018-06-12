@@ -96,6 +96,7 @@ const createApi = (option, body, jar) => {
         'listen',
         'markAsRead',
         'sendMessage',
+        'getUserInfo'
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {

@@ -90,4 +90,28 @@ module.exports = {
         time: delta.actionTimestamp,
         type: 'mark_read'
     }),
+    formatProfiles: profiles => {
+        const obj = {};
+
+        for (const prop in profiles) {
+            if (profiles.hasOwnProperty(prop)) {
+                const profile = profiles[prop];
+                obj[prop] = {
+                    id: profile.id,
+                    name: profile.name,
+                    firstName: profile.firstName,
+                    altName: profile.alternateName,
+                    vanity: profile.vanity,
+                    thumbSrc: profile.thumbSrc,
+                    profileUrl: profile.uri,
+                    gender: profile.gender,
+                    type: profile.type,
+                    isFriend: profile.is_friend,
+                    isBirthday: Boolean(profile.is_birthday)
+                };
+            }
+        }
+
+        return obj;
+    }
 };
