@@ -93,6 +93,7 @@ const createApi = (option, body, jar) => {
     };
     const apiNames = [
         'getUserInfo',
+        'addUserToGroup',
         'sendTyping',
         'listen',
         'markAsRead',

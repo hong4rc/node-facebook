@@ -78,7 +78,7 @@ module.exports = (defFunc, api, ctx) => {
     const sendMsg = (msg, form, threadId) => {
         api.getUserInfo(threadId)
             .then(res => {
-                if (Object.keys(res).length > 0) {
+                if (Object.keys(res).length) {
                     form.specific_to_list = [`fbid:${threadId}`, `fbid:${ctx.userId}`];
                     form.other_user_fbid = threadId;
                 } else {
