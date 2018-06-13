@@ -114,8 +114,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
             jar.setCookie(str, `http://${c.domain}`);
         });
 
-        mPromise = browser
-            .get(URL_HOME, jar)
+        mPromise = browser.get(URL_HOME, jar)
             .then(browser.saveCookies(jar));
     } else {
         mPromise = browser.get(URL_HOME, null)

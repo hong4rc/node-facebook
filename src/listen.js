@@ -123,7 +123,8 @@ module.exports = (defFunc, api, ctx) => {
                     case 'fullReload':
                         delete form.sticky_pool;
                         delete form.sticky_token;
-                        defFunc.get('https://www.facebook.com/notifications/sync/', ctx.jar, {lastSync})
+                        defFunc
+                            .get('https://www.facebook.com/notifications/sync/', ctx.jar, {lastSync})
                             .then(browser.saveCookies(ctx.jar))
                             .then(() => {
                                 lastSync = ~~(Date.now() / MILLI_SECOND);
@@ -132,7 +133,8 @@ module.exports = (defFunc, api, ctx) => {
                                     'folders[0]': 'inbox',
                                     last_action_timestamp: ~~Date.now()
                                 };
-                                defFunc.post('https://www.facebook.com/ajax/mercury/thread_sync.php', ctx.jar, formAll)
+                                defFunc
+                                    .post('https://www.facebook.com/ajax/mercury/thread_sync.php', ctx.jar, formAll)
                                     .then(() => {
                                         currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);
                                     });

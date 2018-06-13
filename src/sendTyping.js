@@ -9,7 +9,8 @@ module.exports = (defFunc, api, ctx) => {
             source: 'mercury-chat',
             thread: threadId
         };
-        defFunc.post('https://www.facebook.com/ajax/messaging/typ.php', ctx.jar, form);
+        defFunc
+            .post('https://www.facebook.com/ajax/messaging/typ.php', ctx.jar, form);
     };
     return (threadId, timeout) => {
         makeTyping(threadId, true);

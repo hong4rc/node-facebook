@@ -22,7 +22,8 @@ module.exports = (defFunc, api, ctx) => {
                 voice_clip: 'true'
             };
             files.push(
-                defFunc.postFormData('https://upload.facebook.com/ajax/mercury/upload.php', ctx.jar, formAtt, {})
+                defFunc
+                    .postFormData('https://upload.facebook.com/ajax/mercury/upload.php', ctx.jar, formAtt, {})
                     .then(browser.parseAndCheckLogin(ctx, defFunc))
                     .then(res => res.payload.metadata[FIRST]));
         }
@@ -47,7 +48,8 @@ module.exports = (defFunc, api, ctx) => {
             uri: msg.url
         };
 
-        return defFunc.post('https://www.facebook.com/message_share_attachment/fromURI/', ctx.jar, formUrl)
+        return defFunc
+            .post('https://www.facebook.com/message_share_attachment/fromURI/', ctx.jar, formUrl)
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
                 form['shareable_attachment[share_params]'] = res.payload.share_data.share_params;

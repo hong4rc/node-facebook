@@ -9,7 +9,8 @@ module.exports = (defFunc, api, ctx) => ids => {
     const form = {};
     form.ids = ids;
 
-    return defFunc.post('https://www.facebook.com/chat/user_info/', ctx.jar, form)
+    return defFunc
+        .post('https://www.facebook.com/chat/user_info/', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
