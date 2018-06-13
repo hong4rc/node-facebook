@@ -54,7 +54,7 @@ const makeLogin = (body, jar, user, option) => {
         .then(res => {
             const headers = res.headers;
             if (!headers.location) {
-                throw {error: 'Wrong username/password.'};
+                throw new Error('Wrong username/password.');
             }
 
             // This means the account has login approvals turned on.
@@ -180,10 +180,10 @@ const login = (user, option) => new Promise((resolve, inject) => {
                     try {
                         body = JSON.parse(browser.makeParsable(res.body));
                     } catch (e) {
-                        throw {error: 'Received HTML instead of JSON.'};
+                        throw new Error('Received HTML instead of JSON.');
                     }
                     if (body.t !== 'lb') {
-                        throw {error: 'Bad response from pull 1'};
+                        throw new Error('Bad response from pull 1');
                     }
                     return body;
                 });
@@ -193,7 +193,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
             resolve(api);
         })
         .catch(e => {
-            log.error('login', e.error || e);
+            log.error('login', e);
             inject(e);
         });
     return mPromise;
