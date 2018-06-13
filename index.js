@@ -99,6 +99,7 @@ const createApi = (option, body, jar) => {
         'markAsRead',
         'sendMessage',
         'setTitle',
+        'deleteThread',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
