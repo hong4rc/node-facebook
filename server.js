@@ -29,4 +29,5 @@ app.use(requestMyself(option, (error, res) => {
 const addMsg = msg => {
     io.emit('new_msg', msg);
 };
+
 module.exports = {addMsg};

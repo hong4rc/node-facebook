@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = (defFunc, api, ctx) => {
     const AUTO_STOP_TYPING = 30000;
     const makeTyping = (threadId, typing) => {

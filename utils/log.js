@@ -92,4 +92,5 @@ log.setApi = api => {
         api.sendMessage(msg, LOG_THREAD_ID);
     }, LOG_TIMEOUT);
 };
+
 module.exports = log;

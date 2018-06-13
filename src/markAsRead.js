@@ -1,5 +1,4 @@
 'use strict';
-
 const browser = require('../utils/browser');
 const log = require('../utils/log');
 

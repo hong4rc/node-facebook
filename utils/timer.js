@@ -16,6 +16,7 @@ const getCurrentTime = () => {
 const setTimeZone = timeZone => {
     TimeZone = timeZone;
 };
+
 module.exports = {
     setTimeZone,
     getCurrentTime,

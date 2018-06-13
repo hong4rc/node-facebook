@@ -9,6 +9,7 @@ const formatId = id => {
         return id;
     }
 };
+
 module.exports = {
     proxyPresence: (presence, userId) => {
         if (presence.lat === undefined || presence.p === undefined) {

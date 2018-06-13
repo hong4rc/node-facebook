@@ -198,5 +198,4 @@ const login = (user, option) => new Promise((resolve, inject) => {
     return mPromise;
 });
 
-
 module.exports = login;

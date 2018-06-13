@@ -230,6 +230,7 @@ const generateOfflineThreadingId = () => {
     const value = Math.floor(Math.random() * POWER_2_32);
     return ret * POWER_2_22 + value;
 };
+
 module.exports = {
     get,
     post,
