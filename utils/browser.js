@@ -223,12 +223,21 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     if (res.error === ERR_LOGIN) {
         throw {error: 'Not logged in.'};
     }
+
+    checkError(res);
     return res;
 };
 const generateOfflineThreadingId = () => {
     const ret = Date.now();
     const value = Math.floor(Math.random() * POWER_2_32);
     return ret * POWER_2_22 + value;
+};
+const checkError = res => {
+    if (res.error) {
+        res.errorSummary = res.errorSummary || res.error;
+        log.error('br', res.errorSummary);
+        throw new Error(res.errorSummary);
+    }
 };
 
 module.exports = {
@@ -243,5 +252,6 @@ module.exports = {
     getUrlPull,
     changeServer,
     makeParsable,
-    parseAndCheckLogin
+    parseAndCheckLogin,
+    checkError,
 };

@@ -12,9 +12,7 @@ module.exports = (defFunc, api, ctx) => ids => {
     return defFunc.post('https://www.facebook.com/chat/user_info/', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
-            if (res.error) {
-                throw new Error(res);
-            }
+            browser.checkError(res);
             return formatter.formatProfiles(res.payload && res.payload.profiles);
         });
 };

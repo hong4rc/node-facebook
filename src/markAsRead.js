@@ -13,10 +13,8 @@ module.exports = (defFunc, api, ctx) => threadId => {
         .post('https://www.facebook.com/ajax/mercury/change_read_status.php', ctx.jar, form)
         .then(browser.saveCookies(ctx.jar))
         .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(body => {
-            if (body.error) {
-                throw body.error;
-            }
+        .then(res => {
+            browser.checkError(res);
         })
         .catch(err => {
             log.error('markAsRead', err);

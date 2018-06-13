@@ -25,11 +25,6 @@ module.exports = (defFunc, api, ctx) => (userIds, threadID) => {
         .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
-            if (!res) {
-                throw new Error('Add to group failed.');
-            }
-            if (res.error) {
-                throw new Error(res.errorSummary);
-            }
+            browser.checkError(res);
         });
 };
