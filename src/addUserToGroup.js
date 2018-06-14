@@ -1,7 +1,7 @@
 'use strict';
 const browser = require('../utils/browser');
 
-module.exports = (defFunc, api, ctx) => (userIds, threadID) => {
+module.exports = (defFunc, api, ctx) => (userIds, threadId) => {
     if (!Array.isArray(userIds)) {
         userIds = [userIds];
     }
@@ -14,7 +14,7 @@ module.exports = (defFunc, api, ctx) => (userIds, threadID) => {
         log_message_type: 'log:subscribe',
         offline_threading_id: messageAndOTId,
         message_id: messageAndOTId,
-        thread_fbid: threadID
+        thread_fbid: threadId
     };
     const participants = [];
     for (const userId of userIds) {

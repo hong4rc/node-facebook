@@ -29,16 +29,16 @@ module.exports = {
         statUser: presence.a
     }),
     typing: (msg, userId) => {
-        let threadID = msg.thread_fbid || msg.from;
+        let threadId = msg.thread_fbid || msg.from;
         if (msg.to.toString() !== userId) {
-            threadID = msg.to;
+            threadId = msg.to;
         }
         return {
             type: 'typ',
             isTyping: msg.st,
             fromMobile: !(msg.from_mobile === false),
             from: msg.from,
-            threadID
+            threadId: threadId
         };
     },
     reaction: (msgRea, timestamp) => ({
