@@ -9,6 +9,7 @@ module.exports = (defFunc, api, ctx) => (threadIds, archive) => {
     for (const threadId of threadIds) {
         form.ids[threadId] = archive;
     }
+
     return defFunc
         .post('https://www.facebook.com/ajax/mercury/change_archived_status.php', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))

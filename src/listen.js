@@ -191,9 +191,7 @@ module.exports = (defFunc, api, ctx) => {
                                     log.warn(JSON.stringify(msg));
                             }
                         });
-
                 }
-
 
                 if (currentlyRunning) {
                     currentlyRunning = setTimeout(listen, MILLI_TIMEOUT);

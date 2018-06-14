@@ -11,6 +11,7 @@ module.exports = (defFunc, api, ctx) => (threadIds, accept) => {
     } else {
         form.other = threadIds;
     }
+
     return defFunc
         .post('https://www.facebook.com/ajax/mercury/move_thread.php', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))

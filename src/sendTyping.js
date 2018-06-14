@@ -12,6 +12,7 @@ module.exports = (defFunc, api, ctx) => {
         defFunc
             .post('https://www.facebook.com/ajax/messaging/typ.php', ctx.jar, form);
     };
+
     return (threadId, timeout) => {
         makeTyping(threadId, true);
         const stopTyping = () => makeTyping(threadId, false);

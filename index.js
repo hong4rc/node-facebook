@@ -2,13 +2,13 @@
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
 const log = require('./utils/log');
+const browser = require('./utils/browser');
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 const REDIRECT_URL = 1;
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
-const browser = require('./utils/browser');
 const LOCATE = 'en_US';
 const FIRST = 0;
 const COOKIE_VALUE = 1;
@@ -165,7 +165,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
                 .then(browser.saveCookies(ctx.jar));
         })
         .then(() => {
-            log.info('login', 'Request to pull 1');
+            log.info('login', 'Request to pull !!!');
             const form = {
                 channel: `p_${ctx.userId}`,
                 seq: 0,

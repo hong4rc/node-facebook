@@ -122,5 +122,4 @@ module.exports = (defFunc, api, ctx) => {
                 log.error(error);
             });
     };
-
 };

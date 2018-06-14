@@ -21,6 +21,7 @@ module.exports = (defFunc, api, ctx) => (userIds, threadId) => {
         participants.push(`fbid:${userId}`);
     }
     form.log_message_data = {added_participants: participants};
+
     return defFunc
         .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
         .then(browser.parseAndCheckLogin(ctx, defFunc))

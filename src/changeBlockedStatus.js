@@ -10,6 +10,7 @@ module.exports = (defFunc, api, ctx) => (threadId, block) => {
             action_name: 'BLOCK_MESSAGES'
         };
         query = qString.stringify(query);
+
         return defFunc
             .post(`https://www.facebook.com/nfx/block_messages/confirm/?${query}`, ctx.jar, {})
             .then(browser.parseAndCheckLogin(ctx, defFunc))
@@ -22,6 +23,7 @@ module.exports = (defFunc, api, ctx) => (threadId, block) => {
             initial_action_name: 'BLOCK_MESSAGES'
         };
         query = JSON.stringify(query);
+
         return defFunc
             .post(`https://www.facebook.com/ajax/nfx/messenger_undo_block?context=${query}`, ctx.jar, {})
             .then(browser.parseAndCheckLogin(ctx, defFunc))

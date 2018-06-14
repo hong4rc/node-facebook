@@ -6,10 +6,11 @@ module.exports = (defFunc, api, ctx) => threadId => {
 
     const form = {
         shouldSendReadReceipt: true,
+        ids: {}
     };
-    form[`ids[${threadId}]`] = true;
+    form.ids[threadId] = true;
 
-    defFunc
+    return defFunc
         .post('https://www.facebook.com/ajax/mercury/change_read_status.php', ctx.jar, form)
         .then(browser.saveCookies(ctx.jar))
         .then(browser.parseAndCheckLogin(ctx, defFunc))
