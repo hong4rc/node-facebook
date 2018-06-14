@@ -100,6 +100,7 @@ const createApi = (option, body, jar) => {
         'sendMessage',
         'setTitle',
         'deleteThread',
+        'removeUserFromGroup',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
