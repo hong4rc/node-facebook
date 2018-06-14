@@ -105,6 +105,7 @@ const createApi = (option, body, jar) => {
         'changeArchivedStatus',
         'changeBlockedStatus',
         'changeNickname',
+        'handleMessageRequest',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
