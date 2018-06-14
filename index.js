@@ -101,6 +101,7 @@ const createApi = (option, body, jar) => {
         'setTitle',
         'deleteThread',
         'removeUserFromGroup',
+        'muteThread',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
