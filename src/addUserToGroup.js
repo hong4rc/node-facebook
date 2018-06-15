@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (userIds, threadId) => {
     if (!Array.isArray(userIds)) {
@@ -27,5 +28,9 @@ module.exports = (defFunc, api, ctx) => (userIds, threadId) => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Added', userIds.toString(), 'to', threadId);
+        })
+        .catch(error => {
+            log.error('addUserToGroup', error.message);
         });
 };

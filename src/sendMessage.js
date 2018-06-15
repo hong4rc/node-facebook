@@ -89,7 +89,14 @@ module.exports = (defFunc, api, ctx) => {
                 log.info('form', form);
                 return defFunc
                     .post('https://www.facebook.com/messaging/send/', ctx.jar, form)
-                    .then(browser.parseAndCheckLogin(ctx, defFunc));
+                    .then(browser.parseAndCheckLogin(ctx, defFunc))
+                    .then(res => {
+                        browser.checkError(res);
+                        log.info('Send message', 'to', threadId);
+                    })
+                    .catch(error => {
+                        log.error('sendMessage', error.message);
+                    });
             });
     };
 
@@ -119,7 +126,7 @@ module.exports = (defFunc, api, ctx) => {
             .then(() => handleMention(msg, form))
             .then(() => sendMsg(msg, form, threadId))
             .catch(error => {
-                log.error(error);
+                log.error('sendMessage', error.message);
             });
     };
 };

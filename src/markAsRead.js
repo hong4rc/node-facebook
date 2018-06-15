@@ -16,9 +16,9 @@ module.exports = (defFunc, api, ctx) => threadId => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Mark as read', threadId);
         })
-        .catch(err => {
-            log.error('markAsRead', err);
-            return err;
+        .catch(error => {
+            log.error('markAsRead', error);
         });
 };

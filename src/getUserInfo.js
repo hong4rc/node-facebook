@@ -1,6 +1,7 @@
 'use strict';
 const browser = require('../utils/browser');
 const formatter = require('../utils/formatter');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => ids => {
     if (!Array.isArray(ids)) {
@@ -15,5 +16,8 @@ module.exports = (defFunc, api, ctx) => ids => {
         .then(res => {
             browser.checkError(res);
             return formatter.formatProfiles(res.payload && res.payload.profiles);
+        })
+        .catch(error => {
+            log.error('getUserInfo', error.message);
         });
 };

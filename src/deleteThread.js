@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => ids => {
     if (!Array.isArray(ids)) {
@@ -13,5 +14,9 @@ module.exports = (defFunc, api, ctx) => ids => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Deleted thread', ids.toString());
+        })
+        .catch(error => {
+            log.error('deleteThread', error.message);
         });
 };

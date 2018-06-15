@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (threadIds, archive) => {
     if (!Array.isArray(threadIds)) {
@@ -15,5 +16,9 @@ module.exports = (defFunc, api, ctx) => (threadIds, archive) => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Change archived status', threadIds.toString(), archive);
+        })
+        .catch(error => {
+            log.error('changeArchivedStatus', error.message);
         });
 };

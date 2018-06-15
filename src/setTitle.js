@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (newTitle, threadId) => {
     const form = {
@@ -12,5 +13,9 @@ module.exports = (defFunc, api, ctx) => (newTitle, threadId) => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Set title of ', threadId, 'is', newTitle);
+        })
+        .catch(error => {
+            log.error('setTitle', error.message);
         });
 };

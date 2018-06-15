@@ -1,6 +1,7 @@
 'use strict';
 const qString = require('querystring');
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (threadId, block) => {
     if (block) {
@@ -16,6 +17,10 @@ module.exports = (defFunc, api, ctx) => (threadId, block) => {
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
                 browser.checkError(res);
+                log.info('Blocked', threadId);
+            })
+            .catch(error => {
+                log.error('changeBlockedStatus', error.message);
             });
     } else {
         let query = {
@@ -29,6 +34,10 @@ module.exports = (defFunc, api, ctx) => (threadId, block) => {
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
                 browser.checkError(res);
+                log.info('Unblock', threadId);
+            })
+            .catch(error => {
+                log.error('changeBlockedStatus', error.message);
             });
     }
 };

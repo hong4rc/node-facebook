@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (threadId, muteSeconds) => {
     const form = {
@@ -12,5 +13,9 @@ module.exports = (defFunc, api, ctx) => (threadId, muteSeconds) => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('Muted ', threadId);
+        })
+        .catch(error => {
+            log.error('muteThread', error.message);
         });
 };

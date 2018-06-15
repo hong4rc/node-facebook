@@ -1,5 +1,6 @@
 'use strict';
 const browser = require('../utils/browser');
+const log = require('../utils/log');
 
 module.exports = (defFunc, api, ctx) => (nickname, threadId, participantId) => {
     participantId = participantId || threadId;
@@ -14,5 +15,9 @@ module.exports = (defFunc, api, ctx) => (nickname, threadId, participantId) => {
         .then(browser.parseAndCheckLogin(ctx, defFunc))
         .then(res => {
             browser.checkError(res);
+            log.info('changeNickname', participantId, ':', nickname, `(${threadId})`);
+        })
+        .catch(error => {
+            log.error('changeNickname', error.message);
         });
 };
