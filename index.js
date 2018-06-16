@@ -107,6 +107,7 @@ const createApi = (option, body, jar) => {
         'changeNickname',
         'handleMessageRequest',
         'changeThreadEmoji',
+        'createPoll',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
