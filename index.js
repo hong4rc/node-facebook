@@ -111,6 +111,7 @@ const createApi = (option, body, jar) => {
         'setApprovalGroup',
         'deleteMessage',
         'changeThreadColor',
+        'forwardAttachment',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
