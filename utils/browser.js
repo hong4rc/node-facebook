@@ -141,7 +141,7 @@ const makeDefaults = (body, id, ctx) => {
 
 const makeParsable = html => {
     const withoutForLoop = html.replace(/for\s*\(\s*;\s*;\s*\)\s*;\s*/, '');
-    const objects = withoutForLoop.split(/\}\r\n *\{/);
+    const objects = withoutForLoop.split(/}\r\n *{/);
     if (objects.length === ONE) {
         return objects;
     }
