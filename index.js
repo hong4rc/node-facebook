@@ -106,6 +106,7 @@ const createApi = (option, body, jar) => {
         'changeBlockedStatus',
         'changeNickname',
         'handleMessageRequest',
+        'changeThreadEmoji',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
