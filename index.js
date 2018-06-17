@@ -114,6 +114,7 @@ const createApi = (option, body, jar) => {
         'forwardAttachment',
         'getCurrentUserId',
         'getEmojiUrl',
+        'setAdminsForGroup',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
