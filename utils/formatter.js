@@ -108,6 +108,7 @@ module.exports = {
                     gender: profile.gender,
                     type: profile.type,
                     isFriend: profile.is_friend,
+                    isActive: profile.is_active,
                     isBirthday: Boolean(profile.is_birthday)
                 };
             }

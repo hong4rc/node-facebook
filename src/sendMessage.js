@@ -41,7 +41,7 @@ module.exports = (defFunc, api, ctx) => {
             return;
         }
 
-        form['shareable_attachment[share_type]'] = '100';
+        form.shareable_attachment = {share_type: 100};
         const formUrl = {
             image_height: 960,
             image_width: 960,
@@ -52,7 +52,7 @@ module.exports = (defFunc, api, ctx) => {
             .post('https://www.facebook.com/message_share_attachment/fromURI/', ctx.jar, formUrl)
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
-                form['shareable_attachment[share_params]'] = res.payload.share_data.share_params;
+                form.shareable_attachment.share_params = res.payload.share_data && res.payload.share_data.share_params;
             });
     };
 
