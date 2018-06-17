@@ -115,6 +115,7 @@ const createApi = (option, body, jar) => {
         'getCurrentUserId',
         'getEmojiUrl',
         'setAdminsForGroup',
+        'getFriendList',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
