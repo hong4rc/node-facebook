@@ -113,6 +113,7 @@ const createApi = (option, body, jar) => {
         'changeThreadColor',
         'forwardAttachment',
         'getCurrentUserId',
+        'getEmojiUrl',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
