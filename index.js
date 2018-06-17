@@ -112,6 +112,7 @@ const createApi = (option, body, jar) => {
         'deleteMessage',
         'changeThreadColor',
         'forwardAttachment',
+        'getCurrentUserId',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {

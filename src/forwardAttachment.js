@@ -10,7 +10,6 @@ module.exports = (defFunc, api, ctx) => (attachmentId, threadIds) => {
         attachment_id: attachmentId,
         recipient_map: {}
     };
-    const timestamp = Math.floor(Date.now() / 1000);
     for (const threadId of threadIds) {
         const messageAndOTId = browser.generateOfflineThreadingId();
         form.recipient_map[messageAndOTId] = threadId;
