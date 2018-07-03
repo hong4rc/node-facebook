@@ -78,12 +78,12 @@ module.exports = (defFunc, api, ctx) => (reaction, messageId) => {
             actor_id: ctx.userId,
             action: reaction ? 'ADD_REACTION' : 'REMOVE_REACTION',
             message_id: messageId,
-            reaction: reaction
-        }
+            reaction: reaction,
+        },
     });
     const qs = qString.stringify({
         doc_id: DOC_ID,
-        variables
+        variables,
     });
 
     return defFunc

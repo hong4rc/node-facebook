@@ -131,7 +131,7 @@ module.exports = (defFunc, api, ctx) => {
                                 const formAll = {
                                     client: 'mercury',
                                     'folders[0]': 'inbox',
-                                    last_action_timestamp: ~~Date.now()
+                                    last_action_timestamp: ~~Date.now(),
                                 };
                                 defFunc
                                     .post('https://www.facebook.com/ajax/mercury/thread_sync.php', ctx.jar, formAll)

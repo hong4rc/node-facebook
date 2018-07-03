@@ -5,7 +5,7 @@ const log = require('../utils/log');
 module.exports = (defFunc, api, ctx) => (emoji, threadId) => {
     const form = {
         emoji_choice: emoji,
-        thread_or_other_fbid: threadId
+        thread_or_other_fbid: threadId,
     };
 
     return defFunc

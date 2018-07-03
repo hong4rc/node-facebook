@@ -8,7 +8,7 @@ module.exports = (defFunc, api, ctx) => (attachmentId, threadIds) => {
     }
     const form = {
         attachment_id: attachmentId,
-        recipient_map: {}
+        recipient_map: {},
     };
     for (const threadId of threadIds) {
         const messageAndOTId = browser.generateOfflineThreadingId();

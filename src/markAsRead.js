@@ -6,7 +6,7 @@ module.exports = (defFunc, api, ctx) => threadId => {
 
     const form = {
         shouldSendReadReceipt: true,
-        ids: {}
+        ids: {},
     };
     form.ids[threadId] = true;
 

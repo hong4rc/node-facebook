@@ -86,10 +86,10 @@ const createApi = (option, body, jar) => {
         globalOptions: option,
         loggedIn: true,
         access_token: 'NONE',
-        clientMutationId: 0
+        clientMutationId: 0,
     };
     const api = {
-        getAppState: () => browser.getAppState(jar)
+        getAppState: () => browser.getAppState(jar),
     };
     const apiNames = [
         'getUserInfo',
@@ -168,7 +168,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
         })
         .then(() => {
             const form = {
-                reason: 6
+                reason: 6,
             };
             log.info('login', 'Request to reconnect');
             return defFunc
@@ -187,7 +187,7 @@ const login = (user, option) => new Promise((resolve, inject) => {
                 state: 'active',
                 idle: 0,
                 cap: 8,
-                msgs_recv: 0
+                msgs_recv: 0,
             };
 
             return browser

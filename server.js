@@ -16,7 +16,7 @@ server.listen(port, () => log.info(`This app is running in Port: ${port}`));
 app.use(express.static('public'));
 const option = {
     hostname: process.env.BASE_URL,
-    timeout: process.env.TIME_IDLING || DEFAULT_TIME_IDLING
+    timeout: process.env.TIME_IDLING || DEFAULT_TIME_IDLING,
 };
 app.use(requestMyself(option, (error, res) => {
     if (error) {

@@ -5,7 +5,7 @@ const log = require('../utils/log');
 module.exports = (defFunc, api, ctx) => (userId, threadId) => {
     const form = {
         uid: userId,
-        tid: threadId
+        tid: threadId,
     };
 
     return defFunc

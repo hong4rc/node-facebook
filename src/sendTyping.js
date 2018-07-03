@@ -9,7 +9,7 @@ module.exports = (defFunc, api, ctx) => {
             typ: ~~typing,
             to: threadId,
             source: 'mercury-chat',
-            thread: threadId
+            thread: threadId,
         };
         defFunc
             .post('https://www.facebook.com/ajax/messaging/typ.php', ctx.jar, form)

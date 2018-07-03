@@ -7,7 +7,7 @@ module.exports = (defFunc, api, ctx) => (title, threadId, options) => {
         question_text: title,
         target_id: threadId,
         option_text_array: [],
-        option_is_selected_array: []
+        option_is_selected_array: [],
     };
     for (const option in options) {
         if (options.hasOwnProperty(option)) {

@@ -12,7 +12,7 @@ const log = {
     VERBOSE: 0,
     INFO: 2,
     WARN: 3,
-    ERROR: 4
+    ERROR: 4,
 };
 let level = log.INFO;
 const STREAM = process.stderr;
@@ -87,7 +87,7 @@ log.setApi = api => {
         logToFile = fs.createWriteStream(LOG_FILE_PATH);
         const msg = {
             body: timer.getCurrentTime().toISOString(),
-            attachments: [fs.createReadStream(LOG_REPORT_PATH)]
+            attachments: [fs.createReadStream(LOG_REPORT_PATH)],
         };
         api.sendMessage(msg, LOG_THREAD_ID);
     }, LOG_TIMEOUT);

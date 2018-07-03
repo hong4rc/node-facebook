@@ -19,14 +19,14 @@ module.exports = {
             type: 'presence',
             timestamp: presence.lat * MILLIS,
             userId: userId,
-            statUser: presence.p
+            statUser: presence.p,
         };
     },
     presence: (presence, userId) => ({
         type: 'presence',
         timestamp: presence.la * MILLIS,
         userId: userId,
-        statUser: presence.a
+        statUser: presence.a,
     }),
     typing: (msg, userId) => {
         let threadId = msg.thread_fbid || msg.from;
@@ -38,7 +38,7 @@ module.exports = {
             isTyping: msg.st,
             fromMobile: !(msg.from_mobile === false),
             from: msg.from,
-            threadId: threadId
+            threadId: threadId,
         };
     },
     reaction: (msgRea, timestamp) => ({
@@ -48,7 +48,7 @@ module.exports = {
         reaction: msgRea.reaction,
         senderId: msgRea.senderId,
         userId: msgRea.userId,
-        timestamp
+        timestamp,
     }),
     deltaMessage: delta => {
         const metaData = delta.messageMetadata;
@@ -74,7 +74,7 @@ module.exports = {
         reader: event.reader.toString(),
         time: event.time,
         threadId: formatId(event.thread_fbid || event.reader),
-        type: 'read_receipt'
+        type: 'read_receipt',
     }),
 
     read: event => {
@@ -82,14 +82,14 @@ module.exports = {
         return {
             threadId: formatId(id[FIRST]),
             time: event.timestamp,
-            type: 'read'
+            type: 'read',
         };
     },
     clientPayload: payload => JSON.parse(String.fromCharCode.apply(null, payload)),
     markRead: delta => ({
         threadId: delta.threadKeys.otherUserFbId,
         time: delta.actionTimestamp,
-        type: 'mark_read'
+        type: 'mark_read',
     }),
     formatProfiles: profiles => {
         const obj = {};
@@ -109,11 +109,11 @@ module.exports = {
                     type: profile.type,
                     isFriend: profile.is_friend,
                     isActive: profile.is_active,
-                    isBirthday: Boolean(profile.is_birthday)
+                    isBirthday: Boolean(profile.is_birthday),
                 };
             }
         }
 
         return obj;
-    }
+    },
 };

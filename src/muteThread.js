@@ -5,7 +5,7 @@ const log = require('../utils/log');
 module.exports = (defFunc, api, ctx) => (threadId, muteSeconds) => {
     const form = {
         thread_fbid: threadId,
-        mute_settings: muteSeconds
+        mute_settings: muteSeconds,
     };
 
     return defFunc

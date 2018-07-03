@@ -7,7 +7,7 @@ module.exports = (defFunc, api, ctx) => (nickname, threadId, participantId) => {
     const form = {
         nickname,
         thread_or_other_fbid: threadId,
-        participant_id: participantId
+        participant_id: participantId,
     };
 
     return defFunc

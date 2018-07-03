@@ -19,7 +19,7 @@ module.exports = (defFunc, api, ctx) => {
         for (const attachment of msg.attachments) {
             const formAtt = {
                 upload_1024: attachment,
-                voice_clip: 'true'
+                voice_clip: 'true',
             };
             files.push(
                 defFunc
@@ -45,7 +45,7 @@ module.exports = (defFunc, api, ctx) => {
         const formUrl = {
             image_height: 960,
             image_width: 960,
-            uri: msg.url
+            uri: msg.url,
         };
 
         return defFunc
@@ -114,7 +114,7 @@ module.exports = (defFunc, api, ctx) => {
             ui_push_phase: 'C3',
             offline_threading_id: messageAndOTId,
             message_id: messageAndOTId,
-            has_attachment: Boolean(msg.attachment || msg.url || msg.sticker)
+            has_attachment: Boolean(msg.attachment || msg.url || msg.sticker),
         };
 
         if (msg.sticker) {

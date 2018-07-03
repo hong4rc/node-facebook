@@ -10,7 +10,7 @@ module.exports = (defFunc, api, ctx) => (color, threadId) => {
     }
     const form = {
         color_choice: color,
-        thread_or_other_fbid: threadId
+        thread_or_other_fbid: threadId,
     };
 
     return defFunc

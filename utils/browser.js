@@ -42,7 +42,7 @@ const method = method => (url, jar, form, qs) => {
         url: url,
         method: method,
         jar: jar,
-        gzip: true
+        gzip: true,
     };
     if (method.toUpperCase() === 'GET') {
         option.qs = form;
@@ -161,7 +161,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
         if (retryCount >= MAX_RETRY_COUNT) {
             throw {
                 error: 'Request retry failed. Check the `res` and `statusCode` property on this error.',
-                statusCode: data.statusCode, res: data.body
+                statusCode: data.statusCode, res: data.body,
             };
         }
         retryCount++;
@@ -187,7 +187,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
         throw {
             error: 'JSON.parse error. Check the `detail` property on this error.',
             detail: e,
-            res: data.body
+            res: data.body,
         };
     }
 

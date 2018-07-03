@@ -15,7 +15,7 @@ module.exports = (defFunc, api, ctx) => (userIds, threadId) => {
         log_message_type: 'log:subscribe',
         offline_threading_id: messageAndOTId,
         message_id: messageAndOTId,
-        thread_fbid: threadId
+        thread_fbid: threadId,
     };
     const participants = [];
     for (const userId of userIds) {

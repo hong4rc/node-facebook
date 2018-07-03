@@ -7,7 +7,7 @@ module.exports = (defFunc, api, ctx) => messageIds => {
         messageIds = [messageIds];
     }
     const form = {
-        message_ids: messageIds
+        message_ids: messageIds,
     };
 
     return defFunc

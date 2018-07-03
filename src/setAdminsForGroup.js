@@ -10,7 +10,7 @@ module.exports = (defFunc, api, ctx) => (isAdmin, threadId, adminIds) => {
     const form = {
         thread_fbid: threadId,
         admin_ids: adminIds,
-        add: isAdmin
+        add: isAdmin,
     };
 
     return defFunc
