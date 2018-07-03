@@ -2,7 +2,6 @@
 const fs = require('fs');
 const log = require('./utils/log');
 const login = require('./index');
-const server = require('./server');
 
 // const timer = require('./timer');
 
@@ -29,7 +28,6 @@ login(user)
             if (err) {
                 log.error(err);
             }
-            server.addMsg(msg);
             let from;
             switch (msg.type) {
                 case 'presence':

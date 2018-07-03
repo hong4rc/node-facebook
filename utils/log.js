@@ -4,8 +4,8 @@ const cslCtr = require('console-control-strings');
 const util = require('util');
 const timer = require('./timer');
 
-const LOG_FILE_PATH = './public/log.txt';
-const LOG_REPORT_PATH = './public/log_report.txt';
+const LOG_FILE_PATH = './log.txt';
+const LOG_REPORT_PATH = './log_report.txt';
 const LOG_THREAD_ID = process.env.LOG_THREAD_ID;
 const LOG_TIMEOUT = process.env.LOG_TIMEOUT;
 const log = {
