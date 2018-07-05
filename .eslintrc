@@ -74,6 +74,6 @@
         "spaced-comment": ["error", "always"],
         "strict": ["error"],
         "switch-colon-spacing": ["error"],
-        "template-curly-spacing": "error"
+        "template-curly-spacing": ["error"]
     }
 }
