@@ -26,12 +26,3 @@ or use environment variable to login [here](https://github.com/Hongarc/fb-chat-e
 ```js
 user = process.env.user
 ```
-
-### Deploy with Heroku (or like that)
-You should create some environment variable :
-- `user`: variable to login and don't show in source (recommend).
-- `TIME_IDLING`: timeout request to your server.
-- `BASE_URL`: your domain.
-- `LOG_TIMEOUT`: timeout to send log file.
-- `LOG_THREAD_ID`: id of user receive file log.
-- Go to [here](https://github.com/Hongarc/fb-chat-emulator/tree/7836f64fb38de3eb91e798f7b93c9bd9c5b640b2) to view how to auto change server.
