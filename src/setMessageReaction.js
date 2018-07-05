@@ -4,71 +4,20 @@ const browser = require('../utils/browser');
 const log = require('../utils/log');
 const DOC_ID = '1491398900900362';
 
+const reactions = {
+    angry: '😠',
+    dislike: '👎',
+    haha: '😆',
+    like: '👍',
+    love: '😍',
+    sad: '😢',
+    wow: '😮',
+};
 const validEmoji = reaction => {
-    switch (reaction) {
-
-        // :heart_eyes:
-        case '\uD83D\uDE0D':
-            break;
-
-        // :laughing:
-        case '\uD83D\uDE06':
-            break;
-
-        // :open_mouth:
-        case '\uD83D\uDE2E':
-            break;
-
-        // :cry:
-        case '\uD83D\uDE22':
-            break;
-
-        // :angry:
-        case '\uD83D\uDE20':
-            break;
-
-        // :thumbsup:
-        case '\uD83D\uDC4D':
-            break;
-
-        // :thumbsdown:
-        case '\uD83D\uDC4E':
-            break;
-
-        // valid
-        case '':
-            break;
-        case ':heart_eyes:':
-        case ':love:':
-            reaction = '\uD83D\uDE0D';
-            break;
-        case ':laughing:':
-        case ':haha:':
-            reaction = '\uD83D\uDE06';
-            break;
-        case ':open_mouth:':
-        case ':wow:':
-            reaction = '\uD83D\uDE2E';
-            break;
-        case ':cry:':
-        case ':sad:':
-            reaction = '\uD83D\uDE22';
-            break;
-        case ':angry:':
-            reaction = '\uD83D\uDE20';
-            break;
-        case ':thumbsup:':
-        case ':like:':
-            reaction = '\uD83D\uDC4D';
-            break;
-        case ':thumbsdown:':
-        case ':dislike:':
-            reaction = '\uD83D\uDC4E';
-            break;
-        default:
-            reaction = '';
+    if (reactions.hasOwnProperty(reaction)) {
+        return reactions[reaction];
     }
-    return reaction;
+    return '';
 };
 module.exports = (defFunc, api, ctx) => (reaction, messageId) => {
     reaction = validEmoji(reaction);
