@@ -69,6 +69,10 @@ module.exports = (defFunc, api, ctx) => {
                 fmtMsg = formatter.markRead(delta);
                 globalCallback(null, fmtMsg);
                 break;
+            case 'AdminTextMessage':
+                fmtMsg = formatter.adminTextMessage(delta.messageMetadata);
+                globalCallback(null, fmtMsg);
+                break;
             default:
                 log.warn(`${delta.class} is not has case`);
                 log.warn(JSON.stringify(msg, null, SPACE_INDENT));
@@ -185,6 +189,10 @@ module.exports = (defFunc, api, ctx) => {
                                     break;
                                 case 'message':
                                     handleMessagingEvents(msg);
+                                    break;
+                                case 'inbox':
+
+                                    // Don't need create handle for it
                                     break;
                                 default:
                                     log.warn(`don't have handle for ${msg.type}`);

@@ -91,6 +91,13 @@ module.exports = {
         time: delta.actionTimestamp,
         type: 'mark_read',
     }),
+    adminTextMessage: metaData => ({
+        senderId: metaData.actorFbId,
+        text: metaData.adminText,
+        threadId: metaData.threadKey.threadFbId,
+        messageId: metaData.messageId,
+
+    }),
     formatProfiles: profiles => {
         const obj = {};
 
