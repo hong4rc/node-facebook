@@ -1,5 +1,7 @@
 # fb-chat-emulator
 
+[![CircleCI](https://circleci.com/gh/Hongarc/fb-chat-emulator.svg?style=shield&circle-token=c610044c788b4dbe2ed19f9a27a19afc37cacf57)](https://circleci.com/gh/Hongarc/fb-chat-emulator)
+
 ### Documentation
 I re-write [this module](https://github.com/Schmavery/facebook-chat-api) to learn, you can goto [here](https://github.com/Schmavery/facebook-chat-api#documentation) to read documentation of that module.
 Thank you so much [Schmavery](https://github.com/Schmavery/)
