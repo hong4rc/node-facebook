@@ -3,7 +3,7 @@
   "description": "Fake that you alway online + \"seen\" and some feature.",
   "version": "0.0.1",
   "scripts": {
-    "heroku-postbuild": "eslint **/* --fix"
+    "lint": "eslint **/* --fix"
   },
   "author": "Hongarc",
   "license": "MIT",
