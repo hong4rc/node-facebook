@@ -7,6 +7,7 @@ state.json
 
 #Test
 /test/
+_test.js
 
 #Intellij
 .idea/
