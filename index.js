@@ -117,6 +117,7 @@ const createApi = (option, body, jar) => {
         'setAdminsForGroup',
         'getFriendList',
         'setMessageReaction',
+        'removeFriend',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
