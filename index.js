@@ -118,6 +118,7 @@ const createApi = (option, body, jar) => {
         'getFriendList',
         'setMessageReaction',
         'removeFriend',
+        'followProfile',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
