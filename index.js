@@ -120,6 +120,7 @@ const createApi = (option, body, jar) => {
         'removeFriend',
         'followProfile',
         'subFollow',
+        'changeBio',
     ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
     apiNames.map(func => {
