@@ -109,7 +109,7 @@ module.exports = (defFunc, api, ctx) => {
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(body => {
                 const now = Date.now();
-                log.info('listen', `Got answer in ${now - tmpPrev}`);
+                log.verbose('listen', `Got answer in ${now - tmpPrev}`);
                 tmpPrev = now;
 
                 // log.info('body', JSON.stringify(body, null, SPACE_INDENT));
