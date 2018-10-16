@@ -4,7 +4,7 @@ const BYTE_MARK = 0xff;
 const STEP = 5;
 const FIRST = 0;
 
-module.exports = () => (c, size, pixelRatio) => {
+module.exports = (c, size, pixelRatio) => {
 
     /*
      Resolves Facebook Messenger emoji image asset URL for an emoji character.

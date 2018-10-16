@@ -1,23 +1,23 @@
 'use strict';
-const browser = require('../utils/browser');
-const formatter = require('../utils/formatter');
+
 const log = require('../utils/log');
+const formatter = require('../utils/formatter');
 
-module.exports = (defFunc, api, ctx) => ids => {
-    if (!Array.isArray(ids)) {
-        ids = [ids];
+let ids;
+
+module.exports = {
+    url: 'https://www.facebook.com/chat/user_info/',
+    init: _ids => {
+        if (!Array.isArray(_ids)) {
+            _ids = [_ids];
+        }
+        ids = _ids;
+    },
+    getForm: () => ({
+        ids
+    }),
+    onSuccess: res => formatter.formatProfiles(res.payload && res.payload.profiles),
+    onFailure: error => {
+        log.error('getUserInfo', error.message);
     }
-    const form = {};
-    form.ids = ids;
-
-    return defFunc
-        .post('https://www.facebook.com/chat/user_info/', ctx.jar, form)
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            return formatter.formatProfiles(res.payload && res.payload.profiles);
-        })
-        .catch(error => {
-            log.error('getUserInfo', error.message);
-        });
 };

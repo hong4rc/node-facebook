@@ -1,21 +1,24 @@
 'use strict';
-const browser = require('../utils/browser');
+
 const log = require('../utils/log');
 
-module.exports = (defFunc, api, ctx) => (threadId, muteSeconds) => {
-    const form = {
+let threadId;
+let muteSeconds;
+
+module.exports = {
+    url: 'https://www.facebook.com/ajax/mercury/change_mute_thread.php',
+    init: (_threadId, _muteSeconds) => {
+        threadId = _threadId;
+        muteSeconds = _muteSeconds;
+    },
+    getForm: () => ({
         thread_fbid: threadId,
         mute_settings: muteSeconds,
-    };
-
-    return defFunc
-        .post('https://www.facebook.com/ajax/mercury/change_mute_thread.php', ctx.jar, form)
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            log.info('Muted ', threadId);
-        })
-        .catch(error => {
-            log.error('muteThread', error.message);
-        });
+    }),
+    onSuccess: () => {
+        log.info('Muted ', threadId);
+    },
+    onFailure: error => {
+        log.error('muteThread', error.message);
+    }
 };

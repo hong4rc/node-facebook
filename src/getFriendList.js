@@ -1,19 +1,16 @@
 'use strict';
-const browser = require('../utils/browser');
-const log = require('../utils/log');
+
+const loader = require('./loader');
 const formatter = require('../utils/formatter');
+const log = require('../utils/log');
 
-module.exports = (defFunc, api, ctx) => () => {
-    const form = {};
-
-    return defFunc
-        .post(`https://www.facebook.com/chat/user_info_all/?viewer=${ctx.userId}`, ctx.jar, form)
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            return formatter.formatProfiles(res.payload);
-        })
-        .catch(error => {
-            log.error('getFriendList', error.message);
-        });
+module.exports = {
+    init: () => {
+        module.exports.url = `https://www.facebook.com/chat/user_info_all/?viewer=${loader.getCtx().userId}`;
+    },
+    getForm: () => ({}),
+    onSuccess: res => formatter.formatProfiles(res.payload),
+    onFailure: error => {
+        log.error('getFriendList', error.message);
+    }
 };

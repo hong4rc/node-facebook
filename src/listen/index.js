@@ -1,7 +1,7 @@
 'use strict';
-const log = require('../utils/log');
-const browser = require('../utils/browser');
-const formatter = require('../utils/formatter');
+const log = require('../../utils/log');
+const browser = require('../../utils/browser');
+const formatter = require('../../utils/formatter');
 
 const MILLI_SECOND = 1000;
 const MILLI_TIMEOUT = 200;
@@ -229,4 +229,3 @@ module.exports = (defFunc, api, ctx) => {
         return stopListening;
     };
 };
-

@@ -1,14 +1,18 @@
 'use strict';
+
+const fs = require('fs');
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
 const log = require('./utils/log');
 const browser = require('./utils/browser');
+const loader = require('./src/loader');
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 const REDIRECT_URL = 1;
 const QR_LOGIN = '#login_form input';
 const DIR_SRC = './src/';
+const RAW_API = 'raw/';
 const LOCATE = 'en_US';
 const FIRST = 0;
 const COOKIE_VALUE = 1;
@@ -91,41 +95,24 @@ const createApi = (option, body, jar) => {
     const api = {
         getAppState: () => browser.getAppState(jar),
     };
-    const apiNames = [
-        'getUserInfo',
-        'addUserToGroup',
-        'sendTyping',
-        'listen',
-        'markAsRead',
-        'sendMessage',
-        'setTitle',
-        'deleteThread',
-        'removeUserFromGroup',
-        'muteThread',
-        'changeArchivedStatus',
-        'changeBlockedStatus',
-        'changeNickname',
-        'handleMessageRequest',
-        'changeThreadEmoji',
-        'createPoll',
-        'setApprovalGroup',
-        'deleteMessage',
-        'changeThreadColor',
-        'forwardAttachment',
-        'getCurrentUserId',
-        'getEmojiUrl',
-        'setAdminsForGroup',
-        'getFriendList',
-        'setMessageReaction',
-        'removeFriend',
-        'followProfile',
-        'subFollow',
-        'changeBio',
-    ];
     const defFunc = browser.makeDefaults(body, userId, ctx);
-    apiNames.map(func => {
-        api[func] = require(DIR_SRC + func)(defFunc, api, ctx);
-    });
+
+    loader.init(defFunc, api, ctx);
+    const loadApi = (src, converter) => {
+        const apiNames = fs.readdirSync(src);
+        apiNames.map(func => {
+            if (fs.statSync(src + func).isFile()) {
+                func = func.replace(/\.js$/, '');
+                api[func] = converter(require(src + func));
+            }
+        });
+    };
+    loadApi(DIR_SRC, loader.loadApi);
+    loadApi(DIR_SRC + RAW_API, api => api);
+
+    // Update soon
+    api.listen = require('./src/listen')(defFunc, api, ctx);
+
     return {ctx, defFunc, api};
 };
 const login = (user, option) => new Promise((resolve, inject) => {

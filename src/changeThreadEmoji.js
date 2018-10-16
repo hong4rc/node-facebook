@@ -1,21 +1,24 @@
 'use strict';
-const browser = require('../utils/browser');
+
 const log = require('../utils/log');
 
-module.exports = (defFunc, api, ctx) => (emoji, threadId) => {
-    const form = {
+let emoji;
+let threadId;
+
+module.exports = {
+    url: 'https://www.facebook.com/messaging/save_thread_emoji/?source=thread_settings',
+    init: (_emoji, _threadId) => {
+        emoji = _emoji;
+        threadId = _threadId;
+    },
+    getForm: () => ({
         emoji_choice: emoji,
         thread_or_other_fbid: threadId,
-    };
-
-    return defFunc
-        .post('https://www.facebook.com/messaging/save_thread_emoji/?source=thread_settings', ctx.jar, form)
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            log.info('change emoji', emoji, `(${threadId})`);
-        })
-        .catch(error => {
-            log.error('changeThreadEmoji', error.message);
-        });
+    }),
+    onSuccess: () => {
+        log.info('change emoji', emoji, `(${threadId})`);
+    },
+    onFailure: error => {
+        log.error('changeThreadEmoji', error.message);
+    }
 };

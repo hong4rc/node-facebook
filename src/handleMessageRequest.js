@@ -1,26 +1,32 @@
 'use strict';
-const browser = require('../utils/browser');
+
 const log = require('../utils/log');
 
-module.exports = (defFunc, api, ctx) => (threadIds, accept) => {
-    if (!Array.isArray(threadIds)) {
-        threadIds = [threadIds];
-    }
-    const form = {};
-    if (accept) {
-        form.inbox = threadIds;
-    } else {
-        form.other = threadIds;
-    }
+let threadIds;
+let accept;
 
-    return defFunc
-        .post('https://www.facebook.com/ajax/mercury/move_thread.php', ctx.jar, form)
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            log.info('Handle message request', threadIds, accept);
-        })
-        .catch(error => {
-            log.error('handleMessageRequest', error.message);
-        });
+module.exports = {
+    url: 'https://www.facebook.com/ajax/mercury/move_thread.php',
+    init: (_threadIds, _accept) => {
+        if (!Array.isArray(_threadIds)) {
+            _threadIds = [_threadIds];
+        }
+        threadIds = _threadIds;
+        accept = _accept;
+    },
+    getForm: () => {
+        const form = {};
+        if (accept) {
+            form.inbox = threadIds;
+        } else {
+            form.other = threadIds;
+        }
+        return form;
+    },
+    onSuccess: () => {
+        log.info('Handle message request', threadIds, accept);
+    },
+    onFailure: error => {
+        log.error('handleMessageRequest', error.message);
+    }
 };

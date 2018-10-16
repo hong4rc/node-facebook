@@ -1,24 +1,24 @@
 'use strict';
-const browser = require('../utils/browser');
+
 const log = require('../utils/log');
-
 const neverExpiration = -1;
+let bio;
+let expirationTime;
 
-module.exports = (defFunc, api, ctx) => (bio, expirationTime = neverExpiration) => {
-
-    const form = {
+module.exports = {
+    url: 'https://www.facebook.com/profile/intro/bio/save/',
+    init: (_bio, _expirationTime = neverExpiration) => {
+        bio = _bio;
+        expirationTime = _expirationTime;
+    },
+    getForm: () => ({
         bio,
         bio_expiration_time: expirationTime
-    };
-    return defFunc
-        .post('https://www.facebook.com/profile/intro/bio/save/', ctx.jar, form)
-        .then(browser.saveCookies(ctx.jar))
-        .then(browser.parseAndCheckLogin(ctx, defFunc))
-        .then(res => {
-            browser.checkError(res);
-            log.info('changeBio', bio);
-        })
-        .catch(error => {
-            log.error('changeBio', error);
-        });
+    }),
+    onSuccess: () => {
+        log.info('changeBio', bio, expirationTime);
+    },
+    onFailure: error => {
+        log.error('changeBio', error);
+    }
 };
