@@ -17,7 +17,6 @@ module.exports = {
         }
         const messageAndOTId = browser.generateOfflineThreadingId();
         const form = {
-            client: 'mercury',
             action_type: 'ma-type:log-message',
             timestamp: Date.now(),
             source: 'source:chat:web',
