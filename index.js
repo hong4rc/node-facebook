@@ -110,9 +110,6 @@ const createApi = (option, body, jar) => {
     loadApi(DIR_SRC, loader.loadApi);
     loadApi(DIR_SRC + RAW_API, api => api);
 
-    // Update soon
-    api.listen = require('./src/listen')(defFunc, api, ctx);
-
     return {ctx, defFunc, api};
 };
 const login = (user, option) => new Promise((resolve, inject) => {

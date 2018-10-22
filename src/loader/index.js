@@ -15,6 +15,11 @@ module.exports = {
     },
     getCtx: () => ctx,
     getApi: () => api,
+    getPull: form => defFunc.get(browser.getUrlPull(), ctx.jar, form)
+        .then(browser.parseAndCheckLogin(ctx, defFunc)),
+    get: (url, query) => defFunc.get(url, ctx.jar, query)
+        .then(browser.saveCookies(ctx.jar)),
+    post: (url, form) => defFunc.post(url, ctx.jar, form),
     loadApi: apiObj => (...args) => {
         apiObj.init(...args);
         return defFunc
