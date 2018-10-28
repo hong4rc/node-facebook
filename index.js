@@ -20,27 +20,39 @@ const HEX = 16;
 const MILLIS = 1000;
 const POWER_2_31 = 2147483648;
 
+const checkLoginErr = (res, jar) => {
+    const headers = res.headers;
+    if (!headers.location) {
+        throw new Error('Wrong username/password.');
+    }
+
+    // This means the account has login approvals turned on.
+    if (headers.location.indexOf('https://www.facebook.com/checkpoint/') >= FIRST) {
+        throw new Error('This account is blocked by Facebook !!!');
+    }
+
+    return browser.get(URL_HOME, jar);
+};
 const makeLogin = (body, jar, user, option) => {
     if (option) {
         log.info('Option wil be used in future');
     }
     const $ = cheerio.load(body);
-    const form = {};
+    const form = {
+        email: user.email,
+        pass: user.pass,
+        locale: LOCATE,
+        timezone: new Date().getTimezoneOffset(),
+        lgndim: new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
+        lgnjs: ~~(Date.now() / MILLIS),
+        default_persistent: '0'};
     $(QR_LOGIN).map((index, elem) => {
         const name = $(elem).attr('name');
         const val = $(elem).val();
-        if (val && name) {
+        if (val && name && !form.hasOwnProperty(name)) {
             form[name] = val;
         }
     });
-
-    form.email = user.email;
-    form.pass = user.pass;
-    form.locale = LOCATE;
-    form.timezone = new Date().getTimezoneOffset();
-    form.lgndim = new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64');
-    form.lgnjs = ~~(Date.now() / MILLIS);
-    form.default_persistent = '0';
 
     log.info('form', form);
 
@@ -54,19 +66,7 @@ const makeLogin = (body, jar, user, option) => {
     log.info('login', 'Logging in...');
     return browser
         .post(URL_LOGIN, jar, form)
-        .then(res => {
-            const headers = res.headers;
-            if (!headers.location) {
-                throw new Error('Wrong username/password.');
-            }
-
-            // This means the account has login approvals turned on.
-            if (headers.location.indexOf('https://www.facebook.com/checkpoint/') >= FIRST) {
-                throw new Error('This account is blocked by Facebook !!!');
-            }
-
-            return browser.get(URL_HOME, jar);
-        });
+        .then(res => checkLoginErr(res, jar));
 };
 
 const createApi = (option, body, jar) => {

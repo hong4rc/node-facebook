@@ -98,10 +98,7 @@ const getAppState = jar => jar
 const makeDefaults = (body, id, ctx) => {
     let reqCounter = 1;
     const fb_dtsg = findForm(body, 'name="fb_dtsg" value="', '"');
-    let ttstamp = '2';
-    for (let i = 0; i < fb_dtsg.length; i++) {
-        ttstamp += fb_dtsg.charCodeAt(i);
-    }
+    const ttstamp = getTtstamp(fb_dtsg);
     const revision = findForm(body, 'revision":', ',');
 
     const mergeWithDefaults = obj => {
@@ -118,20 +115,17 @@ const makeDefaults = (body, id, ctx) => {
             return mObj;
         }
 
-        for (const prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                if (!mObj[prop]) {
-                    mObj[prop] = obj[prop];
-                }
+        for (const prop in mObj) {
+            if (mObj.hasOwnProperty(prop)) {
+                obj[prop] = mObj[prop];
             }
         }
 
-        return mObj;
+        return obj;
     };
+
     const mergePost = (url, jar, form) => post(url, jar, mergeWithDefaults(form));
-
     const mergeGet = (url, jar, qs) => get(url, jar, mergeWithDefaults(qs));
-
     const mergePostForm = (url, jar, form, qs) => post(url, jar, mergeWithDefaults(form), mergeWithDefaults(qs));
 
     return {
@@ -154,9 +148,41 @@ const getRequire = jsmods => {
     if (jsmods && jsmods.require && Array.isArray(jsmods.require)) {
         return jsmods.require;
     }
-    return null;
+    return [];
 };
 
+const getTtstamp = fb_dtsg => {
+
+    let ttstamp = '2';
+    for (let i = 0; i < fb_dtsg.length; i++) {
+        ttstamp += fb_dtsg.charCodeAt(i);
+    }
+    return ttstamp;
+};
+const updateCtx = (ctx, jRequire) => {
+
+    // TODO change FIRST, ONE, I_PATH to real constant
+    if (Array.isArray(jRequire[FIRST]) && jRequire[FIRST][FIRST] === 'Cookie') {
+        log.info('jRequire', jRequire);
+        const jCookie = jRequire[FIRST][I_PATH];
+        jCookie[FIRST] = jCookie[FIRST].replace('_js_', '');
+        const cookie = formatCookie(jCookie, 'facebook');
+        const cookie2 = formatCookie(jCookie, 'messenger');
+        ctx.jar.setCookie(cookie, 'https://www.facebook.com');
+        ctx.jar.setCookie(cookie2, 'https://www.messenger.com');
+    }
+
+    // On every request we check if we got a DTSG and we mutate the context so that we use the latest
+    // one for the next requests.
+    for (const item of jRequire) {
+        if (item[FIRST] === 'DTSG' && item[ONE] === 'setToken') {
+            ctx.fb_dtsg = item[I_PATH][FIRST];
+
+            // Update ttstamp since that depends on fb_dtsg
+            ctx.ttstamp = getTtstamp(ctx.fb_dtsg);
+        }
+    }
+};
 const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => data => {
     log.verbose('parseAndCheckLogin', data.body);
     if (data.statusCode >= SERVER_ERROR) {
@@ -166,17 +192,14 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
                 statusCode: data.statusCode, res: data.body,
             };
         }
-        retryCount++;
         const retryTime = Math.floor(Math.random() * MAX_RETRY_TIME);
         log.warn('LG', `Got status code ${data.statusCode} - ${retryCount}. attempt to retry in ${retryTime} ms`);
         const url = data.request.uri.href;
-        let mPost = defFunc.post;
-        if (data.request.headers['Content-Type'].split(';')[FIRST] === 'multipart/form-data') {
-            mPost = defFunc.postFormData;
-        }
+        const contetType = data.request.headers['Content-Type'].split(';')[FIRST];
+        const mPost = contetType === 'multipart/form-data' ? defFunc.postFormData : defFunc.post;
         return new Promise(rel => setTimeout(() => rel(), retryTime))
             .then(() => mPost(url, ctx.jar, data.request.formData, {}))
-            .then(parseAndCheckLogin(ctx, defFunc, retryCount));
+            .then(parseAndCheckLogin(ctx, defFunc, ++retryCount));
     }
     if (data.statusCode !== STT_CODE_OK) {
         throw new Error(`got status code: ${data.statusCode}. Bailing out of trying to parse response.`);
@@ -194,33 +217,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     }
 
     const jRequire = getRequire(res.jsmods);
-
-    // TODO change FIRST, ONE, I_PATH to real constant
-    if (jRequire && Array.isArray(jRequire[FIRST]) && jRequire[FIRST][FIRST] === 'Cookie') {
-        log.info('jRequire', jRequire);
-        const jCookie = jRequire[FIRST][I_PATH];
-        jCookie[FIRST] = jCookie[FIRST].replace('_js_', '');
-        const cookie = formatCookie(jCookie, 'facebook');
-        const cookie2 = formatCookie(jCookie, 'messenger');
-        ctx.jar.setCookie(cookie, 'https://www.facebook.com');
-        ctx.jar.setCookie(cookie2, 'https://www.messenger.com');
-    }
-
-    // On every request we check if we got a DTSG and we mutate the context so that we use the latest
-    // one for the next requests.
-    if (jRequire) {
-        for (const item of jRequire) {
-            if (item[FIRST] === 'DTSG' && item[ONE] === 'setToken') {
-                ctx.fb_dtsg = item[I_PATH][FIRST];
-
-                // Update ttstamp since that depends on fb_dtsg
-                ctx.ttstamp = '2';
-                for (let i = 0; i < ctx.fb_dtsg.length; i++) {
-                    ctx.ttstamp += ctx.fb_dtsg.charCodeAt(i);
-                }
-            }
-        }
-    }
+    updateCtx(ctx, jRequire);
 
     if (res.error === ERR_LOGIN) {
         throw {error: 'Not logged in.'};
