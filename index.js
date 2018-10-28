@@ -54,7 +54,6 @@ const makeLogin = (body, jar, user, option) => {
     log.info('login', 'Logging in...');
     return browser
         .post(URL_LOGIN, jar, form)
-        .then(browser.saveCookies(jar))
         .then(res => {
             const headers = res.headers;
             if (!headers.location) {
@@ -66,11 +65,10 @@ const makeLogin = (body, jar, user, option) => {
                 throw new Error('This account is blocked by Facebook !!!');
             }
 
-            return browser
-                .get(URL_HOME, jar)
-                .then(browser.saveCookies(jar));
+            return browser.get(URL_HOME, jar);
         });
 };
+
 const createApi = (option, body, jar) => {
     const cUser = jar.getCookies(URL_HOME)
         .filter(val => val.cookieString().split('=')[FIRST] === 'c_user');
@@ -110,99 +108,91 @@ const createApi = (option, body, jar) => {
     loadApi(DIR_SRC, loader.loadApi);
     loadApi(DIR_SRC + RAW_API, api => api);
 
-    return {ctx, defFunc, api};
+    return {ctx, api};
 };
-const login = (user, option) => new Promise((resolve, inject) => {
-    let mPromise = undefined;
+
+
+// Handle for login
+
+const reconnect = () => {
+    const form = {
+        reason: 6,
+    };
+    log.info('login', 'Request to reconnect');
+    return loader.get(`${URL_HOME}/ajax/presence/reconnect.php`, form);
+};
+const autoRedirect = (res, jar) => {
+
+    // Hacky check for the redirection that happens on some ISPs, which doesn't return statusCode 3xx
+    const reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
+    const redirect = reg.exec(res.body);
+    const url = redirect && redirect[REDIRECT_URL];
+    if (url) {
+        return browser.get(url, jar);
+    }
+    return res;
+};
+const requestToPull = () => {
+    log.info('login', 'Request to pull !!!');
+    const ctx = loader.getCtx();
+    const form = {
+        channel: `p_${ctx.userId}`,
+        seq: 0,
+        partition: -2,
+        clientid: ctx.clientId,
+        viewer_uid: ctx.userId,
+        uid: ctx.userId,
+        state: 'active',
+        idle: 0,
+        cap: 8,
+        msgs_recv: 0,
+    };
+
+    return browser
+        .get(browser.getUrlPull(), ctx.jar, form)
+        .then(res => {
+            let body = null;
+            try {
+                body = JSON.parse(browser.makeParsable(res.body));
+            } catch (e) {
+                throw new Error('Received HTML instead of JSON.');
+            }
+            if (body.t !== 'lb') {
+                throw new Error('Bad response from pull 1');
+            }
+            return body;
+        });
+};
+
+const login = (user, option) => {
+    let mPromise = Promise.resolve();
     const jar = request.jar();
     if (user.appState) {
         user.appState.map(c => {
             const str = `${c.key}=${c.value}; expires=${c.expires}; domain=${c.domain}; path=${c.path};`;
             jar.setCookie(str, `http://${c.domain}`);
         });
-
-        mPromise = browser.get(URL_HOME, jar)
-            .then(browser.saveCookies(jar));
     } else {
-        mPromise = browser.get(URL_HOME, null)
-            .then(browser.saveCookies(jar))
-            .then(res => makeLogin(res.body, jar, user, option))
-            .then(() => browser.get(URL_HOME, jar)
-                .then(browser.saveCookies(jar)));
+        mPromise = browser.get(URL_HOME, jar)
+            .then(res => makeLogin(res.body, jar, user, option));
     }
-    let {ctx, defFunc, api} = {};
+
+    mPromise = mPromise.then(() => browser.get(URL_HOME, jar));
 
     mPromise = mPromise
-        .then(res => {
-
-            // Hacky check for the redirection that happens on some ISPs, which doesn't return statusCode 3xx
-            const reg = /<meta http-equiv="refresh" content="0;url=([^"]+)[^>]+>/;
-            const redirect = reg.exec(res.body);
-            const url = redirect && redirect[REDIRECT_URL];
-            if (url) {
-                return browser
-                    .get(url, jar)
-                    .then(browser.saveCookies(jar));
-            }
-            return res;
-        })
-
-        .then(res => {
-            const stuff = createApi(option, res.body, jar);
-            ctx = stuff.ctx;
-            defFunc = stuff.defFunc;
-            api = stuff.api;
-            return res;
-        })
-        .then(() => {
-            const form = {
-                reason: 6,
-            };
-            log.info('login', 'Request to reconnect');
-            return defFunc
-                .get(`${URL_HOME}/ajax/presence/reconnect.php`, ctx.jar, form)
-                .then(browser.saveCookies(ctx.jar));
-        })
-        .then(() => {
-            log.info('login', 'Request to pull !!!');
-            const form = {
-                channel: `p_${ctx.userId}`,
-                seq: 0,
-                partition: -2,
-                clientid: ctx.clientId,
-                viewer_uid: ctx.userId,
-                uid: ctx.userId,
-                state: 'active',
-                idle: 0,
-                cap: 8,
-                msgs_recv: 0,
-            };
-
-            return browser
-                .get(browser.getUrlPull(), ctx.jar, form)
-                .then(browser.saveCookies(ctx.jar))
-                .then(res => {
-                    let body = null;
-                    try {
-                        body = JSON.parse(browser.makeParsable(res.body));
-                    } catch (e) {
-                        throw new Error('Received HTML instead of JSON.');
-                    }
-                    if (body.t !== 'lb') {
-                        throw new Error('Bad response from pull 1');
-                    }
-                    return body;
-                });
-        })
+        .then(autoRedirect)
+        .then(res => createApi(option, res.body, jar))
+        .then(reconnect)
+        .then(requestToPull);
+    return mPromise
         .then(() => {
             log.info('login', 'Done logging in.');
-            resolve(api);
+            return loader.getApi();
         })
         .catch(e => {
             log.error('login', e);
-            inject(e);
+            throw new Error(e);
         });
-    return mPromise;
-});
+};
 
 module.exports = login;

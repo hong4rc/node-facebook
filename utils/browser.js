@@ -60,7 +60,7 @@ const method = method => (url, jar, form, qs) => {
         });
     });
 };
-const get = method('GET');
+const _get = method('GET');
 const post = method('POST');
 
 const saveCookies = jar => res => {
@@ -74,6 +74,8 @@ const saveCookies = jar => res => {
     });
     return res;
 };
+const get = (url, jar, qs) => _get(url, jar, qs)
+    .then(saveCookies(jar));
 const findForm = (body, head, tail) => {
     const start = body.indexOf(head) + head.length;
     if (start < head.length) {
