@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('../../utils/log');
+const log = require('kiat-log');
 const browser = require('../../utils/browser');
 const loader = require('../loader');
 const formatter = require('../../utils/formatter');

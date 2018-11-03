@@ -1,7 +1,7 @@
 'use strict';
 
 const browser = require('../utils/browser');
-const log = require('../utils/log');
+const log = require('kiat-log');
 
 let attachmentId;
 let threadIds;

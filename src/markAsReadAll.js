@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('../utils/log');
+const log = require('kiat-log');
 
 module.exports = {
     url: 'https://www.facebook.com/ajax/mercury/mark_folder_as_read.php',

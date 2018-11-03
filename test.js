@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('fs');
-const log = require('./utils/log');
+const log = require('kiat-log');
 const login = require('./index');
 
 // const timer = require('./timer');

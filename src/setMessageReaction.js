@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('../utils/log');
+const log = require('kiat-log');
 const qString = require('querystring');
 const loader = require('./loader');
 const DOC_ID = '1491398900900362';

@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
-const log = require('./utils/log');
+const log = require('kiat-log');
 const browser = require('./utils/browser');
 const loader = require('./src/loader');
 

@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "console-control-strings": "^1.1.0",
+    "kiat-log": "^0.1.0",
     "request": "^2.87.0"
   },
   "devDependencies": {

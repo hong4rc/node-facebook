@@ -1,5 +1,5 @@
 'use strict';
-const log = require('./log');
+const log = require('kiat-log');
 const request = require('request').defaults({jar: true});
 
 const FIRST = 0;

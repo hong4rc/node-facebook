@@ -1,6 +1,6 @@
 'use strict';
 
-const log = require('../utils/log');
+const log = require('kiat-log');
 
 let nickname;
 let threadId;

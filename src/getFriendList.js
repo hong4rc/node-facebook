@@ -2,7 +2,7 @@
 
 const loader = require('./loader');
 const formatter = require('../utils/formatter');
-const log = require('../utils/log');
+const log = require('kiat-log');
 
 module.exports = {
     init: () => {
