@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const path = require('path');
 const request = require('request').defaults({jar: true});
 const cheerio = require('cheerio');
 const log = require('./utils/log');
@@ -11,8 +12,8 @@ const URL_HOME = 'https://www.facebook.com';
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 const REDIRECT_URL = 1;
 const QR_LOGIN = '#login_form input';
-const DIR_SRC = './src/';
-const RAW_API = 'raw/';
+const DIR_SRC = path.join(__dirname, 'src/');
+const DIR_RAW_API = path.join(DIR_SRC, 'raw/');
 const LOCATE = 'en_US';
 const FIRST = 0;
 const COOKIE_VALUE = 1;
@@ -45,7 +46,8 @@ const makeLogin = (body, jar, user, option) => {
         timezone: new Date().getTimezoneOffset(),
         lgndim: new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
         lgnjs: ~~(Date.now() / MILLIS),
-        default_persistent: '0'};
+        default_persistent: '0'
+    };
     $(QR_LOGIN).map((index, elem) => {
         const name = $(elem).attr('name');
         const val = $(elem).val();
@@ -101,12 +103,12 @@ const createApi = (option, body, jar) => {
         apiNames.map(func => {
             if (fs.statSync(src + func).isFile()) {
                 func = func.replace(/\.js$/, '');
-                api[func] = converter(require(src + func));
+                api[func] = converter(require(path.join(src, func)));
             }
         });
     };
     loadApi(DIR_SRC, loader.loadApi);
-    loadApi(DIR_SRC + RAW_API, api => api);
+    loadApi(DIR_RAW_API, api => api);
 
     return {ctx, api};
 };
