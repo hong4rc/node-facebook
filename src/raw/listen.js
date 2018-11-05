@@ -43,6 +43,20 @@ const handleDeltaEvents = msg => {
             return formatter.markRead(delta);
         case 'AdminTextMessage':
             return formatter.adminTextMessage(delta.messageMetadata);
+        case 'ReadReceipt':
+            return {
+                reader: delta.actorFbId,
+                time: delta.actionTimestampMs,
+                threadId: delta.threadKey.threadFbId || delta.threadKey.otherUserFbId,
+                type: 'read_receipt',
+            };
+        case 'DeliveryReceipt':
+            return {
+                reader: delta.actorFbId,
+                time: delta.deliveredWatermarkTimestampMs,
+                threadId: delta.threadKey.threadFbId || delta.threadKey.otherUserFbId,
+                type: 'delivery_receipt',
+            };
         default:
             log.warn(`${delta.class} is not has case`);
             log.warn(JSON.stringify(msg, null, SPACE_INDENT));
@@ -78,6 +92,7 @@ const handlePresence = (buddyList, fmt) => {
 const handleAction = msg => {
     switch (msg.type) {
         case 'typ':
+        case 'ttyp':
             return formatter.typing(msg, ctx.userId);
         case 'chatproxy-presence':
             return handlePresence(msg.buddyList, formatter.proxyPresence);
@@ -91,6 +106,16 @@ const handleAction = msg => {
 
             // Don't need create handle for it
             break;
+        case 'jewel_requests_add':
+            return {
+                threadId: msg.from,
+                type: 'requests_add',
+            };
+        case 'jewel_requests_remove_old':
+            return {
+                threadId: msg.from,
+                type: 'requests_remove',
+            };
         default:
             log.warn(`don't have handle for ${msg.type}`);
             log.warn(JSON.stringify(msg));
