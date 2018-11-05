@@ -100,12 +100,12 @@ const createApi = (option, body, jar) => {
     loader.init(defFunc, api, ctx);
     const loadApi = (src, converter) => {
         const apiNames = fs.readdirSync(src);
-        apiNames.map(func => {
+        for (let func of apiNames) {
             if (fs.statSync(src + func).isFile()) {
                 func = func.replace(/\.js$/, '');
                 api[func] = converter(require(path.join(src, func)));
             }
-        });
+        }
     };
     loadApi(DIR_SRC, loader.loadApi);
     loadApi(DIR_RAW_API, api => api);
@@ -137,18 +137,7 @@ const autoRedirect = (res, jar) => {
 const requestToPull = () => {
     log.info('login', 'Request to pull !!!');
     const ctx = loader.getCtx();
-    const form = {
-        channel: `p_${ctx.userId}`,
-        seq: 0,
-        partition: -2,
-        clientid: ctx.clientId,
-        viewer_uid: ctx.userId,
-        uid: ctx.userId,
-        state: 'active',
-        idle: 0,
-        cap: 8,
-        msgs_recv: 0,
-    };
+    const form = browser.formPull(ctx);
 
     return browser
         .get(browser.getUrlPull(), ctx.jar, form)
@@ -166,27 +155,28 @@ const requestToPull = () => {
         });
 };
 
+const saveCookie = (jar, cookies) => {
+    for (const c of cookies) {
+        const str = `${c.key}=${c.value}; expires=${c.expires}; domain=${c.domain}; path=${c.path};`;
+        jar.setCookie(str, `http://${c.domain}`);
+    }
+};
+
 const login = (user, option) => {
     let mPromise = Promise.resolve();
     const jar = request.jar();
     if (user.appState) {
-        user.appState.map(c => {
-            const str = `${c.key}=${c.value}; expires=${c.expires}; domain=${c.domain}; path=${c.path};`;
-            jar.setCookie(str, `http://${c.domain}`);
-        });
+        saveCookie(jar, user.appState);
     } else {
         mPromise = browser.get(URL_HOME, jar)
             .then(res => makeLogin(res.body, jar, user, option));
     }
 
-    mPromise = mPromise.then(() => browser.get(URL_HOME, jar));
-
-    mPromise = mPromise
+    return mPromise.then(() => browser.get(URL_HOME, jar))
         .then(autoRedirect)
         .then(res => createApi(option, res.body, jar))
         .then(reconnect)
-        .then(requestToPull);
-    return mPromise
+        .then(requestToPull)
         .then(() => {
             log.info('login', 'Done logging in.');
             return loader.getApi();

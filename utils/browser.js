@@ -239,6 +239,20 @@ const checkError = res => {
     }
 };
 
+const defaultMsgsRecv = 0;
+const formPull = (ctx, msgsRecv = defaultMsgsRecv) => ({
+    channel: `p_${ctx.userId}`,
+    seq: msgsRecv,
+    partition: '-2',
+    clientid: ctx.clientId,
+    viewer_uid: ctx.userId,
+    uid: ctx.userId,
+    state: 'active',
+    idle: 0,
+    cap: 8,
+    msgs_recv: msgsRecv,
+});
+
 module.exports = {
     get,
     post,
@@ -253,4 +267,5 @@ module.exports = {
     makeParsable,
     parseAndCheckLogin,
     checkError,
+    formPull,
 };

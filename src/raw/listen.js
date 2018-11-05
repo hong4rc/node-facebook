@@ -127,18 +127,7 @@ let tmpPrev = Date.now();
 let lastSync = ~~(Date.now() / MILLI_SECOND);
 
 let msgsRecv = 0;
-const form = {
-    channel: `p_${ctx.userId}`,
-    seq: msgsRecv,
-    partition: '-2',
-    clientid: ctx.clientId,
-    viewer_uid: ctx.userId,
-    uid: ctx.userId,
-    state: 'active',
-    idle: 0,
-    cap: '8',
-    msgs_recv: msgsRecv,
-};
+const form = browser.formPull(ctx, msgsRecv);
 const fullReload = () => {
     delete form.sticky_pool;
     delete form.sticky_token;
@@ -158,6 +147,18 @@ const fullReload = () => {
                 });
         });
 };
+
+const litenErr = err => {
+    if (err.code === 'ETIMEDOUT') {
+        log.info('listen', 'Suppressed timeout error.');
+    } else if (err.code === 'EAI_AGAIN') {
+        browser.changeServer();
+    } else {
+        log.error('listen', err);
+        gCallback(err);
+    }
+};
+
 const invoke = () => {
 
     form.idle = ~~(Date.now() / MILLI_SECOND) - prev;
@@ -169,12 +170,8 @@ const invoke = () => {
             tmpPrev = now;
 
             // log.info('body', JSON.stringify(body, null, SPACE_INDENT));
-            if (body.seq) {
-                form.seq = body.seq;
-            }
-            if (body.tr) {
-                form.traceid = body.tr;
-            }
+            form.seq = body.seq || form.seq;
+            form.traceid = body.tr || form.traceid;
             switch (body.t) {
                 case 'lb':
                     form.sticky_token = body.lb_info.sticky;
@@ -186,37 +183,21 @@ const invoke = () => {
                     log.verbose(body.t);
             }
 
-            if (body.ms) {
-                msgsRecv += body.ms.length;
-                body.ms
-                    .sort((a, b) => a.timestamp - b.timestamp)
-                    .forEach(msg => {
+            const ms = (body.ms || []).sort((a, b) => a.timestamp - b.timestamp);
+            msgsRecv += ms.length;
+            for (const msg of ms) {
 
-                        let fmtMsg = handleAction(msg);
-                        if (!Array.isArray(fmtMsg)) {
-                            fmtMsg = [fmtMsg];
-                        }
-                        for (const msg of fmtMsg) {
-                            msg && gCallback(null, msg);
-                        }
-                    });
+                let fmtMsg = handleAction(msg);
+                if (!Array.isArray(fmtMsg)) {
+                    fmtMsg = [fmtMsg];
+                }
+                for (const msg of fmtMsg) {
+                    msg && gCallback(null, msg);
+                }
             }
         })
-        .catch(err => {
-            if (err.code === 'ETIMEDOUT') {
-                log.info('listen', 'Suppressed timeout error.');
-            } else if (err.code === 'EAI_AGAIN') {
-                browser.changeServer();
-            } else {
-                log.error('listen', err);
-                gCallback(err);
-            }
-        })
-        .finally(() => {
-            if (currentId) {
-                currentId = setTimeout(invoke, MILLI_TIMEOUT);
-            }
-        });
+        .catch(litenErr)
+        .finally(() => currentId && (currentId = setTimeout(invoke, MILLI_TIMEOUT)));
 };
 
 module.exports = (callback = identity) => {
