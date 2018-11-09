@@ -24,13 +24,10 @@ const stopListening = () => {
     }
 };
 const handleDeltaEvents = msg => {
-    let attachments,
-        payload;
+    let payload;
     const delta = msg.delta;
     switch (delta.class) {
         case 'NewMessage':
-            attachments = delta.attachments;
-            log.warn('need handle for', attachments);
             return formatter.deltaMessage(delta);
         case 'ClientPayload':
             payload = formatter.clientPayload(delta.payload);

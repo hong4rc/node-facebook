@@ -67,6 +67,7 @@ module.exports = {
             timestamp: metaData.timestamp,
             isGroup: Boolean(metaData.threadKey.threadFbId),
             mentions,
+            attachments: delta.attachments,
         };
     },
 
