@@ -1,9 +1,7 @@
 'use strict';
 
 const loader = require('../loader');
-const upLoadFile = require('./api/upLoadFile');
-const shareUrl = require('./api/shareUrl');
-const send = require('./api/send');
+const api = loader.getApi();
 
 const FIRST = 0;
 
@@ -11,6 +9,9 @@ module.exports = {
     attachments: (msg, form) => {
         if (!msg.attachments) {
             return;
+        }
+        if (!Array.isArray(msg.attachments)) {
+            msg.attachments = [msg.attachments];
         }
         form.image_ids = [];
         form.gif_ids = [];
@@ -20,10 +21,12 @@ module.exports = {
 
         const files = [];
         for (const attachment of msg.attachments) {
-            files.push(loader.loadApi(upLoadFile)(attachment));
+            files.push(api.upLoadFile(attachment));
         }
+
         return Promise.all(files)
             .then(files => {
+                require('kiat-log').info(files);
                 files.forEach(file => {
                     const key = Object.keys(file);
                     const type = key[FIRST];
@@ -37,7 +40,7 @@ module.exports = {
         }
 
         form.shareable_attachment = {share_type: 100};
-        return loader.loadApi(shareUrl)(msg.url)
+        return api.shareUrl(msg.url)
             .then(shareParams => {
                 form.shareable_attachment.share_params = shareParams;
             });
@@ -55,7 +58,7 @@ module.exports = {
             form.profile_xmd.push({offset, length, id, type: 'p'});
         }
     },
-    send: (form, threadId) => loader.getApi().getUserInfo(threadId)
+    send: (form, threadId) => api.getUserInfo(threadId)
         .then(res => {
             if (Object.keys(res).length) {
                 form.specific_to_list = [`fbid:${threadId}`, `fbid:${loader.getCtx().userId}`];
@@ -63,6 +66,6 @@ module.exports = {
             } else {
                 form.thread_fbid = threadId;
             }
-            return loader.loadApi(send)(form, threadId);
+            return api.send(form, threadId);
         })
 };
