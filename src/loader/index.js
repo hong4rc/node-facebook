@@ -22,8 +22,11 @@ module.exports = {
     post: (url, form) => defFunc.post(url, ctx.jar, form),
     loadApi: apiObj => (...args) => {
         apiObj.init(...args);
-        return defFunc
-            .post(apiObj.url, ctx.jar, apiObj.getForm())
+        let request = defFunc.post;
+        if (apiObj.method) {
+            request = defFunc[apiObj.method];
+        }
+        return request(apiObj.url, ctx.jar, apiObj.getForm())
             .then(browser.parseAndCheckLogin(ctx, defFunc))
             .then(res => {
                 browser.checkError(res);
