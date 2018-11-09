@@ -3,19 +3,15 @@
 const log = require('kiat-log');
 
 let form;
-let threadId;
 
 module.exports = {
     url: 'https://www.facebook.com/messaging/send/',
-    init: (_form, _threadId) => {
+    init: _form => {
         form = _form;
-        threadId = _threadId;
     },
     getForm: () => form,
-    onSuccess: () => {
-        log.info('Send message', 'to', threadId);
-    },
+    onSuccess: res => res.payload.actions.shift().message_id,
     onFailure: error => {
-        log.error('sendMessage', error.message);
+        log.error('send', error.message);
     }
 };

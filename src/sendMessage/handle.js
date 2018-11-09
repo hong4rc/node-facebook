@@ -26,7 +26,6 @@ module.exports = {
 
         return Promise.all(files)
             .then(files => {
-                require('kiat-log').info(files);
                 files.forEach(file => {
                     const key = Object.keys(file);
                     const type = key[FIRST];
@@ -66,6 +65,6 @@ module.exports = {
             } else {
                 form.thread_fbid = threadId;
             }
-            return api.send(form, threadId);
+            return api.send(form);
         })
 };

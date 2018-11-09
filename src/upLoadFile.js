@@ -15,10 +15,7 @@ module.exports = {
         upload_1024: attachment,
         voice_clip: 'true',
     }),
-    onSuccess: res => {
-        log.error(res);
-        return res.payload.metadata[FIRST];
-    },
+    onSuccess: res => res.payload.metadata[FIRST],
     onFailure: error => {
         log.error('upLoadFile', error.message);
     }

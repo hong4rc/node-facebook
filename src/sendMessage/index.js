@@ -29,8 +29,9 @@ module.exports = (msg, threadId) => {
         .then(() => handle.url(msg, form))
         .then(() => handle.mention(msg, form))
         .then(() => handle.send(form, threadId))
-        .then(() => {
+        .then(msgId => {
             log.info('Send to', threadId, msg);
+            return msgId;
         })
         .catch(error => {
             log.error('sendMessage', error.message);
