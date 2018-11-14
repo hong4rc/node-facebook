@@ -140,6 +140,7 @@ const fullReload = () => {
             };
             loader.post('https://www.facebook.com/ajax/mercury/thread_sync.php', formAll)
                 .then(() => {
+                    clearTimeout(currentId);
                     currentId = setTimeout(invoke, MILLI_TIMEOUT);
                 });
         });
