@@ -10,21 +10,11 @@ module.exports = {
         pageId = _pageId;
         isBlock = _isBlock;
     },
-    getForm: () => {
-        let form;
-        if (isBlock) {
-            form = {
-                page_id: pageId,
-                confirmed: 1
-            };
-        } else {
-            form = {
-                objectID: pageId,
-                remove: true
-            };
-        }
-        return form;
-    },
+    getForm: () => ({
+        objectID: pageId,
+        remove: !isBlock
+    }),
+
     onSuccess: () => {
         log.info('blockPage', isBlock ? 'Blocked' : 'Unblocked', pageId);
     },
