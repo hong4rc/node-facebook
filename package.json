@@ -1,7 +1,7 @@
 {
   "name": "node-facebook",
   "description": "Module to login and use some action (fake browser)",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Hongarc/node-facebook.git"

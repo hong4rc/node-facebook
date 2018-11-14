@@ -138,11 +138,7 @@ const fullReload = () => {
                 folder: ['inbox'],
                 last_action_timestamp: ~~Date.now(),
             };
-            loader.post('https://www.facebook.com/ajax/mercury/thread_sync.php', formAll)
-                .then(() => {
-                    clearTimeout(currentId);
-                    currentId = setTimeout(invoke, MILLI_TIMEOUT);
-                });
+            loader.post('https://www.facebook.com/ajax/mercury/thread_sync.php', formAll);
         });
 };
 
