@@ -95,6 +95,16 @@ const getAppState = jar => jar
     .getCookies('https://www.facebook.com')
     .concat(jar.getCookies('https://facebook.com'))
     .concat(jar.getCookies('https://www.messenger.com'));
+
+const getTtstamp = fb_dtsg => {
+
+    let ttstamp = '2';
+    for (let i = 0; i < fb_dtsg.length; i++) {
+        ttstamp += fb_dtsg.charCodeAt(i);
+    }
+    return ttstamp;
+};
+
 const makeDefaults = (body, id, ctx) => {
     let reqCounter = 1;
     const fb_dtsg = findForm(body, 'name="fb_dtsg" value="', '"');
@@ -151,14 +161,6 @@ const getRequire = jsmods => {
     return [];
 };
 
-const getTtstamp = fb_dtsg => {
-
-    let ttstamp = '2';
-    for (let i = 0; i < fb_dtsg.length; i++) {
-        ttstamp += fb_dtsg.charCodeAt(i);
-    }
-    return ttstamp;
-};
 const updateCtx = (ctx, jRequire) => {
 
     // TODO change FIRST, ONE, I_PATH to real constant
@@ -183,6 +185,15 @@ const updateCtx = (ctx, jRequire) => {
         }
     }
 };
+
+const checkError = res => {
+    if (res.error) {
+        res.errorSummary = res.errorSummary || res.error;
+        log.error('br', res.errorSummary);
+        throw new Error(res.errorSummary);
+    }
+};
+
 const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => data => {
     log.verbose('parseAndCheckLogin', data.body);
     if (data.statusCode >= SERVER_ERROR) {
@@ -197,7 +208,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
         const url = data.request.uri.href;
         const contetType = data.request.headers['Content-Type'].split(';')[FIRST];
         const mPost = contetType === 'multipart/form-data' ? defFunc.postFormData : defFunc.post;
-        return new Promise(rel => setTimeout(() => rel(), retryTime))
+        return new Promise(resolve => setTimeout(() => resolve(), retryTime))
             .then(() => mPost(url, ctx.jar, data.request.formData, {}))
             .then(parseAndCheckLogin(ctx, defFunc, ++retryCount));
     }
@@ -230,13 +241,6 @@ const generateOfflineThreadingId = () => {
     const ret = Date.now();
     const value = Math.floor(Math.random() * POWER_2_32);
     return ret * POWER_2_22 + value;
-};
-const checkError = res => {
-    if (res.error) {
-        res.errorSummary = res.errorSummary || res.error;
-        log.error('br', res.errorSummary);
-        throw new Error(res.errorSummary);
-    }
 };
 
 const defaultMsgsRecv = 0;

@@ -44,7 +44,7 @@ const makeLogin = (body, jar, user, option) => {
         pass: user.pass,
         locale: LOCATE,
         timezone: new Date().getTimezoneOffset(),
-        lgndim: new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
+        lgndim: Buffer.from('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
         lgnjs: ~~(Date.now() / MILLIS),
         default_persistent: '0'
     };

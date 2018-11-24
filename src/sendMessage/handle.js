@@ -25,13 +25,11 @@ module.exports = {
         }
 
         return Promise.all(files)
-            .then(files => {
-                files.forEach(file => {
-                    const key = Object.keys(file);
-                    const type = key[FIRST];
-                    form[`${type}s`].push(file[type]);
-                });
-            });
+            .then(files => files.forEach(file => {
+                const key = Object.keys(file);
+                const type = key[FIRST];
+                form[`${type}s`].push(file[type]);
+            }));
     },
     url: (msg, form) => {
         if (!msg.url) {
@@ -40,9 +38,7 @@ module.exports = {
 
         form.shareable_attachment = {share_type: 100};
         return api.shareUrl(msg.url)
-            .then(shareParams => {
-                form.shareable_attachment.share_params = shareParams;
-            });
+            .then(shareParams => form.shareable_attachment.share_params = shareParams);
     },
     mention: (msg, form) => {
         if (!msg.mentions) {

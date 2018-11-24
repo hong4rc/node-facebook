@@ -43,7 +43,7 @@ const handleDeltaEvents = msg => {
                 return payload.deltas.filter(delta => delta.deltaMessageReaction)
                     .map(msgRea => formatter.reaction(msgRea, msg.ofd_ts));
             }
-            return;
+            return null;
         case 'MarkRead':
             return formatter.markRead(delta);
         case 'AdminTextMessage':
@@ -113,7 +113,7 @@ const handleAction = msg => {
             };
         default:
             log.warn(`don't have handle for ${msg.type}`);
-            log.warn(JSON.stringify(msg));
+            return log.warn(JSON.stringify(msg));
     }
 };
 
@@ -136,7 +136,7 @@ const fullReload = () => {
                 folder: ['inbox'],
                 last_action_timestamp: ~~Date.now(),
             };
-            loader.post('https://www.facebook.com/ajax/mercury/thread_sync.php', formAll);
+            return loader.post('https://www.facebook.com/ajax/mercury/thread_sync.php', formAll);
         });
 };
 
@@ -183,8 +183,9 @@ const invoke = () => {
                 if (!Array.isArray(fmtMsg)) {
                     fmtMsg = [fmtMsg];
                 }
+                fmtMsg = fmtMsg.filter(x => x);
                 for (const msg of fmtMsg) {
-                    msg && gCallback(null, msg);
+                    gCallback(null, msg);
                 }
             }
         })
