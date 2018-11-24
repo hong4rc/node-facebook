@@ -23,6 +23,14 @@ const stopListening = () => {
         currentId = undefined;
     }
 };
+
+const formatType = (delta, type) => ({
+    reader: delta.actorFbId,
+    time: delta.deliveredWatermarkTimestampMs || delta.actionTimestampMs,
+    threadId: delta.threadKey.threadFbId || delta.threadKey.otherUserFbId,
+    type,
+});
+
 const handleDeltaEvents = msg => {
     let payload;
     const delta = msg.delta;
@@ -41,19 +49,9 @@ const handleDeltaEvents = msg => {
         case 'AdminTextMessage':
             return formatter.adminTextMessage(delta.messageMetadata);
         case 'ReadReceipt':
-            return {
-                reader: delta.actorFbId,
-                time: delta.actionTimestampMs,
-                threadId: delta.threadKey.threadFbId || delta.threadKey.otherUserFbId,
-                type: 'read_receipt',
-            };
+            return formatType(delta, 'read_receipt');
         case 'DeliveryReceipt':
-            return {
-                reader: delta.actorFbId,
-                time: delta.deliveredWatermarkTimestampMs,
-                threadId: delta.threadKey.threadFbId || delta.threadKey.otherUserFbId,
-                type: 'delivery_receipt',
-            };
+            return formatType(delta, 'delivery_receipt');
         default:
             log.warn(`${delta.class} is not has case`);
             log.warn(JSON.stringify(msg, null, SPACE_INDENT));
