@@ -1,6 +1,7 @@
 'use strict';
 const log = require('kiat-log');
 const request = require('request').defaults({jar: true});
+const timeout = require('./timeout');
 
 const FIRST = 0;
 const START_RETRY_COUNT = 0;
@@ -95,6 +96,16 @@ const getAppState = jar => jar
     .getCookies('https://www.facebook.com')
     .concat(jar.getCookies('https://facebook.com'))
     .concat(jar.getCookies('https://www.messenger.com'));
+
+const getTtstamp = fb_dtsg => {
+
+    let ttstamp = '2';
+    for (let i = 0; i < fb_dtsg.length; i++) {
+        ttstamp += fb_dtsg.charCodeAt(i);
+    }
+    return ttstamp;
+};
+
 const makeDefaults = (body, id, ctx) => {
     let reqCounter = 1;
     const fb_dtsg = findForm(body, 'name="fb_dtsg" value="', '"');
@@ -151,14 +162,6 @@ const getRequire = jsmods => {
     return [];
 };
 
-const getTtstamp = fb_dtsg => {
-
-    let ttstamp = '2';
-    for (let i = 0; i < fb_dtsg.length; i++) {
-        ttstamp += fb_dtsg.charCodeAt(i);
-    }
-    return ttstamp;
-};
 const updateCtx = (ctx, jRequire) => {
 
     // TODO change FIRST, ONE, I_PATH to real constant
@@ -183,21 +186,27 @@ const updateCtx = (ctx, jRequire) => {
         }
     }
 };
+
+const checkError = res => {
+    if (res.error) {
+        res.errorSummary = res.errorSummary || res.error;
+        log.error('br', res.errorSummary);
+        throw new Error(res.errorSummary);
+    }
+};
+
 const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => data => {
     log.verbose('parseAndCheckLogin', data.body);
     if (data.statusCode >= SERVER_ERROR) {
         if (retryCount >= MAX_RETRY_COUNT) {
-            throw {
-                error: 'Request retry failed. Check the `res` and `statusCode` property on this error.',
-                statusCode: data.statusCode, res: data.body,
-            };
+            throw new Error(`Request retry failed. statusCode: ${data.statusCode}`);
         }
         const retryTime = Math.floor(Math.random() * MAX_RETRY_TIME);
         log.warn('LG', `Got status code ${data.statusCode} - ${retryCount}. attempt to retry in ${retryTime} ms`);
         const url = data.request.uri.href;
         const contetType = data.request.headers['Content-Type'].split(';')[FIRST];
         const mPost = contetType === 'multipart/form-data' ? defFunc.postFormData : defFunc.post;
-        return new Promise(rel => setTimeout(() => rel(), retryTime))
+        return timeout(retryTime)
             .then(() => mPost(url, ctx.jar, data.request.formData, {}))
             .then(parseAndCheckLogin(ctx, defFunc, ++retryCount));
     }
@@ -209,18 +218,14 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     try {
         res = JSON.parse(makeParsable(data.body));
     } catch (e) {
-        throw {
-            error: 'JSON.parse error. Check the `detail` property on this error.',
-            detail: e,
-            res: data.body,
-        };
+        throw new Error(`Can parse json : ${data.body}`);
     }
 
     const jRequire = getRequire(res.jsmods);
     updateCtx(ctx, jRequire);
 
     if (res.error === ERR_LOGIN) {
-        throw {error: 'Not logged in.'};
+        throw new Error('Not logged in.');
     }
 
     checkError(res);
@@ -230,13 +235,6 @@ const generateOfflineThreadingId = () => {
     const ret = Date.now();
     const value = Math.floor(Math.random() * POWER_2_32);
     return ret * POWER_2_22 + value;
-};
-const checkError = res => {
-    if (res.error) {
-        res.errorSummary = res.errorSummary || res.error;
-        log.error('br', res.errorSummary);
-        throw new Error(res.errorSummary);
-    }
 };
 
 const defaultMsgsRecv = 0;

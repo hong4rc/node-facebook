@@ -44,7 +44,7 @@ const makeLogin = (body, jar, user, option) => {
         pass: user.pass,
         locale: LOCATE,
         timezone: new Date().getTimezoneOffset(),
-        lgndim: new Buffer('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
+        lgndim: Buffer.from('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
         lgnjs: ~~(Date.now() / MILLIS),
         default_persistent: '0'
     };
@@ -69,6 +69,16 @@ const makeLogin = (body, jar, user, option) => {
     return browser
         .post(URL_LOGIN, jar, form)
         .then(res => checkLoginErr(res, jar));
+};
+
+const loadApi = (api, src, converter) => {
+    const apiNames = fs.readdirSync(src);
+    for (let func of apiNames) {
+        if (fs.statSync(src + func).isFile()) {
+            func = func.replace(/\.js$/, '');
+            api[func] = converter(require(path.join(src, func)));
+        }
+    }
 };
 
 const createApi = (option, body, jar) => {
@@ -98,17 +108,8 @@ const createApi = (option, body, jar) => {
     const defFunc = browser.makeDefaults(body, userId, ctx);
 
     loader.init(defFunc, api, ctx);
-    const loadApi = (src, converter) => {
-        const apiNames = fs.readdirSync(src);
-        for (let func of apiNames) {
-            if (fs.statSync(src + func).isFile()) {
-                func = func.replace(/\.js$/, '');
-                api[func] = converter(require(path.join(src, func)));
-            }
-        }
-    };
-    loadApi(DIR_SRC, loader.loadApi);
-    loadApi(DIR_RAW_API, api => api);
+    loadApi(api, DIR_SRC, loader.loadApi);
+    loadApi(api, DIR_RAW_API, api => api);
 
     return {ctx, api};
 };
