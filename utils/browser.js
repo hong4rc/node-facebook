@@ -1,6 +1,7 @@
 'use strict';
 const log = require('kiat-log');
 const request = require('request').defaults({jar: true});
+const timeout = require('./timeout');
 
 const FIRST = 0;
 const START_RETRY_COUNT = 0;
@@ -205,7 +206,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
         const url = data.request.uri.href;
         const contetType = data.request.headers['Content-Type'].split(';')[FIRST];
         const mPost = contetType === 'multipart/form-data' ? defFunc.postFormData : defFunc.post;
-        return new Promise(resolve => setTimeout(() => resolve(), retryTime))
+        return timeout(retryTime)
             .then(() => mPost(url, ctx.jar, data.request.formData, {}))
             .then(parseAndCheckLogin(ctx, defFunc, ++retryCount));
     }
