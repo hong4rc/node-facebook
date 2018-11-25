@@ -71,6 +71,16 @@ const makeLogin = (body, jar, user, option) => {
         .then(res => checkLoginErr(res, jar));
 };
 
+const loadApi = (api, src, converter) => {
+    const apiNames = fs.readdirSync(src);
+    for (let func of apiNames) {
+        if (fs.statSync(src + func).isFile()) {
+            func = func.replace(/\.js$/, '');
+            api[func] = converter(require(path.join(src, func)));
+        }
+    }
+};
+
 const createApi = (option, body, jar) => {
     const cUser = jar.getCookies(URL_HOME)
         .filter(val => val.cookieString().split('=')[FIRST] === 'c_user');
@@ -98,17 +108,8 @@ const createApi = (option, body, jar) => {
     const defFunc = browser.makeDefaults(body, userId, ctx);
 
     loader.init(defFunc, api, ctx);
-    const loadApi = (src, converter) => {
-        const apiNames = fs.readdirSync(src);
-        for (let func of apiNames) {
-            if (fs.statSync(src + func).isFile()) {
-                func = func.replace(/\.js$/, '');
-                api[func] = converter(require(path.join(src, func)));
-            }
-        }
-    };
-    loadApi(DIR_SRC, loader.loadApi);
-    loadApi(DIR_RAW_API, api => api);
+    loadApi(api, DIR_SRC, loader.loadApi);
+    loadApi(api, DIR_RAW_API, api => api);
 
     return {ctx, api};
 };

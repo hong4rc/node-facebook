@@ -198,10 +198,7 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     log.verbose('parseAndCheckLogin', data.body);
     if (data.statusCode >= SERVER_ERROR) {
         if (retryCount >= MAX_RETRY_COUNT) {
-            throw {
-                error: 'Request retry failed. Check the `res` and `statusCode` property on this error.',
-                statusCode: data.statusCode, res: data.body,
-            };
+            throw new Error(`Request retry failed. statusCode: ${data.statusCode}`);
         }
         const retryTime = Math.floor(Math.random() * MAX_RETRY_TIME);
         log.warn('LG', `Got status code ${data.statusCode} - ${retryCount}. attempt to retry in ${retryTime} ms`);
@@ -220,18 +217,14 @@ const parseAndCheckLogin = (ctx, defFunc, retryCount = START_RETRY_COUNT) => dat
     try {
         res = JSON.parse(makeParsable(data.body));
     } catch (e) {
-        throw {
-            error: 'JSON.parse error. Check the `detail` property on this error.',
-            detail: e,
-            res: data.body,
-        };
+        throw new Error(`Can parse json : ${data.body}`);
     }
 
     const jRequire = getRequire(res.jsmods);
     updateCtx(ctx, jRequire);
 
     if (res.error === ERR_LOGIN) {
-        throw {error: 'Not logged in.'};
+        throw new Error('Not logged in.');
     }
 
     checkError(res);
