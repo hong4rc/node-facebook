@@ -34,6 +34,6 @@ module.exports = (msg, threadId) => {
             return msgId;
         })
         .catch(error => {
-            log.error('sendMessage', error.message);
+            throw error;
         });
 };

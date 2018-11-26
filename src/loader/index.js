@@ -34,6 +34,7 @@ module.exports = {
             })
             .catch(error => {
                 apiObj.onFailure(error);
+                throw error;
             });
     }
 };
