@@ -1,4 +1,5 @@
 'use strict';
+const Url = require('url');
 const log = require('kiat-log');
 const request = require('request').defaults({jar: true});
 const timeout = require('./timeout');
@@ -21,7 +22,7 @@ const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) Appl
     + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
 const FAKE_USER_AGENT = process.env.USER_AGENT || DEFAULT_USER_AGENT;
 const getHeaders = url => {
-    url = new URL(url);
+    url = Url.parse(url);
     return {
         'Content-Type': 'application/x-www-form-urlencoded',
         Referer: url.origin,
