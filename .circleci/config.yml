@@ -1,6 +1,14 @@
 version: 2
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test-node-v10
+      - test-node-v11
+
 jobs:
-  build:
+  test-node-v10: &test-template
     docker:
       - image: circleci/node:10
 
@@ -24,3 +32,7 @@ jobs:
 
       # run tests error code
       - run: yarn lint
+  test-node-v11:
+    <<: *test-template
+    docker:
+      - image: circleci/node:11
