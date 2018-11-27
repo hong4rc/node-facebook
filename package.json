@@ -25,6 +25,9 @@
     "src/**.js",
     "utils/**.js"
   ],
+  "engines": {
+    "node": ">=10.0"
+  },
   "keywords": [
     "facebook",
     "api",
