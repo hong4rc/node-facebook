@@ -2,17 +2,23 @@
 
 const log = require('kiat-log');
 let groupId;
-
-// TODO: add answer
+let answers;
+let questions;
 
 module.exports = {
     url: 'https://www.facebook.com/groups/membership/r2j/',
-    init: _groupId => {
+    init: (_groupId, _questions, _answers) => {
         groupId = _groupId;
+        if (_questions && _answers) {
+            answers = _answers;
+            questions = _questions;
+            module.exports.url = 'https://www.facebook.com/groups/membership_criteria_answer/save/';
+        }
     },
     getForm: () => ({
         group_id: groupId,
-        client_custom_questions: '1'
+        custom_questions: questions,
+        questionnaire_answers: answers,
     }),
     onSuccess: () => {
         log.info('requestToJoinGroup', groupId);
