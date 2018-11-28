@@ -36,6 +36,6 @@ module.exports = {
         log.info('Added', userIds.toString(), 'to', threadId);
     },
     onFailure: error => {
-        log.error('addUserToGroup', error.message);
+        log.error('addUserToThread', error.message);
     }
 };

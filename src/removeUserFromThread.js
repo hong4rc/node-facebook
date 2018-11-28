@@ -19,6 +19,6 @@ module.exports = {
         log.info('Removed', userId, 'from', threadId);
     },
     onFailure: error => {
-        log.error('removeUserFromGroup', error.message);
+        log.error('removeUserFromThread', error.message);
     }
 };
