@@ -1,3 +1,6 @@
 {
-    "extends": "kiat"
+    "extends": "kiat",
+    "parserOptions": {
+        "ecmaVersion": 2018
+    }
 }
