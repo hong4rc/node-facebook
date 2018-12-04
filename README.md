@@ -29,18 +29,20 @@ This module have function same you use browser.
 
 ### Usage
 
-Change in `test.js`
-
 - In first time, you should login with email and password:
-
-```js
-let user = {email: 'your username/id', pass: 'your pass'};
-```
 
 - When you logged in, use `api.getAppState()` to save cookie with this code:
 
 ```js
-fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
+const login = require('node-facebook');
+let user = {email: 'your username/id', pass: 'your pass'};
+login(user)
+    .then(api => {
+        // you can use api here
+
+        // Save cookie to `.json` file
+        fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
+    });
 ```
 
 - Now, you can login with cookie with file `state.json`:
