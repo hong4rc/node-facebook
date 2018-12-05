@@ -1,5 +1,7 @@
 # node-facebook
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Hongarc/node-facebook.svg)](https://greenkeeper.io/)
+
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![CircleCI][circleci-image]][circleci-url]
