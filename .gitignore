@@ -1,0 +1,11 @@
+# Node modules
+node_modules/
+
+# Dist
+dist/
+
+# Test
+/src/test.ts
+
+# Cookies
+state.json

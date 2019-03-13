@@ -1,0 +1,24 @@
+{
+  "name": "node-facebook",
+  "description": "Module to login and use some action (fake browser)",
+  "version": "0.0.1-ts",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.11",
+    "@types/request": "^2.48.1",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "test": "node dist/test.js",
+    "build": "rimraf dist/ && tsc",
+    "start": "tsc -watch"
+  },
+  "keywords": [],
+  "author": "Hongarc",
+  "license": "ISC"
+}
