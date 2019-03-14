@@ -39,7 +39,6 @@ export default class Browser {
     states.forEach((state: Cookie) => {
       this.cookieJar.setCookie(`${state.key}=${state.value}; expires=${state.expires}; domain=${state.domain}; path=${state.path};`, URL_HOME);
     });
-    console.log(this.cookieJar.getCookieString(URL_HOME));
   }
   getOptions(url: string) : OptionsWithUrl {
     return {
@@ -56,7 +55,6 @@ export default class Browser {
     data.cookies.forEach((cookie: string) => {
       this.cookieJar.setCookie(cookie, URL_HOME);
     });
-    console.log(data.form);
     const resPost = await this.post(URL_LOGIN, data.form);
     const { location } = resPost.headers;
     if (!location) {
@@ -88,7 +86,6 @@ export default class Browser {
     return this.request(options);
   }
   request(options : OptionsWithUrl) : Promise<Response> {
-    console.log(options);
     return new Promise((resolve : any) => {
       return request(options, (error: any, response: Response) => {
         if (error) {
@@ -96,7 +93,6 @@ export default class Browser {
         }
         const cookies = response.headers['set-cookie'] || [];
         cookies.forEach((cookie: string) => {
-          console.log(cookie);
           if (cookie.includes('facebook.com')) {
             this.cookieJar.setCookie(cookie, URL_HOME);
           }

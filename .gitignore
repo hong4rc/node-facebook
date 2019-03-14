@@ -6,6 +6,7 @@ dist/
 
 # Test
 /src/test.ts
+*.html
 
 # Cookies
 state.json

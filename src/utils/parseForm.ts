@@ -2,7 +2,6 @@ import { load } from 'cheerio';
 
 import { Info } from '../Facebook';
 import { Form } from './Browser';
-import { Cookie } from 'tough-cookie';
 
 const QR_LOGIN = '#login_form input';
 
@@ -36,7 +35,7 @@ export default (body: string, user: Info) => {
   }
 };
 
-const findForm = (body: string, head: string, tail: string) => {
+const findForm = (body: string, head: string, tail: string): string => {
   const start = body.indexOf(head) + head.length;
   if (start < head.length) {
       return '';
@@ -50,4 +49,4 @@ const findForm = (body: string, head: string, tail: string) => {
   return lastHalf.substring(0, end);
 };
 
-const formatCookie = (arr: string[], url: string) => `${arr[0]}=${arr[1]}; Path=${arr[3]}; Domain=${url}`;
+const formatCookie = (arr: string[], url: string): string => `${arr[0]}=${arr[1]}; Path=${arr[3]}; Domain=${url}`;
