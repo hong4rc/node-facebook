@@ -63,7 +63,6 @@ export default class Browser {
     if (location.includes(URL_CP)) {
       throw new Error('This account is blocked by Facebook !!!');
     }
-    return this.get(location);
   }
   get(url: string = URL_HOME, qs?: Form) : Promise<Response> {
     const options = this.getOptions(url);
