@@ -6,7 +6,8 @@ import request, {
 } from "request";
 
 import { Info } from '../Facebook';
-import parseForm from './parseForm';
+import parseForm, { findForm } from './parseForm';
+import { ApiOption } from '../Api';
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_CP = `${URL_HOME}/checkpoint`
@@ -76,7 +77,7 @@ export default class Browser {
     options.form = form;
     return this.request(options);
   }
-  formData(url: string, form: Form, qs?: Form) : Promise<Response> {
+  formData(url: string, form: Form, qs: Form = {}) : Promise<Response> {
     const options = this.getOptions(url);
     options.method = 'POST';
     options.formData = form;
@@ -99,6 +100,13 @@ export default class Browser {
         resolve(response);
       });
     });
+  }
+  async createOpt(): Promise<ApiOption> {
+      const res = await this.get();
+      return {
+        rev: findForm(res.body, 'revision":', ','),
+        dtsg: findForm(res.body, 'name="fb_dtsg" value="', '"'),
+      }
   }
   getCookie(name: string, url: string = URL_HOME) : Cookie {
     const cookie =  this.cookieJar.getCookies(url).find((cookie: Cookie) => {

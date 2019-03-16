@@ -4,6 +4,7 @@ import {
 } from "request";
 
 import Browser from './utils/Browser';
+import Api from "./Api";
 
 export interface Info {
   email: string;
@@ -28,11 +29,13 @@ export default class Facebook {
     this.user = user;
     this.browser = new Browser((<State>user).state);
   }
-  async login(): Promise<Response> {
+  async login(): Promise<Api> {
     if (isInfo(this.user)) {
       await this.browser.init(<Info>this.user);
     }
-
-    return this.browser.get();
+    const opt = await this.browser.createOpt();
+    const api = new Api(this.browser, opt);
+    // handle with api here
+    return api;
   }
 };
