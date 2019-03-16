@@ -100,4 +100,13 @@ export default class Browser {
       });
     });
   }
+  getCookie(name: string, url: string = URL_HOME) : Cookie {
+    const cookie =  this.cookieJar.getCookies(url).find((cookie: Cookie) => {
+      return cookie.key === name;
+    });
+    if (cookie) {
+      return cookie;
+    }
+    throw new Error('Not found cookie with name ' + name);
+  }
 };
