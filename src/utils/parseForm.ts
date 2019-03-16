@@ -35,18 +35,12 @@ export default (body: string, user: Info) => {
   }
 };
 
-const findForm = (body: string, head: string, tail: string): string => {
-  const start = body.indexOf(head) + head.length;
-  if (start < head.length) {
-      return '';
+export const findForm = (body: string, head: string, tail: string): string => {
+  const matches = new RegExp(head + '(.*?)' + tail).exec(body);
+  if (matches) {
+    return matches[1];
   }
-
-  const lastHalf = body.substring(start);
-  const end = lastHalf.indexOf(tail);
-  if (end < 0) {
-      throw Error(`Could not find endTime ${tail} in the given string.`);
-  }
-  return lastHalf.substring(0, end);
+  throw new Error(`Could not found match '${head}' -> '${tail}'`);
 };
 
 const formatCookie = (arr: string[], url: string): string => `${arr[0]}=${arr[1]}; Path=${arr[3]}; Domain=${url}`;
