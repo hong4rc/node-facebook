@@ -10,3 +10,6 @@ dist/
 
 # Cookies
 state.json
+
+# Npm lock
+package-lock.json
