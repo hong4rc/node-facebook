@@ -10,11 +10,18 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.11",
     "@types/request": "^2.48.1",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-plugin-import": "^2.16.0",
     "rimraf": "^2.6.3",
     "typescript": "^3.3.3333"
   },
   "scripts": {
     "test": "node dist/test.js",
+    "lint": "eslint src/**.ts",
     "build": "rimraf dist/ && tsc",
     "start": "tsc -watch"
   },
