@@ -15,7 +15,7 @@
   "rules": {
     "no-plusplus": "off",
     "import/no-cycle": "warn",
-    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/explicit-member-accessibility": "off"
   }
 }
