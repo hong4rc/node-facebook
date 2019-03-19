@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events';
 
 import Browser, { Form } from './utils/Browser';
-import ApiFunctions from './ApiFunctions';
 import addBookmark from './propApi/addBookmark';
 
 export { Form };
@@ -15,7 +14,7 @@ export type apiFunction = (this: Api, ...args: Arg[]) => Form;
 const getTtstamp = (dtsg: string): string => {
   let ttstamp = '2';
   for (let i = 0; i < dtsg.length; i++) {
-      ttstamp += dtsg.charCodeAt(i);
+    ttstamp += dtsg.charCodeAt(i);
   }
   return ttstamp;
 };
@@ -30,7 +29,7 @@ const parseJson = (body: string): Form => {
   return obj;
 };
 
-export default class Api extends EventEmitter implements ApiFunctions {
+export default class Api extends EventEmitter {
   addBookmark = addBookmark;
 
   browser: Browser;
