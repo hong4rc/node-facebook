@@ -14,6 +14,7 @@ import changeNickname from './propApi/changeNickname';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
 import unBlockUser from './propApi/unBlockUser';
+import unBlockMessage from './propApi/unBlockMessage';
 import send from './propApi/send';
 
 export { Form };
@@ -56,6 +57,7 @@ export default class Api extends EventEmitter {
   markAsRead = markAsRead;
   removeParticipant = removeParticipant;
   unBlockUser = unBlockUser;
+  unBlockMessage = unBlockMessage;
   send = send;
 
   browser: Browser;
