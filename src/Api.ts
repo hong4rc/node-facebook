@@ -7,6 +7,7 @@ import archived from './propApi/archived';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
 import changeBio from './propApi/changeBio';
+import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
@@ -51,6 +52,8 @@ export default class Api extends EventEmitter {
   blockUser = blockUser;
 
   changeBio = changeBio;
+
+  changeEmoji = changeEmoji;
 
   changeNickname = changeNickname;
 
