@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import Browser, { Form } from './utils/Browser';
 import addBookmark from './propApi/addBookmark';
 import markAsRead from './propApi/markAsRead';
+import send from './propApi/send';
 
 export { Form };
 export interface ApiOption {
@@ -34,6 +35,8 @@ export default class Api extends EventEmitter {
   addBookmark = addBookmark;
 
   markAsRead = markAsRead;
+
+  send = send;
 
   browser: Browser;
 
