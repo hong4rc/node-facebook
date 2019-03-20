@@ -5,6 +5,7 @@ import addBookmark from './propApi/addBookmark';
 import addUserToThread from './propApi/addUserToThread';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
+import archived from './propApi/archived';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
 import unBlockUser from './propApi/unBlockUser';
@@ -38,6 +39,8 @@ export default class Api extends EventEmitter {
   addBookmark = addBookmark;
 
   addUserToThread = addUserToThread;
+
+  archived = archived;
 
   blockPage = blockPage;
 
