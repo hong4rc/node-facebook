@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 
 import Browser, { Form } from './utils/Browser';
 import addBookmark from './propApi/addBookmark';
+import markAsRead from './propApi/markAsRead';
 
 export { Form };
 export interface ApiOption {
@@ -31,6 +32,8 @@ const parseJson = (body: string): Form => {
 
 export default class Api extends EventEmitter {
   addBookmark = addBookmark;
+
+  markAsRead = markAsRead;
 
   browser: Browser;
 
