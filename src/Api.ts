@@ -4,6 +4,7 @@ import Browser, { Form } from './utils/Browser';
 import addBookmark from './propApi/addBookmark';
 import addUserToThread from './propApi/addUserToThread';
 import markAsRead from './propApi/markAsRead';
+import removeParticipant from './propApi/removeParticipant';
 import send from './propApi/send';
 
 export { Form };
@@ -38,6 +39,8 @@ export default class Api extends EventEmitter {
   addUserToThread = addUserToThread;
 
   markAsRead = markAsRead;
+
+  removeParticipant = removeParticipant;
 
   send = send;
 
