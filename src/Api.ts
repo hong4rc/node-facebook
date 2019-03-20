@@ -7,6 +7,7 @@ import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
+import unBlockUser from './propApi/unBlockUser';
 import send from './propApi/send';
 
 export { Form };
@@ -45,6 +46,8 @@ export default class Api extends EventEmitter {
   markAsRead = markAsRead;
 
   removeParticipant = removeParticipant;
+
+  unBlockUser = unBlockUser;
 
   send = send;
 
