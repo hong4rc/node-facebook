@@ -1,6 +1,6 @@
 import Api, { Arg, Form } from '../Api';
 
-export default function(this: Api, ...listId: Arg[]): Form {
+export default function (this: Api, ...listId: Arg[]): Form {
   const ids: Form = {};
   listId.forEach((id: Arg): void => {
     ids[id as string] = true;
@@ -10,4 +10,4 @@ export default function(this: Api, ...listId: Arg[]): Form {
     shouldSendReadReceipt: true,
     ids,
   });
-};
+}
