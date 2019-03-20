@@ -6,6 +6,7 @@ import addUserToThread from './propApi/addUserToThread';
 import archived from './propApi/archived';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
+import cancelJoinGroup from './propApi/cancelJoinGroup';
 import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
@@ -46,6 +47,7 @@ export default class Api extends EventEmitter {
   archived = archived;
   blockPage = blockPage;
   blockUser = blockUser;
+  cancelJoinGroup = cancelJoinGroup;
   changeBio = changeBio;
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
