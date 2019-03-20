@@ -11,6 +11,7 @@ import cancelJoinGroup from './propApi/cancelJoinGroup';
 import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
+import deleteMessage from './propApi/deleteMessage';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
 import unBlockUser from './propApi/unBlockUser';
@@ -54,6 +55,7 @@ export default class Api extends EventEmitter {
   changeBio = changeBio;
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
+  deleteMessage = deleteMessage;
   markAsRead = markAsRead;
   removeParticipant = removeParticipant;
   unBlockUser = unBlockUser;
