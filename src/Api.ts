@@ -3,9 +3,10 @@ import { EventEmitter } from 'events';
 import Browser, { Form } from './utils/Browser';
 import addBookmark from './propApi/addBookmark';
 import addUserToThread from './propApi/addUserToThread';
+import archived from './propApi/archived';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
-import archived from './propApi/archived';
+import changeBio from './propApi/changeBio';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
 import unBlockUser from './propApi/unBlockUser';
@@ -45,6 +46,8 @@ export default class Api extends EventEmitter {
   blockPage = blockPage;
 
   blockUser = blockUser;
+
+  changeBio = changeBio;
 
   markAsRead = markAsRead;
 
