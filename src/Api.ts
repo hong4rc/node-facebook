@@ -82,6 +82,10 @@ export default class Api extends EventEmitter {
     const res = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
     return parseJson(res.body);
   }
+
+  static genOTI() {
+    return 4194304 * Date.now();
+  }
 }
 
 // TODO load function of api
