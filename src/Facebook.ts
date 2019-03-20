@@ -20,7 +20,6 @@ const isUserInfo = (object: Form): boolean => isInfo(object) || isState(object);
 
 export default class Facebook {
   user: UserInfo;
-
   browser: Browser;
 
   constructor(user: UserInfo) {

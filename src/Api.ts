@@ -42,37 +42,22 @@ const parseJson = (body: string): Form => {
 
 export default class Api extends EventEmitter {
   addBookmark = addBookmark;
-
   addUserToThread = addUserToThread;
-
   archived = archived;
-
   blockPage = blockPage;
-
   blockUser = blockUser;
-
   changeBio = changeBio;
-
   changeEmoji = changeEmoji;
-
   changeNickname = changeNickname;
-
   markAsRead = markAsRead;
-
   removeParticipant = removeParticipant;
-
   unBlockUser = unBlockUser;
-
   send = send;
 
   browser: Browser;
-
   req: number;
-
   id: string;
-
   rev: string;
-
   dtsg: string;
 
   constructor(browser: Browser, opt: ApiOption) {
@@ -110,7 +95,7 @@ export default class Api extends EventEmitter {
     return parseJson(res.body);
   }
 
-  static genOTI() {
+  static genOTI(): number {
     return 4194304 * Date.now();
   }
 }
