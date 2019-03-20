@@ -12,8 +12,6 @@ export interface ApiOption {
   rev: string;
   dtsg: string;
 }
-export type Arg = string | Form;
-export type apiFunction = (this: Api, ...args: Arg[]) => Form;
 
 const getTtstamp = (dtsg: string): string => {
   let ttstamp = '2';
