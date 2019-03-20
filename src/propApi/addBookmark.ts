@@ -1,6 +1,6 @@
-import Api, { Form } from '../Api';
+import Api, { Form, Id } from '../Api';
 
-export default function (this: Api, id: string): Form {
+export default function (this: Api, id: Id): Form {
   return this.post('https://www.facebook.com/ajax/bookmark/add/', {
     id: `navItem_${id}`,
   });

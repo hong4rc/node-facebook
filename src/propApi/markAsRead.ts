@@ -1,8 +1,8 @@
-import Api, { Form } from '../Api';
+import Api, { Form, Id } from '../Api';
 
-export default function (this: Api, ...listId: string[]): Form {
+export default function (this: Api, ...listId: Id[]): Form {
   const ids: Form = {};
-  listId.forEach((id: string): void => {
+  listId.forEach((id: Id): void => {
     ids[id] = true;
   });
 

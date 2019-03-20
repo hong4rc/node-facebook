@@ -1,8 +1,8 @@
-import Api, { Form } from '../Api';
+import Api, { Form, Id } from '../Api';
 
-export default function (this: Api, archive: boolean, ...listId: string[]): Form {
+export default function (this: Api, archive: boolean, ...listId: Id[]): Form {
   const ids: Form = {};
-  listId.forEach((id: string) => {
+  listId.forEach((id: Id) => {
     ids[id] = archive;
   });
   return this.post('https://www.facebook.com/ajax/mercury/change_archived_status.php', {

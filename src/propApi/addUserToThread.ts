@@ -1,7 +1,7 @@
-import Api, { Form } from '../Api';
+import Api, { Form, Id } from '../Api';
 
-export default function (this: Api, threadId: string, ...userIds: string[]): Form {
-  const participants = userIds.map((userId: string) => `fbid:${userId}`);
+export default function (this: Api, threadId: Id, ...userIds: Id[]): Form {
+  const participants = userIds.map((userId: Id) => `fbid:${userId}`);
   const oti = Api.genOTI();
   return this.send({
     action_type: 'ma-type:log-message',
