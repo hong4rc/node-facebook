@@ -12,6 +12,7 @@ import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
 import deleteMessage from './propApi/deleteMessage';
+import deleteThread from './propApi/deleteThread';
 import markAsRead from './propApi/markAsRead';
 import removeParticipant from './propApi/removeParticipant';
 import unBlockUser from './propApi/unBlockUser';
@@ -56,6 +57,7 @@ export default class Api extends EventEmitter {
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
   deleteMessage = deleteMessage;
+  deleteThread = deleteThread;
   markAsRead = markAsRead;
   removeParticipant = removeParticipant;
   unBlockUser = unBlockUser;
