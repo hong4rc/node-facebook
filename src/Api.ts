@@ -19,6 +19,8 @@ export interface ApiOption {
   dtsg: string;
 }
 
+export type Id = string;
+
 const getTtstamp = (dtsg: string): string => {
   let ttstamp = '2';
   for (let i = 0; i < dtsg.length; i++) {
