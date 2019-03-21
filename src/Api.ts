@@ -23,6 +23,7 @@ import unBlockUser from './propApi/unBlockUser';
 import unBlockMessage from './propApi/unBlockMessage';
 import send from './propApi/send';
 import sendTyping from './propApi/sendTyping';
+import setTitle from './propApi/setTitle';
 
 export { Form };
 export interface ApiOption {
@@ -63,6 +64,7 @@ export default class Api extends EventEmitter {
   unBlockMessage = unBlockMessage;
   send = send;
   sendTyping = sendTyping;
+  setTitle = setTitle;
 
   browser: Browser;
   req: number;
