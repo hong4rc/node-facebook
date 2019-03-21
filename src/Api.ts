@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import Browser, { Form } from './utils/Browser';
+import addFriend from './propApi/addFriend';
 import addUserToThread from './propApi/addUserToThread';
 import archived from './propApi/archived';
 import blockMessage from './propApi/blockMessage';
@@ -43,6 +44,7 @@ const getTtstamp = (dtsg: string): string => {
 
 export default class Api extends EventEmitter {
   bookmark = bookmark;
+  addFriend = addFriend;
   addUserToThread = addUserToThread;
   archived = archived;
   blockMessage = blockMessage;
