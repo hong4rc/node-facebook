@@ -9,6 +9,7 @@ import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
 import bookmark from './propApi/bookmark';
 import cancelJoinGroup from './propApi/cancelJoinGroup';
+import cancelFriend from './propApi/cancelFriend';
 import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
@@ -51,6 +52,7 @@ export default class Api extends EventEmitter {
   blockPage = blockPage;
   blockUser = blockUser;
   cancelJoinGroup = cancelJoinGroup;
+  cancelFriend = cancelFriend;
   changeBio = changeBio;
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
