@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events';
 
 import Browser, { Form } from './utils/Browser';
-import addBookmark from './propApi/addBookmark';
 import addUserToThread from './propApi/addUserToThread';
 import archived from './propApi/archived';
 import blockMessage from './propApi/blockMessage';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
+import bookmark from './propApi/bookmark';
 import cancelJoinGroup from './propApi/cancelJoinGroup';
 import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
@@ -40,7 +40,7 @@ const getTtstamp = (dtsg: string): string => {
 };
 
 export default class Api extends EventEmitter {
-  addBookmark = addBookmark;
+  bookmark = bookmark;
   addUserToThread = addUserToThread;
   archived = archived;
   blockMessage = blockMessage;
