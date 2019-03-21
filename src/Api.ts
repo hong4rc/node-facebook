@@ -27,6 +27,7 @@ import unBlockUser from './propApi/unBlockUser';
 import unBlockMessage from './propApi/unBlockMessage';
 import send from './propApi/send';
 import sendTyping from './propApi/sendTyping';
+import setAdminThread from './propApi/setAdminThread';
 import setTitle from './propApi/setTitle';
 
 export { Form };
@@ -73,6 +74,7 @@ export default class Api extends EventEmitter {
   send = send;
   sendTyping = sendTyping;
   setTitle = setTitle;
+  setAdminThread = setAdminThread;
 
   browser: Browser;
   req: number;
