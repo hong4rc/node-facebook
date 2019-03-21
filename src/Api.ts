@@ -19,6 +19,7 @@ import deleteThread from './propApi/deleteThread';
 import followProfile from './propApi/followProfile';
 import forwardAttachment from './propApi/forwardAttachment';
 import getUserInfo from './propApi/getUserInfo';
+import leaveGroup from './propApi/leaveGroup';
 import markAsRead from './propApi/markAsRead';
 import removeFriend from './propApi/removeFriend';
 import removeParticipant from './propApi/removeParticipant';
@@ -64,6 +65,7 @@ export default class Api extends EventEmitter {
   forwardAttachment = forwardAttachment;
   getUserInfo = getUserInfo;
   markAsRead = markAsRead;
+  leaveGroup = leaveGroup;
   removeFriend = removeFriend;
   removeParticipant = removeParticipant;
   unBlockUser = unBlockUser;
