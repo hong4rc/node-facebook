@@ -38,16 +38,6 @@ const getTtstamp = (dtsg: string): string => {
   return ttstamp;
 };
 
-const parseJson = (body: string): Form => {
-  const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
-  if (arr.length > 1) {
-    arr[0] += '}';
-  }
-  const obj = JSON.parse(arr[0]);
-  // TODO update dtsg, cookie
-  return obj;
-};
-
 export default class Api extends EventEmitter {
   addBookmark = addBookmark;
   addUserToThread = addUserToThread;
@@ -85,6 +75,33 @@ export default class Api extends EventEmitter {
     this.dtsg = opt.dtsg;
   }
 
+  parseJson(body: string): Form {
+    const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
+    if (arr.length > 1) {
+      arr[0] += '}';
+    }
+    const obj = JSON.parse(arr[0]);
+    this.camelize(obj);
+    // TODO update dtsg, cookie
+    return obj;
+  }
+
+  camelize(obj: Form) {
+    if (!obj || obj.constructor !== Object) {
+      return obj;
+    }
+    Object.keys(obj).forEach((key: string) => {
+      let newKey = key.replace(/[\-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
+      newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
+
+      if (newKey !== key) {
+        obj[newKey] = obj[key];
+        delete obj[key];
+      }
+      this.camelize(obj[newKey]);
+    });
+  }
+
   mergeform(form: Form): Form {
     return Object.assign(form, {
       __user: this.id,
@@ -98,17 +115,17 @@ export default class Api extends EventEmitter {
 
   async get(url: string, qs: Form = {}): Promise<Form> {
     const res = await this.browser.get(url, this.mergeform(qs));
-    return parseJson(res.body);
+    return this.parseJson(res.body);
   }
 
   async post(url: string, form: Form = {}): Promise<Form> {
     const res = await this.browser.post(url, this.mergeform(form));
-    return parseJson(res.body);
+    return this.parseJson(res.body);
   }
 
   async formData(url: string, form: Form = {}, qs: Form = {}): Promise<Form> {
     const res = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
-    return parseJson(res.body);
+    return this.parseJson(res.body);
   }
 
   static genOTI(): number {
