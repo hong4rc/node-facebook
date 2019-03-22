@@ -18,6 +18,7 @@ import deleteMessage from './propApi/deleteMessage';
 import deleteThread from './propApi/deleteThread';
 import followProfile from './propApi/followProfile';
 import forwardAttachment from './propApi/forwardAttachment';
+import getMyId from './propApi/getMyId';
 import getPhotoUrl from './propApi/getPhotoUrl';
 import getUserInfo from './propApi/getUserInfo';
 import joinGroup from './propApi/joinGroup';
@@ -77,6 +78,7 @@ export default class Api extends EventEmitter {
   deleteThread = deleteThread;
   followProfile = followProfile;
   forwardAttachment = forwardAttachment;
+  getMyId = getMyId;
   getPhotoUrl = getPhotoUrl;
   getUserInfo = getUserInfo;
   joinGroup = joinGroup;
