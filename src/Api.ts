@@ -23,6 +23,7 @@ import getUserInfo from './propApi/getUserInfo';
 import leaveGroup from './propApi/leaveGroup';
 import markAsRead from './propApi/markAsRead';
 import markAsReadAll from './propApi/markAsReadAll';
+import markReadNoti from './propApi/markReadNoti';
 import messageRequest from './propApi/messageRequest';
 import removeFriend from './propApi/removeFriend';
 import removeMember from './propApi/removeMember';
@@ -72,6 +73,7 @@ export default class Api extends EventEmitter {
   getUserInfo = getUserInfo;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;
+  markReadNoti = markReadNoti;
   leaveGroup = leaveGroup;
   messageRequest = messageRequest;
   removeFriend = removeFriend;
