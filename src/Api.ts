@@ -20,6 +20,7 @@ import followProfile from './propApi/followProfile';
 import forwardAttachment from './propApi/forwardAttachment';
 import getPhotoUrl from './propApi/getPhotoUrl';
 import getUserInfo from './propApi/getUserInfo';
+import joinGroup from './propApi/joinGroup';
 import leaveGroup from './propApi/leaveGroup';
 import markAsRead from './propApi/markAsRead';
 import markAsReadAll from './propApi/markAsReadAll';
@@ -78,6 +79,7 @@ export default class Api extends EventEmitter {
   forwardAttachment = forwardAttachment;
   getPhotoUrl = getPhotoUrl;
   getUserInfo = getUserInfo;
+  joinGroup = joinGroup;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;
   markReadNoti = markReadNoti;
