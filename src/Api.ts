@@ -36,6 +36,7 @@ import sendTyping from './propApi/sendTyping';
 import setAdminThread from './propApi/setAdminThread';
 import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
+import shareUrl from './propApi/shareUrl';
 import subFollow from './propApi/subFollow';
 
 export { Form };
@@ -90,6 +91,7 @@ export default class Api extends EventEmitter {
   setTitle = setTitle;
   setAdminThread = setAdminThread;
   setApprovalMode = setApprovalMode;
+  shareUrl = shareUrl;
   subFollow = subFollow;
 
   browser: Browser;
