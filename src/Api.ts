@@ -122,14 +122,18 @@ export default class Api extends EventEmitter {
   }
 
   parseJson(body: string): Form {
-    const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
-    if (arr.length > 1) {
-      arr[0] += '}';
+    try {
+      const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
+      if (arr.length > 1) {
+        arr[0] += '}';
+      }
+      const obj = JSON.parse(arr[0]);
+      this.camelize(obj);
+      // TODO update dtsg, cookie
+      return obj;
+    } catch (error) {
+      return { data: body };
     }
-    const obj = JSON.parse(arr[0]);
-    this.camelize(obj);
-    // TODO update dtsg, cookie
-    return obj;
   }
 
   camelize(obj: Form): Form {
