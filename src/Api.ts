@@ -29,6 +29,7 @@ import markAsReadAll from './propApi/markAsReadAll';
 import markReadNoti from './propApi/markReadNoti';
 import messageRequest from './propApi/messageRequest';
 import muteThread from './propApi/muteThread';
+import pull from './propApi/pull';
 import removeFriend from './propApi/removeFriend';
 import removeMember from './propApi/removeMember';
 import removeParticipant from './propApi/removeParticipant';
@@ -90,6 +91,7 @@ export default class Api extends EventEmitter {
   markReadNoti = markReadNoti;
   messageRequest = messageRequest;
   muteThread = muteThread;
+  pull = pull;
   removeFriend = removeFriend;
   removeMember = removeMember;
   removeParticipant = removeParticipant;
@@ -107,18 +109,27 @@ export default class Api extends EventEmitter {
   upLoadFile = upLoadFile;
 
   browser: Browser;
-  req: number;
+  req: number = 0;
   id: string;
   rev: string;
   dtsg: string;
+  iServer: number = 0;
+  seq: number = 0;
+  clientId: string = (Math.random() * 2147483648).toString(16);
+  pool?: string;
+  sticky?: string;
+  lastSync?: number;
 
   constructor(browser: Browser, opt: ApiOption) {
     super();
     this.browser = browser;
-    this.req = 0;
     this.id = browser.getCookie('c_user').value;
     this.rev = opt.rev;
     this.dtsg = opt.dtsg;
+  }
+
+  changeServer(): void {
+    this.iServer = Math.floor(Math.random() * 6);
   }
 
   parseJson(body: string): Form {
