@@ -36,6 +36,7 @@ import sendTyping from './propApi/sendTyping';
 import setAdminThread from './propApi/setAdminThread';
 import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
+import subFollow from './propApi/subFollow';
 
 export { Form };
 export interface ApiOption {
@@ -89,6 +90,7 @@ export default class Api extends EventEmitter {
   setTitle = setTitle;
   setAdminThread = setAdminThread;
   setApprovalMode = setApprovalMode;
+  subFollow = subFollow;
 
   browser: Browser;
   req: number;
