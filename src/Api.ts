@@ -34,6 +34,7 @@ import unBlockMessage from './propApi/unBlockMessage';
 import send from './propApi/send';
 import sendTyping from './propApi/sendTyping';
 import setAdminThread from './propApi/setAdminThread';
+import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
 
 export { Form };
@@ -87,6 +88,7 @@ export default class Api extends EventEmitter {
   sendTyping = sendTyping;
   setTitle = setTitle;
   setAdminThread = setAdminThread;
+  setApprovalMode = setApprovalMode;
 
   browser: Browser;
   req: number;
