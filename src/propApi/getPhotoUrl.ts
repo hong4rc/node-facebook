@@ -5,7 +5,7 @@ export default function (this: Api, photoId: Id): Form {
     photo_id: photoId,
   }).then((res: Form) => {
     try {
-      return res.jsmods.require[0][3][0]
+      return res.jsmods.require[0][3][0];
     } catch (error) {
       return null;
     }

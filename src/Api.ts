@@ -8,8 +8,8 @@ import blockMessage from './propApi/blockMessage';
 import blockPage from './propApi/blockPage';
 import blockUser from './propApi/blockUser';
 import bookmark from './propApi/bookmark';
-import cancelJoinGroup from './propApi/cancelJoinGroup';
 import cancelFriend from './propApi/cancelFriend';
+import cancelJoinGroup from './propApi/cancelJoinGroup';
 import changeBio from './propApi/changeBio';
 import changeEmoji from './propApi/changeEmoji';
 import changeNickname from './propApi/changeNickname';
@@ -25,13 +25,11 @@ import leaveGroup from './propApi/leaveGroup';
 import markAsRead from './propApi/markAsRead';
 import markAsReadAll from './propApi/markAsReadAll';
 import markReadNoti from './propApi/markReadNoti';
-import muteThread from './propApi/muteThread';
 import messageRequest from './propApi/messageRequest';
+import muteThread from './propApi/muteThread';
 import removeFriend from './propApi/removeFriend';
 import removeMember from './propApi/removeMember';
 import removeParticipant from './propApi/removeParticipant';
-import unBlockUser from './propApi/unBlockUser';
-import unBlockMessage from './propApi/unBlockMessage';
 import send from './propApi/send';
 import sendTyping from './propApi/sendTyping';
 import setAdminThread from './propApi/setAdminThread';
@@ -39,6 +37,8 @@ import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
 import shareUrl from './propApi/shareUrl';
 import subFollow from './propApi/subFollow';
+import unblockMessage from './propApi/unblockMessage';
+import unblockUser from './propApi/unblockUser';
 import undoActivityGroup from './propApi/undoActivityGroup';
 import unfollowGroup from './propApi/unfollowGroup';
 import upLoadFile from './propApi/upLoadFile';
@@ -60,15 +60,15 @@ const getTtstamp = (dtsg: string): string => {
 };
 
 export default class Api extends EventEmitter {
-  bookmark = bookmark;
   addFriend = addFriend;
   addUserToThread = addUserToThread;
   archived = archived;
   blockMessage = blockMessage;
   blockPage = blockPage;
   blockUser = blockUser;
-  cancelJoinGroup = cancelJoinGroup;
+  bookmark = bookmark;
   cancelFriend = cancelFriend;
+  cancelJoinGroup = cancelJoinGroup;
   changeBio = changeBio;
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
@@ -80,24 +80,24 @@ export default class Api extends EventEmitter {
   getPhotoUrl = getPhotoUrl;
   getUserInfo = getUserInfo;
   joinGroup = joinGroup;
+  leaveGroup = leaveGroup;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;
   markReadNoti = markReadNoti;
-  muteThread = muteThread;
-  leaveGroup = leaveGroup;
   messageRequest = messageRequest;
+  muteThread = muteThread;
   removeFriend = removeFriend;
   removeMember = removeMember;
   removeParticipant = removeParticipant;
-  unBlockUser = unBlockUser;
-  unBlockMessage = unBlockMessage;
   send = send;
   sendTyping = sendTyping;
-  setTitle = setTitle;
   setAdminThread = setAdminThread;
   setApprovalMode = setApprovalMode;
+  setTitle = setTitle;
   shareUrl = shareUrl;
   subFollow = subFollow;
+  unblockMessage = unblockMessage;
+  unblockUser = unblockUser;
   undoActivityGroup = undoActivityGroup;
   unfollowGroup = unfollowGroup;
   upLoadFile = upLoadFile;
@@ -128,20 +128,17 @@ export default class Api extends EventEmitter {
     return obj;
   }
 
-  camelize(obj: Form) {
+  camelize(obj: Form): Form {
     if (!obj || obj.constructor !== Object) {
       return obj;
     }
+    const newObj: Form = {};
     Object.keys(obj).forEach((key: string) => {
-      let newKey = key.replace(/[\-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
+      let newKey = key.replace(/[-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
       newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
-
-      if (newKey !== key) {
-        obj[newKey] = obj[key];
-        delete obj[key];
-      }
-      this.camelize(obj[newKey]);
+      newObj[newKey] = this.camelize(obj[key]);
     });
+    return newObj;
   }
 
   mergeform(form: Form): Form {

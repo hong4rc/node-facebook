@@ -16,7 +16,7 @@
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "no-plusplus": "off",
     "import/named": "off",
-    "import/no-cycle": "warn",
+    "import/no-cycle": "off",
     "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/explicit-member-accessibility": "off"

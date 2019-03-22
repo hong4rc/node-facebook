@@ -1,5 +1,5 @@
 import { ReadStream } from 'fs';
-import Api, { Form, Id } from '../Api';
+import Api, { Form } from '../Api';
 
 export default function (this: Api, attachment: ReadStream): Form {
   return this.post('https://upload.facebook.com/ajax/mercury/upload.php', {
