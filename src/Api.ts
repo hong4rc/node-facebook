@@ -38,6 +38,7 @@ import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
 import shareUrl from './propApi/shareUrl';
 import subFollow from './propApi/subFollow';
+import undoActivityGroup from './propApi/undoActivityGroup';
 
 export { Form };
 export interface ApiOption {
@@ -93,6 +94,7 @@ export default class Api extends EventEmitter {
   setApprovalMode = setApprovalMode;
   shareUrl = shareUrl;
   subFollow = subFollow;
+  undoActivityGroup = undoActivityGroup;
 
   browser: Browser;
   req: number;
