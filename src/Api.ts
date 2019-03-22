@@ -40,6 +40,7 @@ import shareUrl from './propApi/shareUrl';
 import subFollow from './propApi/subFollow';
 import undoActivityGroup from './propApi/undoActivityGroup';
 import unfollowGroup from './propApi/unfollowGroup';
+import upLoadFile from './propApi/upLoadFile';
 
 export { Form };
 export interface ApiOption {
@@ -97,6 +98,7 @@ export default class Api extends EventEmitter {
   subFollow = subFollow;
   undoActivityGroup = undoActivityGroup;
   unfollowGroup = unfollowGroup;
+  upLoadFile = upLoadFile;
 
   browser: Browser;
   req: number;
