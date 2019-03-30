@@ -124,4 +124,8 @@ export default class Browser {
     }
     throw new Error(`Not found cookie with name ${name}`);
   }
+
+  getState(url: string = URL_HOME): Cookie[] {
+    return this.cookieJar.getCookies(url);
+  }
 }
