@@ -147,7 +147,7 @@ export default class Api extends EventEmitter {
   }
 
   camelize(obj: Form): Form {
-    if (!obj || obj.constructor !== Object) {
+    if (!obj || !(obj.constructor === Object || obj.constructor === Array)) {
       return obj;
     }
     const newObj: Form = {};
