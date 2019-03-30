@@ -24,6 +24,7 @@ import getState from './propApi/getState';
 import getUserInfo from './propApi/getUserInfo';
 import joinGroup from './propApi/joinGroup';
 import leaveGroup from './propApi/leaveGroup';
+import listen from './propApi/listen';
 import markAsRead from './propApi/markAsRead';
 import markAsReadAll from './propApi/markAsReadAll';
 import markReadNoti from './propApi/markReadNoti';
@@ -86,6 +87,7 @@ export default class Api extends EventEmitter {
   getUserInfo = getUserInfo;
   joinGroup = joinGroup;
   leaveGroup = leaveGroup;
+  listen = listen;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;
   markReadNoti = markReadNoti;
@@ -119,6 +121,7 @@ export default class Api extends EventEmitter {
   pool?: string;
   sticky?: string;
   lastSync?: number;
+  isRunning: boolean = false;
 
   constructor(browser: Browser, opt: ApiOption) {
     super();
