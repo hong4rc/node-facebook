@@ -1,0 +1,13 @@
+sudo: false
+language: node_js
+node_js:
+  - "10"
+  - "8"
+  - "7"
+before_install:
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+script:
+  - npm run build
