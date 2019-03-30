@@ -1,10 +1,8 @@
 # node-facebook
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/Hongarc/node-facebook.svg)](https://greenkeeper.io/)
-
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
-  [![CircleCI][circleci-image]][circleci-url]
+  [![Travis][travis-image]][travis-url]
 
 ## Installation
 
@@ -65,5 +63,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [npm-url]: https://npmjs.org/package/node-facebook
 [downloads-image]: https://img.shields.io/npm/dm/node-facebook.svg
 [downloads-url]: https://npmjs.org/package/node-facebook
-[circleci-image]: https://circleci.com/gh/Hongarc/node-facebook.svg?style=shield&circle-token=c610044c788b4dbe2ed19f9a27a19afc37cacf57
-[circleci-url]: https://circleci.com/gh/Hongarc/node-facebook
+[travis-image]: https://travis-ci.com/Hongarc/node-facebook.svg?branch=develop
+[travis-url]: https://travis-ci.com/Hongarc/node-facebook
