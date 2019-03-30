@@ -1,6 +1,6 @@
 import Url from 'url';
 import request, {
-  Cookie, jar, CookieJar, CoreOptions,
+  Cookie, jar, CookieJar,
   Response,
   OptionsWithUrl,
 } from 'request';
@@ -16,7 +16,6 @@ const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 export interface Form {
   [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
-type MethodConverter = (obj: CoreOptions) => CoreOptions;
 
 const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
     + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
