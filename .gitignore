@@ -1,0 +1,15 @@
+# Node modules
+node_modules/
+
+# Dist
+dist/
+
+# Test
+/src/test.ts
+*.html
+
+# Cookies
+state.json
+
+# Npm lock
+package-lock.json

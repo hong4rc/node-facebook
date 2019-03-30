@@ -1,0 +1,45 @@
+{
+  "name": "node-facebook",
+  "description": "Module to login and use some action (fake browser)",
+  "version": "0.5.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hongarc/node-facebook.git"
+  },
+  "main": "dist/index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.11",
+    "@types/request": "^2.48.1",
+    "@typescript-eslint/eslint-plugin": "^1.4.2",
+    "@typescript-eslint/parser": "^1.4.2",
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-plugin-import": "^2.16.0",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "test": "node dist/test.js",
+    "lint": "eslint src/** --ext .ts --fix",
+    "build": "rimraf dist/ && tsc",
+    "start": "tsc -watch"
+  },
+  "files": [
+    "dist/**"
+  ],
+  "keywords": [
+    "facebook",
+    "api",
+    "bot",
+    "node-facebook",
+    "request",
+    "cookie"
+  ],
+  "author": "Hongarc",
+  "license": "ISC"
+}
