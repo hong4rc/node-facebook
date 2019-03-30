@@ -44,7 +44,7 @@ import unblockMessage from './propApi/unblockMessage';
 import unblockUser from './propApi/unblockUser';
 import undoActivityGroup from './propApi/undoActivityGroup';
 import unfollowGroup from './propApi/unfollowGroup';
-import upLoadFile from './propApi/upLoadFile';
+import uploadFile from './propApi/uploadFile';
 
 export { Form };
 export interface ApiOption {
@@ -106,7 +106,7 @@ export default class Api extends EventEmitter {
   unblockUser = unblockUser;
   undoActivityGroup = undoActivityGroup;
   unfollowGroup = unfollowGroup;
-  upLoadFile = upLoadFile;
+  uploadFile = uploadFile;
 
   browser: Browser;
   req: number = 0;

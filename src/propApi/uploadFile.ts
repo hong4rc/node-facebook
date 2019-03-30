@@ -7,7 +7,7 @@ export default function (this: Api, attachment: ReadStream): Form {
     voice_clip: 'true',
   }).then((res: Form): Form => {
     try {
-      return res.payload.metadata;
+      return res.payload.metadata[0];
     } catch (error) {
       return {};
     }
