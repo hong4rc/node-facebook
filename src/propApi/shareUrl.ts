@@ -7,7 +7,7 @@ export default function (this: Api, uri: string): Form {
     uri,
   }).then((res: Form): Form => {
     try {
-      return res.payload.share_data.share_params;
+      return res.payload.share_data;
     } catch (error) {
       return {};
     }
