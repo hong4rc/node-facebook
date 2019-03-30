@@ -35,6 +35,7 @@ import removeFriend from './propApi/removeFriend';
 import removeMember from './propApi/removeMember';
 import removeParticipant from './propApi/removeParticipant';
 import send from './propApi/send';
+import sendMsg from './propApi/sendMsg';
 import sendTyping from './propApi/sendTyping';
 import setAdminThread from './propApi/setAdminThread';
 import setApprovalMode from './propApi/setApprovalMode';
@@ -98,6 +99,7 @@ export default class Api extends EventEmitter {
   removeMember = removeMember;
   removeParticipant = removeParticipant;
   send = send;
+  sendMsg = sendMsg;
   sendTyping = sendTyping;
   setAdminThread = setAdminThread;
   setApprovalMode = setApprovalMode;
