@@ -1,5 +1,6 @@
 # node-facebook
 
+  [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![Travis][travis-image]][travis-url]
@@ -65,3 +66,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [downloads-url]: https://npmjs.org/package/node-facebook
 [travis-image]: https://travis-ci.com/Hongarc/node-facebook.svg?branch=develop
 [travis-url]: https://travis-ci.com/Hongarc/node-facebook
+[greenkeeper-image]: https://badges.greenkeeper.io/Hongarc/node-facebook.svg
+[greenkeeper-url]: https://greenkeeper.io/
