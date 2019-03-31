@@ -155,7 +155,7 @@ export default class Api extends EventEmitter {
     if (!obj || !(obj.constructor === Object || obj.constructor === Array)) {
       return obj;
     }
-    const newObj: Form = {};
+    const newObj: Form = obj.constructor === Array ? [] : {};
     Object.keys(obj).forEach((key: string) => {
       let newKey = key.replace(/[-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
       newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
