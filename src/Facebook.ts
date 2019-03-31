@@ -14,7 +14,13 @@ interface State {
 }
 export type UserInfo = Info | State;
 
-const isInfo = (object: Form): boolean => ('email' in object) && ('pass' in object);
+const isInfo = (object: Form): boolean => {
+  try {
+    return (object.email.length >= 5) && (object.pass.length >= 5);
+  } catch (error) {
+    return false;
+  }
+};
 const isState = (object: Form): boolean => ('state' in object);
 const isUserInfo = (object: Form): boolean => isInfo(object) || isState(object);
 
@@ -31,8 +37,10 @@ export default class Facebook {
   }
 
   async login(): Promise<Api> {
-    if (isInfo(this.user)) {
-      await this.browser.init(this.user as Info);
+    if (!isState(this.user) && isInfo(this.user)) {
+      await this.browser.init(this.user as Info).catch((error) => {
+        throw error;
+      });
     }
     const opt = await this.browser.createOpt();
     const api = new Api(this.browser, opt);
