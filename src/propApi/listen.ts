@@ -17,7 +17,6 @@ export default function (this: Api): boolean {
   }
   this.isRunning = true;
   const handleDelta = (delta: Form): void => {
-    console.log(delta.class);
     switch (delta.class) {
       case 'NewMessage':
         this.emit('msg', fNewMsg(delta));
@@ -86,8 +85,7 @@ export default function (this: Api): boolean {
             this.emit('other', ms);
         }
       });
-      invoker();
-    });
+    }).finally(invoker);
     return true;
   };
   return invoker();
