@@ -111,8 +111,8 @@ export default class Browser {
   async createOpt(): Promise<ApiOption> {
     const res = await this.get();
     return {
-      rev: findForm(res.body, 'client_revision":', ','),
-      dtsg: findForm(res.body, 'name="fb_dtsg" value="', '"'),
+      rev: findForm(res.body, '"client_revision":', ','),
+      dtsg: findForm(res.body, '"token":"', '"'),
     };
   }
 
