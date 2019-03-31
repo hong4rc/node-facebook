@@ -14,6 +14,7 @@ export interface Message {
   sticker?: Id;
   body?: string;
   mentions?: Mentions[];
+  ware?: boolean;
 }
 
 export default async function (this: Api, msg: Message, threadId: Id): Promise<Form> {
@@ -31,8 +32,16 @@ export default async function (this: Api, msg: Message, threadId: Id): Promise<F
   if (msg.sticker) {
     form.sticker_id = msg.sticker;
   }
+
+  if (msg.ware) {
+    form.lightweight_action_attachment = {
+      lwa_state: 'INITIATED',
+      lwa_type: 'WAVE',
+    };
+  }
+
   if (msg.attachments) {
-    const files = await Promise.all(msg.attachments.map((file: ReadStream) => this.uploadFile(file)));
+    const files = await Promise.all(msg.attachments.map(file => this.uploadFile(file)));
     files.forEach((file: Form) => {
       const type = Object.keys(file)[0];
       const types = type.replace(/Id$/, '_ids');
