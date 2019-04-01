@@ -1,0 +1,12 @@
+{
+  "me": {
+    "email": "test1@email.com",
+    "pass": "pass1",
+    "state": [{"comment": "state here"}]
+  },
+  "friend": {
+    "email": "test2@email.com",
+    "pass": "pass2",
+    "state": [{"comment": "state here"}]
+  }
+}
