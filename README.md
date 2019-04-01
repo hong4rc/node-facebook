@@ -6,6 +6,7 @@
 
   [![Travis][travis-image]][travis-url]
   [![Codecov][codecov-image]][codecov-url]
+  [![Code style][airbnb-image]][airbnb-url]
 
 ## Installation
 
@@ -72,3 +73,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [greenkeeper-url]: https://greenkeeper.io/
 [codecov-image]: https://codecov.io/gh/Hongarc/node-facebook/branch/develop/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/Hongarc/node-facebook
+[airbnb-image]: https://img.shields.io/badge/code%20style-airbnb-ff69b4.svg?logo=airbnb
+[airbnb-url]: https://github.com/airbnb/javascript
