@@ -10,7 +10,7 @@ export interface Info {
   pass: string;
 }
 interface State {
-  state: Cookie[];
+  state: Form[];
 }
 export type UserInfo = Info | State;
 
@@ -33,7 +33,7 @@ export default class Facebook {
       throw new Error('Please login with email/pass or cookie!');
     }
     this.user = user;
-    this.browser = new Browser((user as State).state);
+    this.browser = new Browser((user as State).state as Cookie[]);
   }
 
   async login(): Promise<Api> {
