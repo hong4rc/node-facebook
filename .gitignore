@@ -14,3 +14,8 @@ state.json
 
 # Npm lock
 package-lock.json
+
+# Coverage directory used by tools like istanbul
+coverage
+.nyc_output
+coverage.*
