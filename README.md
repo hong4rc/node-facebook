@@ -3,7 +3,9 @@
   [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
+
   [![Travis][travis-image]][travis-url]
+  [![Codecov][codecov-image]][codecov-url]
 
 ## Installation
 
@@ -68,3 +70,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [travis-url]: https://travis-ci.com/Hongarc/node-facebook
 [greenkeeper-image]: https://badges.greenkeeper.io/Hongarc/node-facebook.svg
 [greenkeeper-url]: https://greenkeeper.io/
+[codecov-image]: https://codecov.io/gh/Hongarc/node-facebook/branch/develop/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/Hongarc/node-facebook
