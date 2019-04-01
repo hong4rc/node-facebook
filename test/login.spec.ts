@@ -92,4 +92,19 @@ describe('Login', () => {
       }
     }).timeout(10000);
   });
+
+  describe('Logout', () => {
+    it('Logout after login', async () => {
+      const friend = new Facebook({
+        state: info.friend.state,
+      });
+      const api = await friend.login();
+      const headers = await api.logout();
+      info.friend.state = api.getState();
+      writeFileSync(join(__dirname, 'info.json'), JSON.stringify(info, null, 2));
+      expect(() => {
+        api.browser.getCookie('c_user').value;
+      }).to.throw('Not found cookie with name c_user');
+    }).timeout(10000);
+  });
 });
