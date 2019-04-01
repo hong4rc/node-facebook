@@ -18,7 +18,7 @@ describe('Login', () => {
       info.friend.state = api.getState();
       writeFileSync(infoPath, JSON.stringify(info, null, 2));
       expect(api.id).to.be.a('string');
-    }).timeout(10000);
+    }).timeout(15000);
 
     it('Email don\'t match password', () => {
       const invalid = new Facebook({
@@ -69,7 +69,7 @@ describe('Login', () => {
       info.friend.state = api.getState();
       writeFileSync(join(__dirname, 'info.json'), JSON.stringify(info, null, 2));
       expect(api.id).to.be.a('string');
-    });
+    }).timeout(10000);
 
     it('Bad cookie', async () => {
       const friend = new Facebook({
@@ -90,6 +90,6 @@ describe('Login', () => {
       } catch (error) {
         expect(error.message).to.equal('Not found cookie with name c_user');
       }
-    });
+    }).timeout(10000);
   });
 });
