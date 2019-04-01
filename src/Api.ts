@@ -25,6 +25,7 @@ import getUserInfo from './propApi/getUserInfo';
 import joinGroup from './propApi/joinGroup';
 import leaveGroup from './propApi/leaveGroup';
 import listen from './propApi/listen';
+import logout from './propApi/logout';
 import markAsRead from './propApi/markAsRead';
 import markAsReadAll from './propApi/markAsReadAll';
 import markReadNoti from './propApi/markReadNoti';
@@ -89,6 +90,7 @@ export default class Api extends EventEmitter {
   joinGroup = joinGroup;
   leaveGroup = leaveGroup;
   listen = listen;
+  logout = logout;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;
   markReadNoti = markReadNoti;
@@ -182,6 +184,9 @@ export default class Api extends EventEmitter {
 
   async post(url: string, form: Form = {}): Promise<Form> {
     const res = await this.browser.post(url, this.mergeform(form));
+    if (res.headers.location) {
+      return res.headers;
+    }
     return this.parseJson(res.body);
   }
 
