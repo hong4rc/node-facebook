@@ -145,7 +145,7 @@ export default class Api extends EventEmitter {
       if (arr.length > 1) {
         arr[0] += '}';
       }
-      const obj = this.camelize(JSON.parse(arr[0]));
+      const obj = JSON.parse(arr[0]);
       // TODO update dtsg, cookie
       return obj;
     } catch (error) {

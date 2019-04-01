@@ -19,9 +19,9 @@ export const fProxy = (userId: string, presence: Form): Form => ({
 
 export const fTyping = (msg: Form): Form => ({
   isTyping: Boolean(msg.st),
-  fromMobile: msg.from_mobile !== false,
+  fromMobile: msg.fromMobile !== false,
   from: msg.from,
-  threadId: msg.to || msg.thread_fbid || msg.from,
+  threadId: msg.to || msg.threadFbid || msg.from,
 });
 
 export const fNewMsg = (delta: Form): Form => {
