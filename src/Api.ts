@@ -182,6 +182,9 @@ export default class Api extends EventEmitter {
 
   async post(url: string, form: Form = {}): Promise<Form> {
     const res = await this.browser.post(url, this.mergeform(form));
+    if (res.headers.location) {
+      return res.headers;
+    }
     return this.parseJson(res.body);
   }
 
