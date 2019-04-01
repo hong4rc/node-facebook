@@ -139,7 +139,7 @@ export default class Api extends EventEmitter {
     this.iServer = Math.floor(Math.random() * 6);
   }
 
-  parseJson(body: string): Form {
+  static parseJson(body: string): Form {
     try {
       const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
       if (arr.length > 1) {
@@ -179,7 +179,7 @@ export default class Api extends EventEmitter {
 
   async get(url: string, qs: Form = {}): Promise<Form> {
     const res = await this.browser.get(url, this.mergeform(qs));
-    return this.parseJson(res.body);
+    return Api.parseJson(res.body);
   }
 
   async post(url: string, form: Form = {}): Promise<Form> {
