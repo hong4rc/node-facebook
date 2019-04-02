@@ -187,12 +187,12 @@ export default class Api extends EventEmitter {
     if (res.headers.location) {
       return res.headers;
     }
-    return this.parseJson(res.body);
+    return Api.parseJson(res.body);
   }
 
   async formData(url: string, form: Form = {}, qs: Form = {}): Promise<Form> {
     const res = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
-    return this.parseJson(res.body);
+    return Api.parseJson(res.body);
   }
 
   static genOTI(): number {
