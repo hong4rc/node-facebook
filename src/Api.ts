@@ -116,7 +116,7 @@ export default class Api extends EventEmitter {
 
   browser: Browser;
   req: number = 0;
-  id: string;
+  id: Id;
   rev: string;
   dtsg: string;
   iServer: number = 0;
