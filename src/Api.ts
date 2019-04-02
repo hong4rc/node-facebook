@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import Browser, { Form } from './utils/Browser';
+import acceptFriend from './propApi/acceptFriend';
 import addFriend from './propApi/addFriend';
 import addUserToThread from './propApi/addUserToThread';
 import archived from './propApi/archived';
@@ -66,6 +67,7 @@ const getTtstamp = (dtsg: string): string => {
 };
 
 export default class Api extends EventEmitter {
+  acceptFriend = acceptFriend;
   addFriend = addFriend;
   addUserToThread = addUserToThread;
   archived = archived;
@@ -116,7 +118,7 @@ export default class Api extends EventEmitter {
 
   browser: Browser;
   req: number = 0;
-  id: string;
+  id: Id;
   rev: string;
   dtsg: string;
   iServer: number = 0;
