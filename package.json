@@ -33,7 +33,7 @@
   "scripts": {
     "test": "nyc mocha test/**/*.spec.ts",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint src/** --ext .ts --fix",
+    "lint": "eslint src/**/*.ts --fix",
     "build": "rimraf dist/ && tsc",
     "start": "tsc -watch"
   },

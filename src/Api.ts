@@ -172,7 +172,7 @@ export default class Api extends EventEmitter {
       __req: (++this.req).toString(36),
       __rev: this.rev,
       __a: 1,
-      fb_dtsg: this.dtsg, // eslint-disable-line @typescript-eslint/camelcase
+      fb_dtsg: this.dtsg,
       jazoest: getTtstamp(this.dtsg),
     });
   }
