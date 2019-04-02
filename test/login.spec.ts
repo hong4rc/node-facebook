@@ -4,7 +4,7 @@ import { join } from 'path';
 import Facebook from '../src/Facebook';
 
 const infoPath = join(__dirname, 'info.json');
-const info = JSON.parse(process.env.INFO || readFileSync(infoPath, 'utf8'));
+const info = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
 
 describe('Login', () => {
   describe('Use email/pass', () => {
