@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import { join } from 'path';
 import Facebook from '../src/Facebook';
 
@@ -10,13 +9,12 @@ const info = JSON.parse(process.env.INFO || readFileSync(infoPath, 'utf8'));
 describe('Login', () => {
   describe('Use email/pass', () => {
     it('Email match password', async () => {
-      const friend = new Facebook({
-        email: info.friend.email,
-        pass: info.friend.pass,
+      const me = new Facebook({
+        email: info.me.email,
+        pass: info.me.pass,
       });
-      const api = await friend.login();
-      info.friend.state = api.getState();
-      writeFileSync(infoPath, JSON.stringify(info, null, 2));
+      const api = await me.login();
+      info.me.tmpState = api.getState();
       expect(api.id).to.be.a('string');
     }).timeout(15000);
 
@@ -63,11 +61,10 @@ describe('Login', () => {
   describe('Use state', () => {
     it('Trust cookie', async () => {
       const friend = new Facebook({
-        state: info.friend.state,
+        state: info.me.tmpState,
       });
       const api = await friend.login();
-      info.friend.state = api.getState();
-      writeFileSync(join(__dirname, 'info.json'), JSON.stringify(info, null, 2));
+      info.me.tmpState = api.getState();
       expect(api.id).to.be.a('string');
     }).timeout(10000);
 
@@ -96,14 +93,14 @@ describe('Login', () => {
   describe('Logout', () => {
     it('Logout after login', async () => {
       const friend = new Facebook({
-        state: info.friend.state,
+        state: info.me.tmpState,
       });
       const api = await friend.login();
       const headers = await api.logout();
-      info.friend.state = api.getState();
-      writeFileSync(join(__dirname, 'info.json'), JSON.stringify(info, null, 2));
+      expect(headers.location).to.match(/^https:\/\/www\.facebook\.com\/\?stype=lo/);
+      info.me.tmpState = api.getState();
       expect(() => {
-        api.browser.getCookie('c_user').value;
+        api.browser.getCookie('c_user');
       }).to.throw('Not found cookie with name c_user');
     }).timeout(10000);
   });
