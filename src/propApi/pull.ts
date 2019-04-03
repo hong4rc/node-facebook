@@ -19,9 +19,9 @@ export default function (this: Api, form: Form = {}): Form {
     this.seq = res.seq || this.seq;
     switch (res.t) {
       case 'lb':
-        if (res.lbInfo) {
-          this.pool = res.lbInfo.pool;
-          this.sticky = res.lbInfo.sticky;
+        if (res.lb_info) {
+          this.pool = res.lb_info.pool;
+          this.sticky = res.lb_info.sticky;
         }
         return [];
       case 'fullReload':
