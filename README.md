@@ -8,6 +8,7 @@
   [![Travis][travis-image]][travis-url]
   [![Codecov][codecov-image]][codecov-url]
   [![Code style][airbnb-image]][airbnb-url]
+  [![CodeFactor][codefactor-image]][codefactor-url]
 
 ## Installation
 
@@ -77,3 +78,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [airbnb-url]: https://github.com/airbnb/javascript
 [license-image]: https://img.shields.io/github/license/Hongarc/node-facebook.svg?color=blueviolet
 [license-url]: https://github.com/Hongarc/node-facebook/blob/develop/LICENSE
+[codefactor-image]: https://www.codefactor.io/repository/github/hongarc/node-facebook/badge
+[codefactor-url]: https://www.codefactor.io/repository/github/hongarc/node-facebook
