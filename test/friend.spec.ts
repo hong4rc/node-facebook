@@ -16,48 +16,48 @@ interface UInfos {
 const infoPath = join(__dirname, 'info.json');
 const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
 
-const me = new Facebook({ state: info.me.state });
-const friend = new Facebook({ state: info.friend.state });
+const fMe = new Facebook({ state: info.me.state });
+const fFriend = new Facebook({ state: info.friend.state });
 
 describe('Friend', async function () {
   this.timeout(40000);
 
-  let aMe: Api;
-  let aFriend: Api;
+  let me: Api;
+  let friend: Api;
   let iFriend: Id;
-  let users: Form;
-  let isFriend: boolean = true;
+  let iMe: Id;
 
-  before(async () => {
-    aMe = await me.login();
-    aFriend = await friend.login();
-    iFriend = aFriend.id;
-    users = await aMe.getUserInfo(iFriend);
-    isFriend = users[aFriend.id].is_friend;
+  before('Login me and my friend', async () => {
+    me = await fMe.login();
+    friend = await fFriend.login();
+    iFriend = friend.id;
+    iMe = me.id;
+
+    // Become stranger and request
+    await me.cancelFriend(iFriend);
+    await friend.cancelFriend(iMe);
+    await me.removeFriend(iFriend);
+    await me.addFriend(iFriend);
   });
 
-  describe('Trust action', () => {
-    const removeFriend = () => it('remove friend when is friend', async () => {
-      await aMe.removeFriend(iFriend);
-    });
+  it('api.cancelFriend', async () => {
+    const res = await me.cancelFriend(iFriend);
+    expect(res).have.not.property('error');
+  });
 
-    if (isFriend) {
-      removeFriend();
-    }
+  it('api.addFriend', async () => {
+    const res = await me.addFriend(iFriend);
+    expect(res).have.property('payload').that.have.property('success', true);
+  });
 
-    it('request friend when isn\'t friend', async () => {
-      await aMe.cancelFriend(iFriend);
-      const res = await aMe.addFriend(iFriend);
-      expect(res.payload).have.property('success', true);
-    });
+  it('api.acceptFriend', async () => {
+    const res = await friend.acceptFriend(iMe);
+    expect(res).have.property('payload').that.have.property('success', true);
+  });
 
-    it('accept friend when has request', async () => {
-      const res = await aFriend.acceptFriend(aMe.id);
-      expect(res.payload).have.property('success', true);
-    });
-
-    if (!isFriend) {
-      removeFriend();
-    }
-  })
+  it('api.removeFriend', async () => {
+    await friend.removeFriend(iMe);
+    const users = await friend.getUserInfo(iMe);
+    expect(users).have.property(iMe).that.have.property('isFriend', false);
+  });
 });
