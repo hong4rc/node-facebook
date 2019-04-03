@@ -2,17 +2,9 @@ import { expect } from 'chai';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import Facebook from '../src/Facebook';
-import Api, { Form, Id } from '../src/Api';
+import Api, { Id } from '../src/Api';
+import UInfos from './UInfos';
 
-interface UInfo {
-  email: string;
-  pass: string;
-  state: Form[];
-}
-interface UInfos {
-  me: UInfo;
-  friend: UInfo;
-}
 const infoPath = join(__dirname, 'info.json');
 const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
 
