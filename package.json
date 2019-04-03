@@ -31,7 +31,7 @@
     "typescript": "^3.4.1"
   },
   "scripts": {
-    "test": "nyc mocha test/**/*.spec.ts",
+    "test": "nyc mocha test/**/*.spec.ts --timeout 40000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint src/**/*.ts --fix",
     "lint:spec": "eslint test/**/*.spec.ts --fix",

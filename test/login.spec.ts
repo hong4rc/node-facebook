@@ -2,9 +2,10 @@ import { expect } from 'chai';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import Facebook from '../src/Facebook';
+import UInfos from './UInfos';
 
 const infoPath = join(__dirname, 'info.json');
-const info = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
+const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
 
 describe('Login', () => {
   describe('Use email/pass', () => {
@@ -16,7 +17,7 @@ describe('Login', () => {
       const api = await me.login();
       info.me.tmpState = api.getState();
       expect(api.id).to.be.a('string');
-    }).timeout(15000);
+    });
 
     it('Email don\'t match password', () => {
       const invalid = new Facebook({
@@ -28,7 +29,7 @@ describe('Login', () => {
       }, (error: Error) => {
         expect(error.message).to.equal('Wrong username/password.');
       });
-    }).timeout(30000);
+    });
 
     it('Not fill pass', () => {
       // @ts-ignore
@@ -66,7 +67,7 @@ describe('Login', () => {
       const api = await friend.login();
       info.me.tmpState = api.getState();
       expect(api.id).to.be.a('string');
-    }).timeout(10000);
+    });
 
     it('Bad cookie', async () => {
       const friend = new Facebook({
@@ -87,7 +88,7 @@ describe('Login', () => {
       } catch (error) {
         expect(error.message).to.equal('Not found cookie with name c_user');
       }
-    }).timeout(10000);
+    });
   });
 
   describe('Logout', () => {
@@ -102,6 +103,6 @@ describe('Login', () => {
       expect(() => {
         api.browser.getCookie('c_user');
       }).to.throw('Not found cookie with name c_user');
-    }).timeout(10000);
+    });
   });
 });
