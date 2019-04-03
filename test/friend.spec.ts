@@ -11,9 +11,7 @@ const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : re
 const fMe = new Facebook({ state: info.me.state });
 const fFriend = new Facebook({ state: info.friend.state });
 
-describe('Friend', async function () {
-  this.timeout(40000);
-
+describe('Friend', async () => {
   let me: Api;
   let friend: Api;
   let iFriend: Id;
