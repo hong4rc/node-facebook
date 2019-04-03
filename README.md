@@ -3,6 +3,7 @@
   [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
+  [![License][license-image]][license-url]
 
   [![Travis][travis-image]][travis-url]
   [![Codecov][codecov-image]][codecov-url]
@@ -75,3 +76,5 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [codecov-url]: https://codecov.io/gh/Hongarc/node-facebook
 [airbnb-image]: https://img.shields.io/badge/code%20style-airbnb-ff69b4.svg?logo=airbnb
 [airbnb-url]: https://github.com/airbnb/javascript
+[license-image]: https://img.shields.io/github/license/Hongarc/node-facebook.svg?color=blueviolet
+[license-url]: https://github.com/Hongarc/node-facebook/blob/develop/LICENSE
