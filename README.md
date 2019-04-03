@@ -15,7 +15,6 @@ This is a [Node.js](https://nodejs.org/en/) module available through the
 [npm registry](https://www.npmjs.com/).
 
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
-Node.js 10.0 or higher is required.
 
 Installation is done using `npm` or `yarn`:
 
