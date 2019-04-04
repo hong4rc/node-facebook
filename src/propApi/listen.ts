@@ -87,7 +87,8 @@ export default function (this: Api): boolean {
             this.emit('other', ms);
         }
       });
-    }).finally(invoker);
+      invoker();
+    }).catch(invoker);
     return true;
   };
   return invoker();
