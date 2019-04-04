@@ -129,9 +129,8 @@ export default class Api extends EventEmitter {
   pool?: string;
   sticky?: string;
   lastSync?: number;
-  isRunning: boolean = false;
-  shouldRunning: boolean = false;
-  mPull?: Promise<Form>;
+  idListen?: number;
+  originIdListen: number = 0;
 
   constructor(browser: Browser, opt: ApiOption) {
     super();

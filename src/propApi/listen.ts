@@ -12,11 +12,12 @@ const getPayLoad = (payload: number[]): Form[] => {
 };
 
 export default function (this: Api): boolean {
-  if (this.isRunning) {
+  if (this.idListen) {
     return false;
   }
-  this.isRunning = true;
-  this.shouldRunning = true;
+  const id = (this.originIdListen % 2000) + 1;
+  this.idListen = id;
+  this.originIdListen = id;
   const handleDelta = (delta: Form): void => {
     switch (delta.class) {
       case 'NewMessage':
@@ -50,9 +51,8 @@ export default function (this: Api): boolean {
     }
   };
   const invoker = (): boolean => {
-    this.mPull = this.pull();
-    this.mPull.then((res: Form): void => {
-      if (this.shouldRunning !== true) {
+    this.pull().then((res: Form): void => {
+      if (this.idListen !== id) {
         return;
       }
       (res as Form[]).forEach((ms: Form) => {
