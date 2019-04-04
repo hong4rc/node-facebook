@@ -1,6 +1,6 @@
 import Api, { Form } from '../Api';
 
-export default function (this: Api, form: Form = {}): Form {
+export default function (this: Api, form: Form = {}): Promise<Form> {
   return this.get(`https://${this.iServer}-edge-chat.facebook.com/pull`, {
     channel: `p_${this.id}`,
     viewer_uid: this.id,

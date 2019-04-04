@@ -16,6 +16,7 @@ export default function (this: Api): boolean {
     return false;
   }
   this.isRunning = true;
+  this.shouldRunning = true;
   const handleDelta = (delta: Form): void => {
     switch (delta.class) {
       case 'NewMessage':
@@ -49,11 +50,12 @@ export default function (this: Api): boolean {
     }
   };
   const invoker = (): boolean => {
-    this.pull().then((res: Form[]): void => {
-      if (this.isRunning !== true) {
+    this.mPull = this.pull();
+    this.mPull.then((res: Form): void => {
+      if (this.shouldRunning !== true) {
         return;
       }
-      res.forEach((ms: Form) => {
+      (res as Form[]).forEach((ms: Form) => {
         switch (ms.type) {
           case 'typ':
             this.emit('typ', fTyping(ms));

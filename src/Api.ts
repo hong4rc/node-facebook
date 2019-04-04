@@ -43,6 +43,7 @@ import setAdminThread from './propApi/setAdminThread';
 import setApprovalMode from './propApi/setApprovalMode';
 import setTitle from './propApi/setTitle';
 import shareUrl from './propApi/shareUrl';
+import stopListen from './propApi/stopListen';
 import subFollow from './propApi/subFollow';
 import unblockMessage from './propApi/unblockMessage';
 import unblockUser from './propApi/unblockUser';
@@ -109,6 +110,7 @@ export default class Api extends EventEmitter {
   setApprovalMode = setApprovalMode;
   setTitle = setTitle;
   shareUrl = shareUrl;
+  stopListen = stopListen;
   subFollow = subFollow;
   unblockMessage = unblockMessage;
   unblockUser = unblockUser;
@@ -128,6 +130,8 @@ export default class Api extends EventEmitter {
   sticky?: string;
   lastSync?: number;
   isRunning: boolean = false;
+  shouldRunning: boolean = false;
+  mPull?: Promise<Form>;
 
   constructor(browser: Browser, opt: ApiOption) {
     super();
