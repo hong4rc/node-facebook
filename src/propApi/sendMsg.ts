@@ -44,7 +44,7 @@ export default async function (this: Api, msg: Message, threadId: Id): Promise<F
     const files = await Promise.all(msg.attachments.map(file => this.uploadFile(file)));
     files.forEach((file: Form) => {
       const type = Object.keys(file)[0];
-      const types = type.replace(/Id$/, '_ids');
+      const types = `${type}s`;
       if (!form[types]) {
         form[types] = [];
       }
