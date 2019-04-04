@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { readFileSync } from 'fs';
+import { readFileSync, createReadStream } from 'fs';
 import { join } from 'path';
 import Facebook from '../src/Facebook';
 import Api, { Form, Id } from '../src/Api';
@@ -65,6 +65,61 @@ describe('Send and listen', async () => {
       friend.sendMsg({
         url: data.url,
       }, iMe);
+    });
+
+    it('sticker', (done) => {
+      const data = {
+        sticker: '907260072679123',
+        body: 'This is sticker',
+      };
+      listener = (msg) => {
+        // TODO change after format
+        expect(msg).have.property('body', data.body);
+        expect(msg).have.deep.nested.property('attachments[0].mercury.stickerAttachment.id', data.sticker);
+        done();
+      };
+      me.on('msg', listener);
+      friend.sendMsg(data, iMe);
+    });
+
+    it('mentions', (done) => {
+      const data = {
+        mentions: [{
+          id: iFriend,
+          offset: 0,
+          length: 3,
+        }, {
+          id: iMe,
+          offset: 8,
+          length: 7,
+        }],
+        body: 'You are Hongarc\'s friend',
+      };
+      listener = (msg) => {
+        expect(msg).have.property('body', data.body);
+        expect(msg).have.property('mentions');
+        expect(msg.mentions).have.property(iMe);
+        expect(msg.mentions).have.property(iFriend);
+        done();
+      };
+      me.on('msg', listener);
+      friend.sendMsg(data, iMe);
+    });
+
+    it('attachments', (done) => {
+      const filename = 'package.json';
+      const data = {
+        body: 'This is one file',
+        attachments: [createReadStream(join(__dirname, '../', filename))],
+      };
+      listener = (msg) => {
+        // TODO change after format
+        expect(msg).have.property('body', data.body);
+        expect(msg).have.deep.nested.property('attachments[0].filename', filename);
+        done();
+      };
+      me.on('msg', listener);
+      friend.sendMsg(data, iMe);
     });
   });
 });
