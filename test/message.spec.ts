@@ -16,7 +16,7 @@ describe('Send and listen', async () => {
   let friend: Api;
   let iFriend: Id;
   let iMe: Id;
-  let listener: (...args: Form[]) => void;
+  let listener: ((...args: Form[]) => void) | undefined;
 
   before('Login + make friend', async () => {
     me = await fMe.login();
@@ -26,15 +26,18 @@ describe('Send and listen', async () => {
 
     await friend.addFriend(iMe);
     await me.acceptFriend(iFriend);
-  });
-
-  beforeEach(() => {
     me.listen();
   });
 
-  afterEach(() => {
-    me.off('msg', listener);
+  after(() => {
     me.stopListen();
+  })
+
+  afterEach(() => {
+    if (listener) {
+      me.off('msg', listener);
+      listener = undefined;
+    }
   });
 
   describe('SendMsg', () => {
