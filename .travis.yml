@@ -1,32 +1,39 @@
 sudo: false
 language: node_js
 node_js:
-  - "10"
+- '10'
 before_install:
 cache:
   directories:
-    - "node_modules"
+  - node_modules
 script:
-  - npm run lint
-  - npm run lint:spec
-  - npm pack
-  - npm run test
+- npm run lint
+- npm run lint:spec
+- npm pack
+- npm run test
 after_success:
-  - npm run coverage
+- npm run coverage
 deploy:
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    keep_history: true
-    on:
-      branch: develop
-    local_dir: coverage
-    email: aqua.hong.97@gmail.com
-    name: Hongarc's bot
-  - provider: releases
-    file_glob: true
-    file: "*.tgz"
-    api_key: $GITHUB_TOKEN
-    skip_cleanup: true
-    on:
-      tags: true
+- provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  keep_history: true
+  on:
+    branch: develop
+  local_dir: coverage
+  email: aqua.hong.97@gmail.com
+  name: Hongarc's bot
+- provider: releases
+  file_glob: true
+  file: "*.tgz"
+  api_key: "$GITHUB_TOKEN"
+  skip_cleanup: true
+  on:
+    tags: true
+- provider: npm
+  email: aqua.hong.97@gmail.com
+  api_key:
+    secure: aQGIZRxG4fKQTP6zRgI17ZJwFojvDQwuWUFPCdZtFoANWsifM1shQdwuCxQvcJ54Ggm/psu7eOzVAUbKFDCLQiUZHCWFpJFosZC2p47UE0o+Qfz17bNtyl8nc6WMHFdmI9N4hkM5DtcYLjtnbqOy9FlvSL9j64jzH7QCgulaYeJgaI/4sy0RMUywspS9QQzDz/4t057vz6bZLRXDW0ghNkJqZuigC54BByoSzUW7SMs4squ4Nqjme+HeaWZMVHxHD6+Uxxsq30jOviBJZ5XrP6wmKKX8lD3dPCaVd91yeoiuYdpLf5T8Hl7VmwHCsZi+CatwNjLMI8Zd5+Qlh/J9TQkVSwzB6wp1OiXb3KpikoSXdtzLRaNa83GtWUyooJNWet8aNON2KtkvhmwYPD70h/6vJnPFAveAUms/i1I0f7spPU5XjAx5Iw1JmUuRSqQg8EhfxiRCIIKmy44XaDhxnd5NQSRW1beEn1jLilyIksGw2lQOtGFVMblFecgW96dkfsbYORQkq31pn8FasaYgHokHOX7WSobzEOa4/VsyY/+MqOAZq2S+PjSbnSWEjmobqq03Z/kFl1a4AmfP6rHAMIuy5m4pj4+ARoctbXPBPFwG75VDxDHjaH2eaETA25NtvpQXqejkMBRhsCPfCv/SdEaO129kSF3/l1/TDBRZFHo=
+  on:
+    tags: true
+    repo: Hongarc/node-facebook

@@ -1,7 +1,9 @@
 {
   "name": "node-facebook",
-  "description": "Module to login and use some action (fake browser)",
-  "version": "0.5.2",
+  "version": "0.5.3",
+  "description": "Facebook simulator web browser",
+  "author": "Hongarc",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Hongarc/node-facebook.git"
@@ -62,7 +64,5 @@
     "node-facebook",
     "request",
     "cookie"
-  ],
-  "author": "Hongarc",
-  "license": "MIT"
+  ]
 }
