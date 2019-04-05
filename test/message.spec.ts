@@ -137,7 +137,6 @@ describe('Send and listen', async () => {
       };
       listener = (msg) => {
         // TODO change after format
-        console.log(JSON.stringify(msg.attachments));
         expect(msg).have.property('body', data.body);
         expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.target.typename', 'LightweightAction');
         done();
