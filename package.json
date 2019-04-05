@@ -35,7 +35,7 @@
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "eslint src/**/*.ts --fix",
     "lint:spec": "eslint test/**/*.spec.ts --fix",
-    "build": "rimraf dist/ && tsc",
+    "prepack": "rimraf dist/ && tsc",
     "start": "tsc -watch"
   },
   "nyc": {

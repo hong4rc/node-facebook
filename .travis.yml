@@ -22,3 +22,11 @@ deploy:
     local_dir: coverage
     email: aqua.hong.97@gmail.com
     name: Hongarc's bot
+  - provider: releases
+    script: npm pack
+    file_glob: true
+    file: "*.tgz"
+    api_key: $GITHUB_TOKEN
+    skip_cleanup: true
+    on:
+      tags: true
