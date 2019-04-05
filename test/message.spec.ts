@@ -96,9 +96,7 @@ describe('Send and listen', async () => {
       };
       listener = (msg) => {
         expect(msg).have.property('body', data.body);
-        expect(msg).have.property('mentions');
-        expect(msg.mentions).have.property(iMe);
-        expect(msg.mentions).have.property(iFriend);
+        expect(msg).have.property('mentions').that.have.all.keys(iMe, iFriend);
         done();
       };
       me.on('msg', listener);
