@@ -158,7 +158,7 @@ export default class Api extends EventEmitter {
     }
   }
 
-  camelize(obj: Form): Form {
+  static camelize(obj: Form): Form {
     if (!obj || !(obj.constructor === Object || obj.constructor === Array)) {
       return obj;
     }
@@ -166,7 +166,7 @@ export default class Api extends EventEmitter {
     Object.keys(obj).forEach((key: string) => {
       let newKey = key.replace(/[-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
       newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
-      newObj[newKey] = this.camelize(obj[key]);
+      newObj[newKey] = Api.camelize(obj[key]);
     });
     return newObj;
   }
