@@ -1,11 +1,6 @@
 import { expect } from 'chai';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import Facebook from '../src/Facebook';
-import UInfos from './UInfos';
-
-const infoPath = join(__dirname, 'info.json');
-const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
+import info from './info';
 
 describe('Login', () => {
   describe('Use email/pass', () => {

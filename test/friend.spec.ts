@@ -1,12 +1,7 @@
 import { expect } from 'chai';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import Facebook from '../src/Facebook';
 import Api, { Id } from '../src/Api';
-import UInfos from './UInfos';
-
-const infoPath = join(__dirname, 'info.json');
-const info: UInfos = JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8'));
+import info from './info';
 
 const fMe = new Facebook({ state: info.me.state });
 const fFriend = new Facebook({ state: info.friend.state });
