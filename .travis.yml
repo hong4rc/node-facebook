@@ -13,12 +13,12 @@ script:
 after_success:
   - npm run coverage
 deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: true
-  on:
-    branch: develop
-  local_dir: coverage
-  email: aqua.hong.97@gmail.com
-  name: Hongarc's bot
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    keep_history: true
+    on:
+      branch: develop
+    local_dir: coverage
+    email: aqua.hong.97@gmail.com
+    name: Hongarc's bot
