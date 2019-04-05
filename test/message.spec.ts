@@ -129,5 +129,21 @@ describe('Send and listen', async () => {
       me.on('msg', listener);
       friend.sendMsg(data, iMe);
     });
+
+    it('ware', (done) => {
+      const data = {
+        body: 'This is a ware',
+        ware: true,
+      };
+      listener = (msg) => {
+        // TODO change after format
+        console.log(JSON.stringify(msg.attachments));
+        expect(msg).have.property('body', data.body);
+        expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.target.typename', 'LightweightAction');
+        done();
+      };
+      me.on('msg', listener);
+      friend.sendMsg(data, iMe);
+    });
   });
 });
