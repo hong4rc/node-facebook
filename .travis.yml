@@ -9,6 +9,7 @@ cache:
 script:
   - npm run lint
   - npm run lint:spec
+  - npm pack
   - npm run test
 after_success:
   - npm run coverage
@@ -23,7 +24,6 @@ deploy:
     email: aqua.hong.97@gmail.com
     name: Hongarc's bot
   - provider: releases
-    script: npm pack
     file_glob: true
     file: "*.tgz"
     api_key: $GITHUB_TOKEN
