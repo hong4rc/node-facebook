@@ -53,12 +53,11 @@ describe('Send and listen', async () => {
     it('url', (done) => {
       const data = {
         url: 'https://github.com/Hongarc/node-facebook',
-        title: /Hongarc\/node-facebook/,
+        title: 'Hongarc/node-facebook',
       };
       listener = (msg) => {
         // TODO change after format
-        const att = JSON.stringify(msg.attachments);
-        expect(att).that.match(data.title);
+        expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.titleWithEntities.text', data.title);
         done();
       };
       me.on('msg', listener);
