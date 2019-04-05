@@ -15,6 +15,9 @@ describe('Send and listen', async () => {
   let iMe: Id;
   let msgId: Id;
   let listener: ((...args: Form[]) => void) | undefined;
+  const hookMsgId = (msg: Form) => {
+    msgId = msg.messageId || '';
+  };
 
   before('Login + make friend', async () => {
     me = await fMe.login();
@@ -25,9 +28,11 @@ describe('Send and listen', async () => {
     await friend.addFriend(iMe);
     await me.acceptFriend(iFriend);
     me.listen();
+    me.on('msg', hookMsgId);
   });
 
   after(() => {
+    me.on('off', hookMsgId);
     me.stopListen();
   });
 
@@ -47,7 +52,6 @@ describe('Send and listen', async () => {
     it('body', (done) => {
       const text = 'HelLo, Friend!';
       listener = (msg) => {
-        msgId = msg.messageId;
         expect(msg).have.property('body', text);
         done();
       };
@@ -64,7 +68,6 @@ describe('Send and listen', async () => {
       };
       listener = (msg) => {
         // TODO change after format
-        msgId = msg.messageId;
         expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.titleWithEntities.text', data.title);
         done();
       };
@@ -81,7 +84,6 @@ describe('Send and listen', async () => {
       };
       listener = (msg) => {
         // TODO change after
-        msgId = msg.messageId;
         expect(msg).have.property('body', data.body);
         expect(msg).have.deep.nested.property('attachments[0].mercury.stickerAttachment.id', data.sticker);
         done();
@@ -104,7 +106,6 @@ describe('Send and listen', async () => {
         body: 'You are Hongarc\'s friend',
       };
       listener = (msg) => {
-        msgId = msg.messageId;
         expect(msg).have.property('body', data.body);
         expect(msg).have.property('mentions').that.have.all.keys(iMe, iFriend);
         done();
@@ -121,7 +122,6 @@ describe('Send and listen', async () => {
       };
       listener = (msg) => {
         // TODO change after format
-        msgId = msg.messageId;
         expect(msg).have.property('body', data.body);
         expect(msg).have.deep.nested.property('attachments[0].filename', filename);
         done();
