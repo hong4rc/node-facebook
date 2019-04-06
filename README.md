@@ -1,7 +1,7 @@
 # node-facebook
 
   [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook?ref=badge_shield)
+  [![FOSSA Status shield][fossa-image-shield]][fossa-url]
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![License][license-image]][license-url]
@@ -12,7 +12,7 @@
   [![CodeFactor][codefactor-image]][codefactor-url]
 
 
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook?ref=badge_large)
+  [![FOSSA Status large][fossa-image-large]][fossa-url]
 
 ## Installation
 
@@ -84,3 +84,7 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [license-url]: https://github.com/Hongarc/node-facebook/blob/develop/LICENSE
 [codefactor-image]: https://www.codefactor.io/repository/github/hongarc/node-facebook/badge
 [codefactor-url]: https://www.codefactor.io/repository/github/hongarc/node-facebook
+
+[fossa-image-shield]: https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=shield
+[fossa-image-large]: https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=large
+[fossa-url]: https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook
