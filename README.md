@@ -1,6 +1,7 @@
 # node-facebook
 
   [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook?ref=badge_shield)
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
   [![License][license-image]][license-url]
@@ -9,6 +10,9 @@
   [![Codecov][codecov-image]][codecov-url]
   [![Code style][airbnb-image]][airbnb-url]
   [![CodeFactor][codefactor-image]][codefactor-url]
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook?ref=badge_large)
 
 ## Installation
 
