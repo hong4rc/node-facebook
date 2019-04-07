@@ -1,3 +1,4 @@
+import { URL } from 'url';
 import { Form, Id } from '../Api';
 
 interface ThreadKey {
@@ -24,6 +25,50 @@ export const fTyping = (msg: Form): Form => ({
   threadId: msg.to || msg.threadFbid || msg.from,
 });
 
+export const fAttachments = (attachments: Form[]): Form[] => {
+  if (!Array.isArray(attachments)) {
+    return [];
+  }
+  return attachments.map((attachment): Form => {
+    const { mercury } = attachment;
+    if (!mercury) {
+      return attachment;
+    }
+    if (mercury.stickerAttachment) {
+      mercury.stickerAttachment.type = 'sticker';
+      mercury.stickerAttachment.pack = mercury.stickerAttachment.pack.id;
+      return mercury.stickerAttachment;
+    }
+    if (mercury.blobAttachment) {
+      mercury.blobAttachment.type = 'file';
+      mercury.blobAttachment.mimeType = attachment.mimeType;
+      return mercury.blobAttachment;
+    }
+    if (mercury.extensibleAttachment) {
+      const story = mercury.extensibleAttachment.storyAttachment;
+      const obj: Form = {
+        description: story.description.text,
+        media: story.media,
+        title: story.titleWithEntities.text,
+      };
+      switch (story.target.typename) {
+        case 'ExternalUrl':
+          obj.type = 'url';
+          obj.url = new URL(story.url).searchParams.get('u');
+          break;
+        case 'LightweightAction':
+          obj.type = 'ware';
+          obj.state = story.target.lwaState;
+          break;
+        default:
+          obj.type = 'unknow';
+      }
+      return obj;
+    }
+    return attachment;
+  });
+};
+
 export const fNewMsg = (delta: Form): Form => {
   const meta = delta.messageMetadata;
   const mentions: Form = {};
@@ -47,7 +92,7 @@ export const fNewMsg = (delta: Form): Form => {
     timestamp: meta.timestamp,
     isGroup: Boolean(meta.threadKey.threadFbId),
     mentions,
-    attachments: delta.attachments, // TODO format attachment
+    attachments: fAttachments(delta.attachments), // TODO format attachment
   };
 };
 
