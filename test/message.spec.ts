@@ -38,7 +38,7 @@ describe('Send and listen', async () => {
 
   afterEach(() => {
     if (listener) {
-      me.off('msg', listener);
+      me.removeListener('msg', listener);
       listener = undefined;
     }
     if (msgId) {
@@ -67,8 +67,7 @@ describe('Send and listen', async () => {
         title: 'Hongarc/node-facebook',
       };
       listener = (msg) => {
-        // TODO change after format
-        expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.titleWithEntities.text', data.title);
+        expect(msg).have.nested.property('attachments[0].title', data.title);
         done();
       };
       me.on('msg', listener);
@@ -83,9 +82,8 @@ describe('Send and listen', async () => {
         body: 'This is sticker',
       };
       listener = (msg) => {
-        // TODO change after
         expect(msg).have.property('body', data.body);
-        expect(msg).have.deep.nested.property('attachments[0].mercury.stickerAttachment.id', data.sticker);
+        expect(msg).have.nested.property('attachments[0].id', data.sticker);
         done();
       };
       me.on('msg', listener);
@@ -121,9 +119,8 @@ describe('Send and listen', async () => {
         attachments: [createReadStream(join(__dirname, '../', filename))],
       };
       listener = (msg) => {
-        // TODO change after format
         expect(msg).have.property('body', data.body);
-        expect(msg).have.deep.nested.property('attachments[0].filename', filename);
+        expect(msg).have.nested.property('attachments[0].filename', filename);
         done();
       };
       me.on('msg', listener);
@@ -136,9 +133,8 @@ describe('Send and listen', async () => {
         ware: true,
       };
       listener = (msg) => {
-        // TODO change after format
         expect(msg).have.property('body', data.body);
-        expect(msg).have.deep.nested.property('attachments[0].mercury.extensibleAttachment.storyAttachment.target.typename', 'LightweightAction');
+        expect(msg).have.nested.property('attachments[0].type', 'ware');
         done();
       };
       me.on('msg', listener);

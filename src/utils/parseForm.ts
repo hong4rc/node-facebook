@@ -1,7 +1,7 @@
-import { load } from 'cheerio';
-
 import { Info } from '../Facebook';
 import { Form } from './Browser';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { parse } = require('fast-html-parser');
 
 const QR_LOGIN = '#login_form input';
 
@@ -17,14 +17,14 @@ export const findForm = (body: string, head: string, tail: string): string => {
 const formatCookie = (arr: string[], url: string): string => `${arr[0]}=${arr[1]}; Path=${arr[3]}; Domain=${url}`;
 
 export default (body: string, user: Info) => {
-  const $ = load(body);
+  const root = parse(body);
 
   let form: Form = {};
-  $(QR_LOGIN).each((index: number, elem: CheerioElement) => {
-    const name = $(elem).attr('name');
-    const val = $(elem).val();
-    if (val && name) {
-      (form[name] = val);
+  // TODO define @types/fast-html-parser
+  root.querySelectorAll(QR_LOGIN).forEach((elem: Form) => {
+    const { name, value } = elem.attributes;
+    if (name && value) {
+      (form[name] = value);
     }
   });
   const willBeCookies = body.split('"_js_');

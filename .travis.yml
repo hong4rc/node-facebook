@@ -16,7 +16,8 @@ after_success:
 deploy:
 - provider: pages
   skip_cleanup: true
-  github_token: "$GITHUB_TOKEN"
+  github_token:
+    secure: CbRdthZFikV5PD5netX4jxyAluaabLaTD8Z3S7AEE63lLXn4zkd1+JRNUJLBV8bLllGUTDs3b8pv48Y3T7JVqsmn2G3ww2cFOOpQoB/Y9q6IWH1ajHsUEf1U3LCPqv8+O92/UyTbX5qySr+XtndBaFTv7h/8O+nL0DP88oWCPp3+LH4iAVAdIz/g3tHEbB3U5FJe7FxJD7G2S7ToIgB11k4OPF3q3thFlWRS571s6AQ1/a75jDZDmewT0/7Us7piiFDkYlqLJAShKJkhkrQ/cJzf+nAn3IiFT0V475+n4hyqr/6H83B1z5uDNUT0Adq7MocXCmJLchgks8kWsToJTaQ/KTW6N6/D6R4wrdIjcqkitkynrTAM8nkd2nL4Ih6sFWukoOliAEWlEyhdLOHDAfr7KlHS9DiDpNu6mIL6FJP7+T5lDJEv38OOayzsdOm8xHef+XyMOLsRZ7qDCyBDTezavulTH161nfPqXS/UTthElgEDYizh4bfPTiN25Fua7BiMSopVAcdq9a3Hc2w54wI1shzZGqnMkvLN+ruRNF5a5xeA/HrDkEoDKCkFIlmPfpXLcZy0rmsWMFWAevgsVJJDjiIflQbEVckW8GB1uh/XEeQQeeYSKr/4OclZbekM/ILyIFqHIFdd1J7C4au5rbjCyxyEFQnQmId8a8jUg4Y=
   keep_history: true
   on:
     branch: develop
@@ -26,14 +27,16 @@ deploy:
 - provider: releases
   file_glob: true
   file: "*.tgz"
-  api_key: "$GITHUB_TOKEN"
+  api_key:
+    secure: CbRdthZFikV5PD5netX4jxyAluaabLaTD8Z3S7AEE63lLXn4zkd1+JRNUJLBV8bLllGUTDs3b8pv48Y3T7JVqsmn2G3ww2cFOOpQoB/Y9q6IWH1ajHsUEf1U3LCPqv8+O92/UyTbX5qySr+XtndBaFTv7h/8O+nL0DP88oWCPp3+LH4iAVAdIz/g3tHEbB3U5FJe7FxJD7G2S7ToIgB11k4OPF3q3thFlWRS571s6AQ1/a75jDZDmewT0/7Us7piiFDkYlqLJAShKJkhkrQ/cJzf+nAn3IiFT0V475+n4hyqr/6H83B1z5uDNUT0Adq7MocXCmJLchgks8kWsToJTaQ/KTW6N6/D6R4wrdIjcqkitkynrTAM8nkd2nL4Ih6sFWukoOliAEWlEyhdLOHDAfr7KlHS9DiDpNu6mIL6FJP7+T5lDJEv38OOayzsdOm8xHef+XyMOLsRZ7qDCyBDTezavulTH161nfPqXS/UTthElgEDYizh4bfPTiN25Fua7BiMSopVAcdq9a3Hc2w54wI1shzZGqnMkvLN+ruRNF5a5xeA/HrDkEoDKCkFIlmPfpXLcZy0rmsWMFWAevgsVJJDjiIflQbEVckW8GB1uh/XEeQQeeYSKr/4OclZbekM/ILyIFqHIFdd1J7C4au5rbjCyxyEFQnQmId8a8jUg4Y=
   skip_cleanup: true
   on:
     tags: true
 - provider: npm
   skip_cleanup: true
   email: aqua.hong.97@gmail.com
-  api_key: "$NPM_TOKEN"
+  api_key:
+    secure: VJkfzM/dQT401LsC6CH5np8gHf3OI/6z8/ykHKSWZtSlsVF6l4/MRPXpkWzcSLf9ILOTlqoJc/kOd3Jzy2Gi0wOxmiT1ifasWwn6kbJMokHKyUtNrsX5woWsPxUyqnpd9DypOfW3uW7/p6HZtgz1d/HeOCtPj42rBwjA180c+nwtzSSan5pSmwOuXF3YSN/cQpblNmYLSbasztFmRtrTZ9UFV78w8MRL0uWKR+6hKCJy/IQW4Y1sdQvwoBE/IzaBreNl/Ma7D2N9dxmU5VweA+k8vrNjD45jUFyNHSc+RKTYxX5Mtej3TN42/wpvH1LER1psYwFOp7V0LzGMF/LBprCITNUl1ttSxoNJnHFIoxSZuIguhAK13wOt+GXhAsFGFqrWvPLDrsnjMLK1GgQh4XUTXAJ0kHXNDT+bmJ0eNt1vaOjwoqcUAdEdy2ldMuhSXD/bEmifZ1wRrO7+mb6mR6E/E/F1RtL5IB4sELCnCws38CMZ/cFybiPsJQM/AQmj0kdxWw0NAxAVlxS54UgrtDYTdmyJ60NW+luTy51pLmFzi9AFTDulTbFuK2XBPTGN/Bavx/G2tG2gqp4Y7YojawqVz9nmxMw5Ua2nFebDLrcz+XYaXY9/y1j51pylRVf/PoYLHAvDj1qPWQlOdF5FVDWk3leYpWuop4Tmc4O4u4A=
   on:
     tags: true
     repo: Hongarc/node-facebook

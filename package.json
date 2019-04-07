@@ -1,6 +1,6 @@
 {
   "name": "node-facebook",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Facebook simulator web browser",
   "author": "Hongarc",
   "license": "MIT",
@@ -10,12 +10,11 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
+    "fast-html-parser": "^1.0.1",
     "request": "^2.88.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
-    "@types/cheerio": "^0.22.11",
     "@types/mocha": "^5.2.6",
     "@types/request": "^2.48.1",
     "@typescript-eslint/eslint-plugin": "^1.6.0",

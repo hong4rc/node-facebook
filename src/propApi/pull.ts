@@ -28,7 +28,7 @@ export default function (this: Api, form: Form = {}): Promise<Form> {
       // TODO handle this
         return [];
       case 'msg':
-        return this.camelize(res.ms);
+        return Api.camelize(res.ms);
       case 'heartbeat':
         return [];
       default:
