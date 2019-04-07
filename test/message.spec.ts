@@ -38,7 +38,7 @@ describe('Send and listen', async () => {
 
   afterEach(() => {
     if (listener) {
-      me.off('msg', listener);
+      me.removeListener('msg', listener);
       listener = undefined;
     }
     if (msgId) {
