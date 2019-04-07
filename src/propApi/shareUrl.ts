@@ -5,11 +5,6 @@ export default function (this: Api, uri: string): Form {
     image_height: 960,
     image_width: 960,
     uri,
-  }).then((res: Form): Form => {
-    try {
-      return res.payload.share_data;
-    } catch (error) {
-      return {};
-    }
-  });
+  }).then((res: Form): Form => res.payload.share_data)
+    .catch(() => ({}));
 }
