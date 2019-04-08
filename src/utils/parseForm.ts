@@ -1,7 +1,6 @@
+import { parse, HTMLElement } from 'arc-parser';
 import { Info } from '../Facebook';
 import { Form } from './Browser';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { parse } = require('fast-html-parser');
 
 const QR_LOGIN = '#login_form input';
 
@@ -17,7 +16,7 @@ export const findForm = (body: string, head: string, tail: string): string => {
 const formatCookie = (arr: string[], url: string): string => `${arr[0]}=${arr[1]}; Path=${arr[3]}; Domain=${url}`;
 
 export default (body: string, user: Info) => {
-  const root = parse(body);
+  const root = parse(body) as HTMLElement;
 
   let form: Form = {};
   // TODO define @types/fast-html-parser

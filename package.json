@@ -10,7 +10,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "fast-html-parser": "^1.0.1",
+    "arc-parser": "^1.2.0-rc1",
     "request": "^2.88.0"
   },
   "devDependencies": {
