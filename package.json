@@ -1,6 +1,6 @@
 {
   "name": "node-facebook",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Facebook simulator web browser",
   "author": "Hongarc",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "fast-html-parser": "^1.0.1",
+    "arc-parser": "^1.2.0-rc1",
     "request": "^2.88.0"
   },
   "devDependencies": {
