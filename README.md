@@ -1,6 +1,5 @@
 # node-facebook
 
-  [![Greenkeeper badge][greenkeeper-image]][greenkeeper-url]
   [![FOSSA Status shield][fossa-image-shield]][fossa-url]
   [![NPM Version][npm-image]][npm-url]
   [![NPM Downloads][downloads-image]][downloads-url]
@@ -70,18 +69,22 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 
 [npm-image]: https://img.shields.io/npm/v/node-facebook.svg
 [npm-url]: https://npmjs.org/package/node-facebook
+
 [downloads-image]: https://img.shields.io/npm/dm/node-facebook.svg
 [downloads-url]: https://npmjs.org/package/node-facebook
+
 [travis-image]: https://travis-ci.com/Hongarc/node-facebook.svg?branch=develop
 [travis-url]: https://travis-ci.com/Hongarc/node-facebook
-[greenkeeper-image]: https://badges.greenkeeper.io/Hongarc/node-facebook.svg
-[greenkeeper-url]: https://greenkeeper.io/
+
 [codecov-image]: https://codecov.io/gh/Hongarc/node-facebook/branch/develop/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/Hongarc/node-facebook
+
 [airbnb-image]: https://img.shields.io/badge/code%20style-airbnb-ff69b4.svg?logo=airbnb
 [airbnb-url]: https://github.com/airbnb/javascript
+
 [license-image]: https://img.shields.io/github/license/Hongarc/node-facebook.svg?color=blueviolet
 [license-url]: https://github.com/Hongarc/node-facebook/blob/develop/LICENSE
+
 [codefactor-image]: https://www.codefactor.io/repository/github/hongarc/node-facebook/badge
 [codefactor-url]: https://www.codefactor.io/repository/github/hongarc/node-facebook
 
