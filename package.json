@@ -10,7 +10,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "arc-parser": "^1.2.0-rc1",
+    "kiat-html-parser": "^1.2.0",
     "request": "^2.88.0"
   },
   "devDependencies": {
