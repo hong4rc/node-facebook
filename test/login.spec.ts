@@ -52,6 +52,18 @@ describe('Login', () => {
         pass: '',
       })).to.throw('Please login with email/pass or cookie!');
     });
+
+    it('Blocked account', async () => {
+      const blocked = new Facebook({
+        email: info.blocked.email,
+        pass: info.blocked.pass,
+      });
+      return blocked.login().then(() => {
+        expect.fail();
+      }, (error: Error) => {
+        expect(error.message).to.equal('This account is blocked by Facebook !!!');
+      });
+    });
   });
 
   describe('Use state', () => {

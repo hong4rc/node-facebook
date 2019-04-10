@@ -13,6 +13,7 @@ export interface UInfo {
 export interface UInfos {
   me: UInfo;
   friend: UInfo;
+  blocked: UInfo;
 }
 
 export default (JSON.parse(process.env.CI ? process.env.INFO as string : readFileSync(infoPath, 'utf8')) as UInfos);
