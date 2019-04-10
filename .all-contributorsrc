@@ -25,7 +25,16 @@
       "contributions": [
         "ideas"
       ]
-    }
+    },
+    {
+      "login": "23phy",
+      "name": "Oliver Cristian",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11774416?v=4",
+      "profile": "http://23phy.github.io",
+      "contributions": [
+        "talk
+      ]
+    }  
   ],
   "contributorsPerLine": 7,
   "projectName": "node-facebook",
