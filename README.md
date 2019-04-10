@@ -1,4 +1,5 @@
 # node-facebook
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
   [![FOSSA Status shield][fossa-image-shield]][fossa-url]
   [![NPM Version][npm-image]][npm-url]
@@ -91,3 +92,15 @@ Thanks to [Avery Morin](https://github.com/Schmavery) for excellent prior art !
 [fossa-image-shield]: https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=shield
 [fossa-image-large]: https://app.fossa.io/api/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook.svg?type=large
 [fossa-url]: https://app.fossa.io/projects/git%2Bgithub.com%2FHongarc%2Fnode-facebook
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://github.com/Schmavery"><img src="https://avatars1.githubusercontent.com/u/2154522?v=4" width="100px;" alt="Avery Morin"/><br /><sub><b>Avery Morin</b></sub></a><br /><a href="#ideas-Schmavery" title="Ideas, Planning, & Feedback">🤔</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
