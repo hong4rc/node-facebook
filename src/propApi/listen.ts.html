@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60.42% </span>
+        <span class="strong">56.25% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>29/48</span>
+        <span class='fraction'>27/48</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">45.45% </span>
+        <span class="strong">40.91% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>10/22</span>
+        <span class='fraction'>9/22</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">70% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>7/10</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">59.57% </span>
+        <span class="strong">55.32% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>28/47</span>
+        <span class='fraction'>26/47</span>
       </div>
     </div>
     <p class="quiet">
@@ -194,27 +194,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">12x</span>
@@ -230,9 +230,9 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -303,13 +303,13 @@ export default function (this: Api): boolean {
 <span class="cstat-no" title="statement not covered" >              this.emit('presence', fPresence(...entries));</span>
             });
 <span class="cstat-no" title="statement not covered" >            break;</span>
-          case 'chatproxy-presence':
-            Object.entries(ms.buddyList).forEach(<span class="fstat-no" title="function not covered" >(e</span>ntries: [string, Form]) =&gt; {
+<span class="branch-2 cbranch-no" title="branch not covered" >          case 'chatproxy-presence':</span>
+<span class="cstat-no" title="statement not covered" >            Object.entries(ms.buddyList).forEach(<span class="fstat-no" title="function not covered" >(e</span>ntries: [string, Form]) =&gt; {</span>
               if (entries[1].p) {
 <span class="cstat-no" title="statement not covered" >                this.emit('presence', fProxy(...entries));</span>
               }
             });
-            break;
+<span class="cstat-no" title="statement not covered" >            break;</span>
           case 'delta':
             handleDelta(ms.delta);
             break;
@@ -337,7 +337,7 @@ export default function (this: Api): boolean {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Apr 10 2019 14:49:41 GMT+0000 (Coordinated Universal Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Apr 11 2019 04:17:28 GMT+0000 (Coordinated Universal Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>
