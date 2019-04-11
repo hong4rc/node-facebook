@@ -8,5 +8,10 @@
     "email": "test2@email.com",
     "pass": "pass2",
     "state": [{"comment": "state here"}]
+  },
+  "blocked": {
+    "email": "blocked-mail@email.com",
+    "pass": "pass:(",
+    "state": [{"comment": "state here"}]
   }
 }
