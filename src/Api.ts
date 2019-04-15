@@ -68,6 +68,7 @@ const getTtstamp = (dtsg: string): string => {
 };
 
 export default class Api extends EventEmitter {
+  static LEN_SV = 7;
   acceptFriend = acceptFriend;
   addFriend = addFriend;
   addUserToThread = addUserToThread;
@@ -141,7 +142,7 @@ export default class Api extends EventEmitter {
   }
 
   changeServer(): void {
-    this.iServer = Math.floor(Math.random() * 6);
+    this.iServer = (this.iServer + 1 + Math.floor(Math.random() * (Api.LEN_SV - 1))) % Api.LEN_SV;
   }
 
   static parseJson(body: string): Form {
