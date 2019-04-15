@@ -139,4 +139,15 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me.on('inbox', listener);
     friend.changeEmoji(me.id, emoji);
   });
+
+  it('Nickname', (done) => {
+    const nickname = 'your nickname';
+    listener = (data) => {
+      expect(data).have.property('type', 'change_thread_nickname');
+      expect(data).have.nested.property('untypedData.nickname', nickname);
+      done();
+    };
+    me.on('log_admin', listener);
+    friend.changeNickname(nickname, me.id);
+  });
 };
