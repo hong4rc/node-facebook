@@ -105,7 +105,7 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     const filename = 'package.json';
     const data = {
       body: 'This is one file',
-      attachments: [createReadStream(join(__dirname, '../', filename))],
+      attachments: [createReadStream(join(process.cwd(), filename))],
     };
     listener = (msg) => {
       expect(msg).have.property('body', data.body);
