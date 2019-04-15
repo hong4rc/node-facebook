@@ -3,7 +3,7 @@ import Api from '../../src/Api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
-  let friend : Api;
+  let friend: Api;
   before('Become stranger and request', async () => {
     me = await pMe;
     friend = await pFriend;
@@ -33,4 +33,4 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     const users = await friend.getUserInfo(me.id);
     expect(users).have.property(me.id).that.have.property('isFriend', false);
   });
-}
+};

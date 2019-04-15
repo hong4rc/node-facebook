@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import Api, { Id, Form } from '../../src/Api';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import Api, { Id, Form } from '../../src/Api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
-  let friend : Api;
+  let friend: Api;
   let msgId: Id;
   let listener: ((...args: Form[]) => void) | undefined;
   const hookMsgId = (msg: Form) => {
@@ -38,6 +38,7 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       msgId = '';
     }
   });
+
   it('body', (done) => {
     const text = 'HelLo, Friend!';
     listener = (msg) => {
@@ -129,4 +130,4 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me.on('msg', listener);
     friend.sendMsg(data, me.id);
   });
-}
+};

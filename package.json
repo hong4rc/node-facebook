@@ -34,8 +34,9 @@
   "scripts": {
     "test": "nyc mocha test/**/*.spec.ts --timeout 40000",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "lint": "eslint src/**/*.ts --fix",
-    "lint:spec": "eslint test/**/*.spec.ts --fix",
+    "lint": "npm run lint:src && npm run lint:spec",
+    "lint:src": "eslint src/**/*.ts --fix",
+    "lint:spec": "eslint test/**/*.ts --fix",
     "prepack": "rimraf dist/ && tsc",
     "start": "tsc -watch"
   },
