@@ -30,4 +30,6 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     }
     await me.unblockUser(friend.id);
   });
+
+  it('Change bio', () => me.changeBio('This is my Bio'));
 };
