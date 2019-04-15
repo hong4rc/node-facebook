@@ -130,4 +130,13 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me.on('msg', listener);
     friend.sendMsg(data, me.id);
   });
+
+  it('Emoji', (done) => {
+    const emoji = '🚀';
+    listener = () => {
+      done();
+    };
+    me.on('inbox', listener);
+    friend.changeEmoji(me.id, emoji);
+  });
 };
