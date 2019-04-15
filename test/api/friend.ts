@@ -7,10 +7,11 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   before('Become stranger and request', async () => {
     me = await pMe;
     friend = await pFriend;
-    await me.cancelFriend(friend.id);
-    await friend.cancelFriend(me.id);
-    await me.removeFriend(friend.id);
-    await me.addFriend(friend.id);
+    const ignore = () => {};
+    await me.cancelFriend(friend.id).then(ignore, ignore);
+    await friend.cancelFriend(me.id).then(ignore, ignore);
+    await me.removeFriend(friend.id).then(ignore, ignore);
+    await me.addFriend(friend.id).then(ignore, ignore);
   });
 
   it('api.cancelFriend', async () => {
