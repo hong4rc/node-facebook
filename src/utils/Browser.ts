@@ -94,9 +94,9 @@ export default class Browser {
 
   request(options: OptionsWithUrl): Promise<Response> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new Promise((resolve: any) => request(options, (error: any, res: Response): void => {
+    return new Promise((resolve: any, reject: any) => request(options, (error: any, res: Response): void => {
       if (error) {
-        throw error;
+        return reject(error);
       }
       const cookies = res.headers['set-cookie'] || [];
       cookies.forEach((cookie: string) => {
