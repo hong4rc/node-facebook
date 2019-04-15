@@ -141,6 +141,11 @@ export default class Api extends EventEmitter {
     this.dtsg = opt.dtsg;
   }
 
+  emit(event: string | symbol, ...args: any[]): boolean {
+    super.emit('*', event, ...args);
+    return super.emit(event, ...args);
+  }
+
   changeServer(): void {
     this.iServer = (this.iServer + 1 + Math.floor(Math.random() * (Api.LEN_SV - 1))) % Api.LEN_SV;
     this.pool = undefined;
