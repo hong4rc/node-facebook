@@ -143,6 +143,8 @@ export default class Api extends EventEmitter {
 
   changeServer(): void {
     this.iServer = (this.iServer + 1 + Math.floor(Math.random() * (Api.LEN_SV - 1))) % Api.LEN_SV;
+    this.pool = undefined;
+    this.sticky = undefined;
   }
 
   static parseJson(body: string): Form {
