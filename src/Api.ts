@@ -140,7 +140,7 @@ export default class Api extends EventEmitter {
     this.rev = opt.rev;
     this.dtsg = opt.dtsg;
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(event: string | symbol, ...args: any[]): boolean {
     super.emit('*', event, ...args);
     return super.emit(event, ...args);

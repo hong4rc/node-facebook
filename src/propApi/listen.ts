@@ -81,6 +81,7 @@ export default function (this: Api): boolean {
           case 'notifications_seen':
           case 'inbox':
             this.emit('inbox', ms);
+            break;
           case 'deltaflow':
             this.emit('deltaflow', ms);
             break;
