@@ -27,7 +27,6 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me.stopListen();
   });
 
-
   afterEach(() => {
     if (listener) {
       me.removeListener('msg', listener);

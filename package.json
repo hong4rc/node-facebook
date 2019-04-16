@@ -1,6 +1,6 @@
 {
   "name": "node-facebook",
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "Facebook simulator web browser",
   "author": "Hongarc",
   "license": "MIT",
@@ -65,8 +65,11 @@
     "facebook",
     "api",
     "bot",
+    "chat",
     "node-facebook",
     "request",
-    "cookie"
+    "cookie",
+    "nodejs",
+    "typescript"
   ]
 }
