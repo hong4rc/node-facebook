@@ -4,7 +4,7 @@ const ts = require('gulp-typescript');
 const uglify = require('gulp-uglify');
 const del = require('del');
 
-const tsProject = ts.createProject('src/tsconfig.json');
+const tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('clean', () => del('dist/**', { force: true }));
 
