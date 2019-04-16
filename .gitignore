@@ -12,9 +12,6 @@ test/info.json
 # Cookies
 state.json
 
-# Npm lock
-package-lock.json
-
 # Logs
 logs
 *.log
