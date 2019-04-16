@@ -1,0 +1,44 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Hongarc",
+      "name": "Hongarc",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/19208123?v=4",
+      "profile": "https://fb.com/RemoveU",
+      "contributions": [
+        "projectManagement",
+        "review",
+        "test",
+        "code"
+      ]
+    },
+    {
+      "login": "Schmavery",
+      "name": "Avery Morin",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/2154522?v=4",
+      "profile": "https://github.com/Schmavery",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "23phy",
+      "name": "Oliver Cristian",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11774416?v=4",
+      "profile": "http://23phy.github.io",
+      "contributions": [
+        "talk
+      ]
+    }  
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "node-facebook",
+  "projectOwner": "Hongarc",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

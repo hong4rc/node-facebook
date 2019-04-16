@@ -68,6 +68,7 @@ const getTtstamp = (dtsg: string): string => {
 };
 
 export default class Api extends EventEmitter {
+  static LEN_SV = 7;
   acceptFriend = acceptFriend;
   addFriend = addFriend;
   addUserToThread = addUserToThread;
@@ -139,23 +140,34 @@ export default class Api extends EventEmitter {
     this.rev = opt.rev;
     this.dtsg = opt.dtsg;
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emit(event: string | symbol, ...args: any[]): boolean {
+    super.emit('*', event, ...args);
+    return super.emit(event, ...args);
+  }
 
   changeServer(): void {
-    this.iServer = Math.floor(Math.random() * 6);
+    this.iServer = (this.iServer + 1 + Math.floor(Math.random() * (Api.LEN_SV - 1))) % Api.LEN_SV;
+    this.pool = undefined;
+    this.sticky = undefined;
   }
 
   static parseJson(body: string): Form {
+    const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
+    if (arr.length > 1) {
+      arr[0] += '}';
+    }
+    let obj;
     try {
-      const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
-      if (arr.length > 1) {
-        arr[0] += '}';
-      }
-      const obj = JSON.parse(arr[0]);
-      // TODO update dtsg, cookie
-      return obj;
+      obj = JSON.parse(arr[0]);
     } catch (error) {
       return { data: body };
     }
+    // TODO update dtsg, cookie
+    if (obj.error) {
+      throw obj;
+    }
+    return obj;
   }
 
   static camelize(obj: Form): Form {

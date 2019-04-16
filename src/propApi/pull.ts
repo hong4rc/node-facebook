@@ -36,7 +36,7 @@ export default function (this: Api, form: Form = {}): Promise<Form> {
         return [];
     }
   }, (error: Form) => {
-    if (error.code === 'EAI_AGAIN') {
+    if (error.code === 'EAI_AGAIN' || error.code === 'ENOTFOUND') {
       this.changeServer();
       return this.pull(form);
     }

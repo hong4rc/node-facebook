@@ -1,4 +1,4 @@
-import { parse, HTMLElement } from 'arc-parser';
+import { parse, HTMLElement } from 'kiat-html-parser';
 import { Info } from '../Facebook';
 import { Form } from './Browser';
 
