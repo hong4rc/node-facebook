@@ -13,12 +13,10 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   before('Become friend', async () => {
     me = await pMe;
     friend = await pFriend;
-
-    try {
-      await friend.addFriend(me.id);
-      await me.acceptFriend(friend.id);
-      await friend.changeEmoji(me.id, '💖');
-    } catch (error) {}
+    const ignore = () => {};
+    await friend.addFriend(me.id).then(ignore, ignore);
+    await me.acceptFriend(friend.id).then(ignore, ignore);
+    await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
     me.listen();
     me.once('msg', hookMsgId);
