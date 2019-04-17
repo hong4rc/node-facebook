@@ -19,7 +19,7 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
     me.listen();
-    me.once('msg', hookMsgId);
+    me.on('msg', hookMsgId);
   });
 
   after(() => {
