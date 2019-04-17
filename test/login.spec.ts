@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Facebook from '../src/Facebook';
+import Facebook from '../src/facebook';
 import info from './info';
 
 describe('Login', () => {

@@ -1,14 +1,14 @@
-import Api, { Form } from '../Api';
+import Api, { Form } from '../api';
 import {
-  fPresence, fProxy, fTyping, fNewMsg, fPayLoad, fReceipt, fLog, fMarkRead,
+  fPresence, fProxy, fTyping, fNewMessage, fPayLoad, fReceipt, fLog, fMarkRead,
 } from '../utils/formatter';
 
 const getPayLoad = (payload: number[]): Form[] => {
-  const obj = JSON.parse(String.fromCharCode(...payload));
-  if (!Array.isArray(obj.deltas)) {
+  const object = JSON.parse(String.fromCharCode(...payload));
+  if (!Array.isArray(object.deltas)) {
     return [];
   }
-  return obj.deltas.map((delta: Form): Form => delta.deltaMessageReaction).filter(Boolean);
+  return object.deltas.map((delta: Form): Form => delta.deltaMessageReaction).filter(Boolean);
 };
 
 export default function (this: Api): boolean {
@@ -21,7 +21,7 @@ export default function (this: Api): boolean {
   const handleDelta = (delta: Form): void => {
     switch (delta.class) {
       case 'NewMessage':
-        this.emit('msg', fNewMsg(delta));
+        this.emit('msg', fNewMessage(delta));
         break;
       case 'ClientPayload':
         getPayLoad(delta.payload).forEach((data: Form) => {
@@ -51,11 +51,11 @@ export default function (this: Api): boolean {
     }
   };
   const invoker = (): boolean => {
-    this.pull().then((res: Form): void => {
+    this.pull().then((response: Form): void => {
       if (this.idListen !== id) {
         return;
       }
-      (res as Form[]).forEach((ms: Form) => {
+      (response as Form[]).forEach((ms: Form) => {
         switch (ms.type) {
           case 'typ':
             this.emit('typ', fTyping(ms));

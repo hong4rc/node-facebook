@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import { Form, Id } from '../Api';
+import { Form, Id } from '../api';
 
 interface ThreadKey {
   threadFbId?: Id;
@@ -18,11 +18,11 @@ export const fProxy = (userId: string, presence: Form): Form => ({
   statUser: presence.p,
 });
 
-export const fTyping = (msg: Form): Form => ({
-  isTyping: Boolean(msg.st),
-  fromMobile: msg.fromMobile !== false,
-  from: msg.from,
-  threadId: msg.to || msg.threadFbid || msg.from,
+export const fTyping = (message: Form): Form => ({
+  isTyping: Boolean(message.st),
+  fromMobile: message.fromMobile !== false,
+  from: message.from,
+  threadId: message.to || message.threadFbid || message.from,
 });
 
 export const fAttachments = (attachments: Form[]): Form[] => {
@@ -46,30 +46,30 @@ export const fAttachments = (attachments: Form[]): Form[] => {
     }
     if (mercury.extensibleAttachment) {
       const story = mercury.extensibleAttachment.storyAttachment;
-      const obj: Form = {
+      const object: Form = {
         description: story.description.text,
         media: story.media,
         title: story.titleWithEntities.text,
       };
       switch (story.target.typename) {
         case 'ExternalUrl':
-          obj.type = 'url';
-          obj.url = new URL(story.url).searchParams.get('u');
+          object.type = 'url';
+          object.url = new URL(story.url).searchParams.get('u');
           break;
         case 'LightweightAction':
-          obj.type = 'ware';
-          obj.state = story.target.lwaState;
+          object.type = 'ware';
+          object.state = story.target.lwaState;
           break;
         default:
-          obj.type = 'unknow';
+          object.type = 'unknow';
       }
-      return obj;
+      return object;
     }
     return attachment;
   });
 };
 
-export const fNewMsg = (delta: Form): Form => {
+export const fNewMessage = (delta: Form): Form => {
   const meta = delta.messageMetadata;
   const mentions: Form = {};
   let menDatas;

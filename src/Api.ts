@@ -1,55 +1,55 @@
 import { EventEmitter } from 'events';
 
-import Browser, { Form } from './utils/Browser';
-import acceptFriend from './propApi/acceptFriend';
-import addFriend from './propApi/addFriend';
-import addUserToThread from './propApi/addUserToThread';
+import Browser, { Form } from './utils/browser';
+import acceptFriend from './propApi/accept-friend';
+import addFriend from './propApi/add-friend';
+import addUserToThread from './propApi/add-user-to-thread';
 import archived from './propApi/archived';
-import blockMessage from './propApi/blockMessage';
-import blockPage from './propApi/blockPage';
-import blockUser from './propApi/blockUser';
+import blockMessage from './propApi/block-message';
+import blockPage from './propApi/block-page';
+import blockUser from './propApi/block-user';
 import bookmark from './propApi/bookmark';
-import cancelFriend from './propApi/cancelFriend';
-import cancelJoinGroup from './propApi/cancelJoinGroup';
-import changeBio from './propApi/changeBio';
-import changeEmoji from './propApi/changeEmoji';
-import changeNickname from './propApi/changeNickname';
-import createPoll from './propApi/createPoll';
-import deleteMessage from './propApi/deleteMessage';
-import deleteThread from './propApi/deleteThread';
-import followProfile from './propApi/followProfile';
-import forwardAttachment from './propApi/forwardAttachment';
-import getMyId from './propApi/getMyId';
-import getPhotoUrl from './propApi/getPhotoUrl';
-import getState from './propApi/getState';
-import getUserInfo from './propApi/getUserInfo';
-import joinGroup from './propApi/joinGroup';
-import leaveGroup from './propApi/leaveGroup';
+import cancelFriend from './propApi/cancel-friend';
+import cancelJoinGroup from './propApi/cancel-join-group';
+import changeBio from './propApi/change-bio';
+import changeEmoji from './propApi/change-emoji';
+import changeNickname from './propApi/change-nickname';
+import createPoll from './propApi/create-poll';
+import deleteMessage from './propApi/delete-message';
+import deleteThread from './propApi/delete-thread';
+import followProfile from './propApi/follow-profile';
+import forwardAttachment from './propApi/forward-attachment';
+import getMyId from './propApi/get-my-id';
+import getPhotoUrl from './propApi/get-photo-url';
+import getState from './propApi/get-state';
+import getUserInfo from './propApi/get-user-info';
+import joinGroup from './propApi/join-group';
+import leaveGroup from './propApi/leave-group';
 import listen from './propApi/listen';
 import logout from './propApi/logout';
-import markAsRead from './propApi/markAsRead';
-import markAsReadAll from './propApi/markAsReadAll';
-import markReadNoti from './propApi/markReadNoti';
-import messageRequest from './propApi/messageRequest';
-import muteThread from './propApi/muteThread';
+import markAsRead from './propApi/mark-as-read';
+import markAsReadAll from './propApi/mark-as-read-all';
+import markReadNoti from './propApi/mark-read-noti';
+import messageRequest from './propApi/message-request';
+import muteThread from './propApi/mute-thread';
 import pull from './propApi/pull';
-import removeFriend from './propApi/removeFriend';
-import removeMember from './propApi/removeMember';
-import removeParticipant from './propApi/removeParticipant';
+import removeFriend from './propApi/remove-friend';
+import removeMember from './propApi/remove-member';
+import removeParticipant from './propApi/remove-participant';
 import send from './propApi/send';
-import sendMsg from './propApi/sendMsg';
-import sendTyping from './propApi/sendTyping';
-import setAdminThread from './propApi/setAdminThread';
-import setApprovalMode from './propApi/setApprovalMode';
-import setTitle from './propApi/setTitle';
-import shareUrl from './propApi/shareUrl';
-import stopListen from './propApi/stopListen';
-import subFollow from './propApi/subFollow';
-import unblockMessage from './propApi/unblockMessage';
-import unblockUser from './propApi/unblockUser';
-import undoActivityGroup from './propApi/undoActivityGroup';
-import unfollowGroup from './propApi/unfollowGroup';
-import uploadFile from './propApi/uploadFile';
+import sendMessage from './propApi/send-message';
+import sendTyping from './propApi/send-typing';
+import setAdminThread from './propApi/set-admin-thread';
+import setApprovalMode from './propApi/set-approval-mode';
+import setTitle from './propApi/set-title';
+import shareUrl from './propApi/share-url';
+import stopListen from './propApi/stop-listen';
+import subFollow from './propApi/sub-follow';
+import unblockMessage from './propApi/unblock-message';
+import unblockUser from './propApi/unblock-user';
+import undoActivityGroup from './propApi/undo-activity-group';
+import unfollowGroup from './propApi/unfollow-group';
+import uploadFile from './propApi/upload-file';
 
 export { Form };
 export interface ApiOption {
@@ -105,7 +105,7 @@ export default class Api extends EventEmitter {
   removeMember = removeMember;
   removeParticipant = removeParticipant;
   send = send;
-  sendMsg = sendMsg;
+  sendMessage = sendMessage;
   sendTyping = sendTyping;
   setAdminThread = setAdminThread;
   setApprovalMode = setApprovalMode;
@@ -120,7 +120,7 @@ export default class Api extends EventEmitter {
   uploadFile = uploadFile;
 
   browser: Browser;
-  req: number = 0;
+  requestCounter: number = 0;
   id: Id;
   rev: string;
   dtsg: string;
@@ -142,9 +142,9 @@ export default class Api extends EventEmitter {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  emit(event: string | symbol, ...args: any[]): boolean {
-    super.emit('*', event, ...args);
-    return super.emit(event, ...args);
+  emit(event: string | symbol, ...arguments_: any[]): boolean {
+    super.emit('*', event, ...arguments_);
+    return super.emit(event, ...arguments_);
   }
 
   changeServer(): void {
@@ -154,40 +154,40 @@ export default class Api extends EventEmitter {
   }
 
   static parseJson(body: string): Form {
-    const arr = body.replace('for (;;);', '').split(/}\r?\n *{/);
-    if (arr.length > 1) {
-      arr[0] += '}';
+    const array = body.replace('for (;;);', '').split(/}\r?\n *{/);
+    if (array.length > 1) {
+      array[0] += '}';
     }
-    let obj;
+    let object;
     try {
-      obj = JSON.parse(arr[0]);
+      object = JSON.parse(array[0]);
     } catch (error) {
       return { data: body };
     }
     // TODO update dtsg, cookie
-    if (obj.error) {
-      throw obj;
+    if (object.error) {
+      throw object;
     }
-    return obj;
+    return object;
   }
 
-  static camelize(obj: Form): Form {
-    if (!obj || !(obj.constructor === Object || obj.constructor === Array)) {
-      return obj;
+  static camelize(object: Form): Form {
+    if (!object || !(object.constructor === Object || object.constructor === Array)) {
+      return object;
     }
-    const newObj: Form = obj.constructor === Array ? [] : {};
-    Object.keys(obj).forEach((key: string) => {
+    const newObject: Form = object.constructor === Array ? [] : {};
+    Object.keys(object).forEach((key: string) => {
       let newKey = key.replace(/[-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
       newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
-      newObj[newKey] = Api.camelize(obj[key]);
+      newObject[newKey] = Api.camelize(object[key]);
     });
-    return newObj;
+    return newObject;
   }
 
   mergeform(form: Form): Form {
     return Object.assign(form, {
       __user: this.id,
-      __req: (++this.req).toString(36),
+      __req: (++this.requestCounter).toString(36),
       __rev: this.rev,
       __a: 1,
       fb_dtsg: this.dtsg,
@@ -196,21 +196,21 @@ export default class Api extends EventEmitter {
   }
 
   async get(url: string, qs: Form = {}): Promise<Form> {
-    const res = await this.browser.get(url, this.mergeform(qs));
-    return Api.parseJson(res.body);
+    const response = await this.browser.get(url, this.mergeform(qs));
+    return Api.parseJson(response.body);
   }
 
   async post(url: string, form: Form = {}): Promise<Form> {
-    const res = await this.browser.post(url, this.mergeform(form));
-    if (res.headers.location) {
-      return res.headers;
+    const response = await this.browser.post(url, this.mergeform(form));
+    if (response.headers.location) {
+      return response.headers;
     }
-    return Api.parseJson(res.body);
+    return Api.parseJson(response.body);
   }
 
   async formData(url: string, form: Form = {}, qs: Form = {}): Promise<Form> {
-    const res = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
-    return Api.parseJson(res.body);
+    const response = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
+    return Api.parseJson(response.body);
   }
 
   static genOTI(): number {

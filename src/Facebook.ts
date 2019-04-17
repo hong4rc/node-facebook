@@ -2,8 +2,8 @@ import {
   Cookie,
 } from 'request';
 
-import Browser, { Form } from './utils/Browser';
-import Api from './Api';
+import Browser, { Form } from './utils/browser';
+import Api from './api';
 
 export interface Info {
   email: string;

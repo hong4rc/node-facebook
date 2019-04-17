@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { Form } from '../src/Api';
+import { Form } from '../src/api';
 
 const infoPath = join(__dirname, 'info.json');
 

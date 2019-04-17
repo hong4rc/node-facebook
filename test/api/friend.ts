@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Api from '../../src/Api';
+import Api from '../../src/api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
@@ -15,18 +15,18 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   });
 
   it('api.cancelFriend', async () => {
-    const res = await me.cancelFriend(friend.id);
-    expect(res).have.not.property('error');
+    const response = await me.cancelFriend(friend.id);
+    expect(response).have.not.property('error');
   });
 
   it('api.addFriend', async () => {
-    const res = await me.addFriend(friend.id);
-    expect(res).have.property('payload').that.have.property('success', true);
+    const response = await me.addFriend(friend.id);
+    expect(response).have.property('payload').that.have.property('success', true);
   });
 
   it('api.acceptFriend', async () => {
-    const res = await friend.acceptFriend(me.id);
-    expect(res).have.property('payload').that.have.property('success', true);
+    const response = await friend.acceptFriend(me.id);
+    expect(response).have.property('payload').that.have.property('success', true);
   });
 
   it('api.removeFriend', async () => {

@@ -1,4 +1,4 @@
-import Facebook from '../src/Facebook';
+import Facebook from '../src/facebook';
 import info from './info';
 import friendApi from './api/friend';
 import messageApi from './api/message';

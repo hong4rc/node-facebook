@@ -1,4 +1,4 @@
-import Api, { Form } from '../Api';
+import Api, { Form } from '../api';
 
 export default function (this: Api, form: Form = {}): Promise<Form> {
   return this.get(`https://${this.iServer}-edge-chat.facebook.com/pull`, {
@@ -15,24 +15,24 @@ export default function (this: Api, form: Form = {}): Promise<Form> {
     sticky_token: this.sticky,
     sticky_pool: this.pool,
     ...form,
-  }).then((res: Form) => {
-    this.seq = res.seq || this.seq;
-    switch (res.t) {
+  }).then((response: Form) => {
+    this.seq = response.seq || this.seq;
+    switch (response.t) {
       case 'lb':
-        if (res.lb_info) {
-          this.pool = res.lb_info.pool;
-          this.sticky = res.lb_info.sticky;
+        if (response.lb_info) {
+          this.pool = response.lb_info.pool;
+          this.sticky = response.lb_info.sticky;
         }
         return [];
       case 'fullReload':
       // TODO handle this
         return [];
       case 'msg':
-        return Api.camelize(res.ms);
+        return Api.camelize(response.ms);
       case 'heartbeat':
         return [];
       default:
-        console.log(`We don't support '${res.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`); // eslint-disable-line no-console
+        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`); // eslint-disable-line no-console
         return [];
     }
   }, (error: Form) => {

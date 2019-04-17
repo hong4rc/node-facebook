@@ -1,4 +1,4 @@
-import Api, { Form, Id } from '../Api';
+import Api, { Form, Id } from '../api';
 
 const actions = ['add', 'hide', 'delete'];
 

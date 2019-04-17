@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import Api from '../../src/Api';
+import Api from '../../src/api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;

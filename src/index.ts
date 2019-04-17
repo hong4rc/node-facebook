@@ -1,3 +1,3 @@
-import Facebook from './Facebook';
+import Facebook from './facebook';
 
 module.exports = Facebook;

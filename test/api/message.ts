@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-import Api, { Id, Form } from '../../src/Api';
+import Api, { Id, Form} from '../../src/api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
   let friend: Api;
-  let msgId: Id;
-  const hookMsgId = (msg: Form) => {
-    msgId = msg.messageId || '';
+  let messageId: Id;
+  const hookMessageId = (message: Form) => {
+    messageId = message.messageId || '';
   };
   before('Become friend', async () => {
     me = await pMe;
@@ -19,29 +19,29 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
     me.listen();
-    me.on('msg', hookMsgId);
+    me.on('msg', hookMessageId);
   });
 
   after(() => {
-    me.once('off', hookMsgId);
+    me.once('off', hookMessageId);
     me.stopListen();
   });
 
   afterEach(() => {
-    if (msgId) {
-      me.deleteMessage(msgId);
-      friend.deleteMessage(msgId);
-      msgId = '';
+    if (messageId) {
+      me.deleteMessage(messageId);
+      friend.deleteMessage(messageId);
+      messageId = '';
     }
   });
 
   it('body', (done) => {
     const text = 'HelLo, Friend!';
-    me.once('msg', (msg) => {
-      expect(msg).have.property('body', text);
+    me.once('msg', (message) => {
+      expect(message).have.property('body', text);
       done();
     });
-    friend.sendMsg({
+    friend.sendMessage({
       body: text,
     }, me.id);
   });
@@ -51,11 +51,11 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       url: 'https://github.com/Hongarc/node-facebook',
       title: 'Hongarc/node-facebook',
     };
-    me.once('msg', (msg) => {
-      expect(msg).have.nested.property('attachments[0].title', data.title);
+    me.once('msg', (message) => {
+      expect(message).have.nested.property('attachments[0].title', data.title);
       done();
     });
-    friend.sendMsg({
+    friend.sendMessage({
       url: data.url,
     }, me.id);
   });
@@ -65,12 +65,12 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       sticker: '907260072679123',
       body: 'This is sticker',
     };
-    me.once('msg', (msg) => {
-      expect(msg).have.property('body', data.body);
-      expect(msg).have.nested.property('attachments[0].id', data.sticker);
+    me.once('msg', (message) => {
+      expect(message).have.property('body', data.body);
+      expect(message).have.nested.property('attachments[0].id', data.sticker);
       done();
     });
-    friend.sendMsg(data, me.id);
+    friend.sendMessage(data, me.id);
   });
 
   it('mentions', (done) => {
@@ -86,12 +86,12 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       }],
       body: 'You are Hongarc\'s friend',
     };
-    me.once('msg', (msg) => {
-      expect(msg).have.property('body', data.body);
-      expect(msg).have.property('mentions').that.have.all.keys(me.id, friend.id);
+    me.once('msg', (message) => {
+      expect(message).have.property('body', data.body);
+      expect(message).have.property('mentions').that.have.all.keys(me.id, friend.id);
       done();
     });
-    friend.sendMsg(data, me.id);
+    friend.sendMessage(data, me.id);
   });
 
   it('attachments', (done) => {
@@ -100,12 +100,12 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       body: 'This is one file',
       attachments: [createReadStream(join(process.cwd(), filename))],
     };
-    me.once('msg', (msg) => {
-      expect(msg).have.property('body', data.body);
-      expect(msg).have.nested.property('attachments[0].filename', filename);
+    me.once('msg', (message) => {
+      expect(message).have.property('body', data.body);
+      expect(message).have.nested.property('attachments[0].filename', filename);
       done();
     });
-    friend.sendMsg(data, me.id);
+    friend.sendMessage(data, me.id);
   });
 
   it('ware', (done) => {
@@ -113,12 +113,12 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       body: 'This is a ware',
       ware: true,
     };
-    me.once('msg', (msg) => {
-      expect(msg).have.property('body', data.body);
-      expect(msg).have.nested.property('attachments[0].type', 'ware');
+    me.once('msg', (message) => {
+      expect(message).have.property('body', data.body);
+      expect(message).have.nested.property('attachments[0].type', 'ware');
       done();
     });
-    friend.sendMsg(data, me.id);
+    friend.sendMessage(data, me.id);
   });
 
   it('Emoji', (done) => {

@@ -5,9 +5,9 @@ import request, {
   OptionsWithUrl,
 } from 'request';
 
-import { Info } from '../Facebook';
-import parseForm, { findForm } from './parseForm';
-import { ApiOption } from '../Api';
+import { Info } from '../facebook';
+import parseForm, { findForm } from './parse-form';
+import { ApiOption } from '../api';
 
 const URL_HOME = 'https://www.facebook.com';
 const URL_CP = `${URL_HOME}/checkpoint`;
@@ -52,13 +52,13 @@ export default class Browser {
   }
 
   async init(user: Info): Promise<void> {
-    const res = await this.get(URL_HOME);
-    const data = parseForm(res.body, user);
+    const response = await this.get(URL_HOME);
+    const data = parseForm(response.body, user);
     data.cookies.forEach((cookie: string) => {
       this.cookieJar.setCookie(cookie, URL_HOME);
     });
-    const resPost = await this.post(URL_LOGIN, data.form);
-    const { location } = resPost.headers;
+    const responsePost = await this.post(URL_LOGIN, data.form);
+    const { location } = responsePost.headers;
     if (!location) {
       throw new Error('Wrong username/password.');
     }
@@ -94,26 +94,26 @@ export default class Browser {
 
   request(options: OptionsWithUrl): Promise<Response> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
-    return new Promise((resolve: any, reject: any) => request(options, (error: any, res: Response): void => {
+    return new Promise((resolve: any, reject: any) => request(options, (error: any, response: Response): void => {
       if (error) {
         reject(error);
         return;
       }
-      const cookies = res.headers['set-cookie'] || [];
+      const cookies = response.headers['set-cookie'] || [];
       cookies.forEach((cookie: string) => {
         if (cookie.includes('facebook.com')) {
           this.cookieJar.setCookie(cookie, URL_HOME);
         }
       });
-      resolve(res);
+      resolve(response);
     }));
   }
 
   async createOpt(): Promise<ApiOption> {
-    const res = await this.get();
+    const response = await this.get();
     return {
-      rev: findForm(res.body, '"client_revision":', ','),
-      dtsg: findForm(res.body, '"token":"', '"'),
+      rev: findForm(response.body, '"client_revision":', ','),
+      dtsg: findForm(response.body, '"token":"', '"'),
     };
   }
 
