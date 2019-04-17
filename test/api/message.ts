@@ -140,4 +140,12 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     });
     friend.changeNickname(nickname, me.id);
   });
+
+  it('Mark as read', (done) => {
+    me.once('read_receipt', (data) => {
+      expect(data).have.property('reader', friend.id);
+      done();
+    });
+    friend.markAsRead(me.id);
+  });
 };
