@@ -15,9 +15,9 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me = await pMe;
     friend = await pFriend;
 
-    await friend.addFriend(me.id);
-    await me.acceptFriend(friend.id);
-    await friend.changeEmoji(me.id, '💖');
+      await friend.addFriend(me.id);
+      await me.acceptFriend(friend.id);
+      await friend.changeEmoji(me.id, '💖');
     me.listen();
     me.on('msg', hookMsgId);
   });
