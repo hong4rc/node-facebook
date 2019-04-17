@@ -7,7 +7,6 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
   let friend: Api;
   let msgId: Id;
-  let listener: ((...args: Form[]) => void) | undefined;
   const hookMsgId = (msg: Form) => {
     msgId = msg.messageId || '';
   };
@@ -15,23 +14,22 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     me = await pMe;
     friend = await pFriend;
 
+    try {
       await friend.addFriend(me.id);
       await me.acceptFriend(friend.id);
       await friend.changeEmoji(me.id, '💖');
+    } catch (error) {}
+
     me.listen();
-    me.on('msg', hookMsgId);
+    me.once('msg', hookMsgId);
   });
 
   after(() => {
-    me.on('off', hookMsgId);
+    me.once('off', hookMsgId);
     me.stopListen();
   });
 
   afterEach(() => {
-    if (listener) {
-      me.removeListener('msg', listener);
-      listener = undefined;
-    }
     if (msgId) {
       me.deleteMessage(msgId);
       friend.deleteMessage(msgId);
@@ -41,11 +39,10 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
 
   it('body', (done) => {
     const text = 'HelLo, Friend!';
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.property('body', text);
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg({
       body: text,
     }, me.id);
@@ -56,11 +53,10 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       url: 'https://github.com/Hongarc/node-facebook',
       title: 'Hongarc/node-facebook',
     };
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.nested.property('attachments[0].title', data.title);
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg({
       url: data.url,
     }, me.id);
@@ -71,12 +67,11 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       sticker: '907260072679123',
       body: 'This is sticker',
     };
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.property('body', data.body);
       expect(msg).have.nested.property('attachments[0].id', data.sticker);
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg(data, me.id);
   });
 
@@ -93,12 +88,11 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       }],
       body: 'You are Hongarc\'s friend',
     };
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.property('body', data.body);
       expect(msg).have.property('mentions').that.have.all.keys(me.id, friend.id);
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg(data, me.id);
   });
 
@@ -108,12 +102,11 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       body: 'This is one file',
       attachments: [createReadStream(join(process.cwd(), filename))],
     };
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.property('body', data.body);
       expect(msg).have.nested.property('attachments[0].filename', filename);
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg(data, me.id);
   });
 
@@ -122,32 +115,29 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
       body: 'This is a ware',
       ware: true,
     };
-    listener = (msg) => {
+    me.once('msg', (msg) => {
       expect(msg).have.property('body', data.body);
       expect(msg).have.nested.property('attachments[0].type', 'ware');
       done();
-    };
-    me.on('msg', listener);
+    });
     friend.sendMsg(data, me.id);
   });
 
   it('Emoji', (done) => {
     const emoji = '🚀';
-    listener = () => {
+    me.once('inbox', () => {
       done();
-    };
-    me.on('inbox', listener);
+    });
     friend.changeEmoji(me.id, emoji);
   });
 
   it('Nickname', (done) => {
     const nickname = 'your nickname';
-    listener = (data) => {
+    me.once('log_admin', (data) => {
       expect(data).have.property('type', 'change_thread_nickname');
       expect(data).have.nested.property('untypedData.nickname', nickname);
       done();
-    };
-    me.on('log_admin', listener);
+    });
     friend.changeNickname(nickname, me.id);
   });
 };
