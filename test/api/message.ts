@@ -123,7 +123,9 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
 
   it('Emoji', (done) => {
     const emoji = '🚀';
-    me.once('inbox', () => {
+    me.once('log_admin', (data) => {
+      expect(data).have.property('type', 'change_thread_icon');
+      expect(data).have.nested.property('untypedData.threadIcon', emoji);
       done();
     });
     friend.changeEmoji(me.id, emoji);
