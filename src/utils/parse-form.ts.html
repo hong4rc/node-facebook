@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for src/propApi/pull.ts</title>
+    <title>Code coverage report for src/utils/parse-form.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,35 +16,35 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">src/propApi</a> pull.ts
+      <a href="../../index.html">All files</a> / <a href="index.html">src/utils</a> parse-form.ts
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">70.59% </span>
+        <span class="strong">95.65% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>12/17</span>
+        <span class='fraction'>22/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">81.82% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>9/11</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>5/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">68.75% </span>
+        <span class="strong">95% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>11/16</span>
+        <span class='fraction'>19/20</span>
       </div>
     </div>
     <p class="quiet">
       Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
     </p>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -92,98 +92,104 @@
 <a name='L44'></a><a href='#L44'>44</a>
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
-<a name='L47'></a><a href='#L47'>47</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">63x</span>
-<span class="cline-any cline-yes">32x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Api, { Form } from '../api';
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">48x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { parse, HTMLElement } from 'kiat-html-parser';
+import { Info } from '../facebook';
+import { Form } from './browser';
 &nbsp;
-export default function (this: Api, form: Form = {}): Promise&lt;Form&gt; {
-  return this.get(`https://${this.iServer}-edge-chat.facebook.com/pull`, {
-    channel: `p_${this.id}`,
-    viewer_uid: this.id,
-    uid: this.id,
-    partition: -2,
-    seq: this.seq,
-    msgs_recv: this.seq,
-    state: 'active',
-    idle: 0,
-    cap: 8,
-    clientid: this.clientId,
-    sticky_token: this.sticky,
-    sticky_pool: this.pool,
-    ...form,
-  }).then((response: Form) =&gt; {
-    this.seq = response.seq || this.seq;
-    switch (response.t) {
-      case 'lb':
-        if (response.lb_info) {
-          this.pool = response.lb_info.pool;
-          this.sticky = response.lb_info.sticky;
-        }
-        return [];
-      case 'fullReload':
-      // TODO handle this
-        return [];
-      case 'msg':
-        return Api.camelize(response.ms);
-<span class="branch-3 cbranch-no" title="branch not covered" >      case 'heartbeat':</span>
-<span class="cstat-no" title="statement not covered" >        return [];</span>
-<span class="branch-4 cbranch-no" title="branch not covered" >      default:</span>
-<span class="cstat-no" title="statement not covered" >        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`); </span>// eslint-disable-line no-console
-<span class="cstat-no" title="statement not covered" >        return [];</span>
+const QR_LOGIN = '#login_form input';
+&nbsp;
+&nbsp;
+export const findForm = (body: string, head: string, tail: string): string =&gt; {
+  const matches = new RegExp(`${head}(.*?)${tail}`).exec(body);
+  if (matches) {
+    return matches[1];
+  }
+<span class="cstat-no" title="statement not covered" >  throw new Error(`Could not found match '${head}' -&gt; '${tail}'`);</span>
+};
+&nbsp;
+const formatCookie = (array: string[], url: string): string =&gt; `${array[0]}=${array[1]}; Path=${array[3]}; Domain=${url}`;
+&nbsp;
+export default (body: string, user: Info) =&gt; {
+  const root = parse(body) as HTMLElement;
+&nbsp;
+  let form: Form = {};
+  // TODO define @types/fast-html-parser
+  root.querySelectorAll(QR_LOGIN).forEach((element) =&gt; {
+    const { name, value } = element.attributes;
+    if (name &amp;&amp; value) {
+      (form[name] = value);
     }
-  }, (error: Form) =&gt; {
-    if (error.code === 'EAI_AGAIN' || error.code === 'ENOTFOUND') {
-      this.changeServer();
-      return this.pull(form);
-    }
-<span class="cstat-no" title="statement not covered" >    this.emit('error', error);</span>
-<span class="cstat-no" title="statement not covered" >    return [];</span>
   });
-}
+  const willBeCookies = body.split('"_js_');
+  willBeCookies.shift();
+  const cookies = willBeCookies.map((value): string =&gt; {
+    const cookieData = JSON.parse(`["${findForm(value, '', ']')}]`);
+    return formatCookie(cookieData, '.facebook.com');
+  });
+&nbsp;
+  form = Object.assign(form, {
+    email: user.email,
+    pass: user.pass,
+    timezone: new Date().getTimezoneOffset(),
+    lgndim: Buffer.from('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
+    lgnjs: Math.floor(Date.now() / 1000),
+    default_persistent: '0',
+  });
+  return {
+    form,
+    cookies,
+  };
+};
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
