@@ -148,4 +148,28 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     });
     friend.markAsRead(me.id);
   });
+
+  it('react message', (done) => {
+    // TODO load from type and random reaction
+    const react = {
+      name: 'haha',
+      icon: '😆',
+    }
+    me.on('reaction', (data) => {
+      expect(data).have.property('messageId', messageId);
+      expect(data).have.property('reaction', react.icon);
+      done();
+    });
+    me.sendMessage({ body: 'hi' }, friend.id)
+      .then(({ messageId }) => {
+
+        const wrongName = 'something';
+        friend.reactMessage(messageId, wrongName).then(() => {
+          expect.fail();
+        }, (error: Error) => {
+          expect(error).have.property('message', `'We don't support ${wrongName} now, create issue if Fb use this reaction`)
+        });
+        friend.reactMessage(messageId, react.name);
+      });
+  });
 };
