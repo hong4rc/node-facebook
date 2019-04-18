@@ -33,6 +33,7 @@ import markReadNoti from './propApi/mark-read-noti';
 import messageRequest from './propApi/message-request';
 import muteThread from './propApi/mute-thread';
 import pull from './propApi/pull';
+import reactMessage from './propApi/react-message';
 import removeFriend from './propApi/remove-friend';
 import removeMember from './propApi/remove-member';
 import removeParticipant from './propApi/remove-participant';
@@ -101,6 +102,7 @@ export default class Api extends EventEmitter {
   messageRequest = messageRequest;
   muteThread = muteThread;
   pull = pull;
+  reactMessage = reactMessage;
   removeFriend = removeFriend;
   removeMember = removeMember;
   removeParticipant = removeParticipant;

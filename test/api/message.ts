@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { createReadStream } from 'fs';
 import { join } from 'path';
-import Api, { Id, Form} from '../../src/api';
+import Api, { Id, Form } from '../../src/api';
 
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
