@@ -10,9 +10,10 @@ const reactions = new Map([
   ['dislike', '👎'],
 ]);
 
+// TODO allow send name and icon
 export default function (this: Api, messageId: Id, name: string = 'like'): Form {
   if (!reactions.has(name)) {
-    throw new Error(`'We don't support ${name} now, create issue if Fb use this reaction`);
+    return Promise.reject(new Error(`'We don't support ${name} now, create issue if Fb use this reaction`));
   }
   return this.post('https://www.facebook.com/webgraphql/mutation/', {
     doc_id: 1491398900900362,
