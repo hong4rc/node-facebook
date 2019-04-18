@@ -6,9 +6,9 @@ import Api, { Id, Form } from '../../src/api';
 export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
   let friend: Api;
-  let messageId: Id;
+  let messageIdHook: Id;
   const hookMessageId = (message: Form) => {
-    messageId = message.messageId || '';
+    messageIdHook = message.messageId || '';
   };
   before('Become friend', async () => {
     me = await pMe;
@@ -28,10 +28,10 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   });
 
   afterEach(() => {
-    if (messageId) {
-      me.deleteMessage(messageId);
-      friend.deleteMessage(messageId);
-      messageId = '';
+    if (messageIdHook) {
+      me.deleteMessage(messageIdHook);
+      friend.deleteMessage(messageIdHook);
+      messageIdHook = '';
     }
   });
 
@@ -154,20 +154,20 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     const react = {
       name: 'haha',
       icon: '😆',
-    }
-    me.on('reaction', (data) => {
-      expect(data).have.property('messageId', messageId);
-      expect(data).have.property('reaction', react.icon);
-      done();
-    });
+    };
     me.sendMessage({ body: 'hi' }, friend.id)
       .then(({ messageId }) => {
-
         const wrongName = 'something';
         friend.reactMessage(messageId, wrongName).then(() => {
           expect.fail();
         }, (error: Error) => {
-          expect(error).have.property('message', `'We don't support ${wrongName} now, create issue if Fb use this reaction`)
+          expect(error).have.property('message', `'We don't support ${wrongName} now, create issue if Fb use this reaction`);
+        });
+
+        me.on('reaction', (data) => {
+          expect(data).have.property('messageId', messageId);
+          expect(data).have.property('reaction', react.icon);
+          done();
         });
         friend.reactMessage(messageId, react.name);
       });
