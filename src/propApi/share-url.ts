@@ -5,6 +5,5 @@ export default function (this: Api, uri: string): Form {
     image_height: 960,
     image_width: 960,
     uri,
-  }).then((response: Form): Form => response.payload.share_data)
-    .catch(() => ({}));
+  }).then((response: Form): Form => response.payload && response.payload.share_data);
 }
