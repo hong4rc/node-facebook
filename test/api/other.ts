@@ -31,5 +31,17 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     await me.unblockUser(friend.id);
   });
 
-  it('Change bio', () => me.changeBio('This is my Bio'));
+  it('Block message', async () => {
+    await me.blockMessage(friend.id);
+    try {
+      await friend.sendMessage({
+        body: 'hi',
+      }, me.id);
+    } catch (error) {
+      expect(error.error).to.equal(1545041);
+    }
+    await me.unblockMessage(friend.id);
+  });
+
+  it('Change bio', () => me.changeBio('This is my Bio', 5000));
 };
