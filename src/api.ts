@@ -19,6 +19,7 @@ import deleteMessage from './propApi/delete-message';
 import deleteThread from './propApi/delete-thread';
 import followProfile from './propApi/follow-profile';
 import forwardAttachment from './propApi/forward-attachment';
+import graphql from './propApi/graphql';
 import getMyId from './propApi/get-my-id';
 import getPhotoUrl from './propApi/get-photo-url';
 import getState from './propApi/get-state';
@@ -88,6 +89,7 @@ export default class Api extends EventEmitter {
   deleteThread = deleteThread;
   followProfile = followProfile;
   forwardAttachment = forwardAttachment;
+  graphql = graphql;
   getMyId = getMyId;
   getPhotoUrl = getPhotoUrl;
   getState = getState;
