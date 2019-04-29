@@ -170,6 +170,20 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
           done();
         });
         friend.reactMessage(messageId, react.name);
-      });
+      }, () => expect.fail());
+  });
+
+  it('delete message', (done) => {
+    me.sendMessage({ body: 'hi' }, friend.id)
+      .then(({ messageId }) => {
+        me.once('del_msg', (data) => {
+          expect(data).have.property('threadId', friend.id);
+          expect(data).have.nested.property('messageIds[0]', messageId);
+          messageIdHook = '';
+          done();
+        });
+
+        me.deleteMessage(messageId);
+      }, () => expect.fail());
   });
 };
