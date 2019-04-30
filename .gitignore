@@ -19,7 +19,5 @@ npm-debug.log*
 # Release
 *.tgz
 
-# Coverage directory used by tools like istanbul
+# Coverage directory
 coverage
-.nyc_output
-coverage.*
