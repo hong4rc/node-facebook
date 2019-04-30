@@ -53,6 +53,16 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     });
   });
 
+  it('add user in message group', (done) => {
+    friend.addUserToThread(threadId, me.id).then(console.log, console.error);
+    me.once('log_admin', (message) => {
+      expect(message).have.property('type', 'ParticipantsAddedToGroupThread');
+      expect(message).have.nested.property('addedIds[0].userFbId', me.id);
+      expect(message).have.property('threadId', threadId);
+      done();
+    });
+  });
+
   it('delete message group', async () => {
     try {
       await friend.deleteThread(threadId);
