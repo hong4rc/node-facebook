@@ -130,3 +130,8 @@ export const fMarkRead = (delta: Form): Form => ({
   threadId: getId(delta.threadKeys),
   timestamp: delta.actionTimestamp,
 });
+
+export const fDelMessage = (delta: Form): Form => ({
+  threadId: getId(delta.threadKey),
+  messageIds: delta.messageIds,
+});

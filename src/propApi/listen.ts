@@ -1,6 +1,14 @@
 import Api, { Form } from '../api';
 import {
-  fPresence, fProxy, fTyping, fNewMessage, fPayLoad, fReceipt, fLog, fMarkRead,
+  fPresence,
+  fProxy,
+  fTyping,
+  fNewMessage,
+  fPayLoad,
+  fReceipt,
+  fLog,
+  fMarkRead,
+  fDelMessage,
 } from '../utils/formatter';
 
 const getPayLoad = (payload: number[]): Form[] => {
@@ -45,6 +53,9 @@ export default function (this: Api): boolean {
         break;
       case 'MarkRead':
         this.emit('mark_read', fMarkRead(delta));
+        break;
+      case 'MessageDelete':
+        this.emit('del_msg', fDelMessage(delta));
         break;
       default:
         this.emit('other_delta', delta);
