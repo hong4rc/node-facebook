@@ -188,7 +188,7 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   });
 
   it('unsend message', async () => {
-    const { messageId } = await me.sendMessage({ body: 'hi' }, friend.id)
+    const { messageId } = await me.sendMessage({ body: 'hi' }, friend.id);
     await me.unsendMessage(messageId);
     messageIdHook = '';
   });

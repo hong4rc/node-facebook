@@ -5,7 +5,7 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
   let me: Api;
   let friend: Api;
   let messageIdHook: Id;
-  let threadId: Id;
+  let groupId: Id;
   const hookMessageId = (message: Form) => {
     messageIdHook = message.messageId || '';
   };
@@ -39,34 +39,34 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     const response = await friend.createMsgGroup({
       name,
     }, me.id);
-    threadId = response.threadId;
+    groupId = response.threadId;
     expect(response).have.property('name', name);
   });
 
   it('delete user in message group', (done) => {
-    friend.removeParticipant(threadId, me.id);
+    friend.removeParticipant(groupId, me.id);
     me.once('log_admin', (message) => {
       expect(message).have.property('type', 'ParticipantLeftGroupThread');
       expect(message).have.property('leftId', me.id);
-      expect(message).have.property('threadId', threadId);
+      expect(message).have.property('threadId', groupId);
       done();
     });
   });
 
   it('add user in message group', (done) => {
-    friend.addUserToThread(threadId, me.id).then(console.log, console.error);
+    friend.addUserToThread(groupId, me.id);
     me.once('log_admin', (message) => {
       expect(message).have.property('type', 'ParticipantsAddedToGroupThread');
       expect(message).have.nested.property('addedIds[0].userFbId', me.id);
-      expect(message).have.property('threadId', threadId);
+      expect(message).have.property('threadId', groupId);
       done();
     });
   });
 
   it('delete message group', async () => {
     try {
-      await friend.deleteThread(threadId);
-      await me.deleteThread(threadId);
+      await friend.deleteThread(groupId);
+      await me.deleteThread(groupId);
     } catch (error) {
       expect.fail();
     }
