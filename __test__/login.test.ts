@@ -1,82 +1,77 @@
-import { expect } from 'chai';
 import Facebook from '../src/facebook';
 import info from './info';
 
 describe('Login', () => {
   describe('Use email/pass', () => {
-    it('Email match password', async () => {
+    test('Email match password', async () => {
       const me = new Facebook({
         email: info.me.email,
         pass: info.me.pass,
       });
       const api = await me.login();
       info.me.tmpState = api.getState();
-      expect(api.id).to.be.a('string');
+      expect(typeof api.id).toBe('string');
     });
 
-    it('Email don\'t match password', () => {
+    test('Email don\'t match password', async () => {
       const invalid = new Facebook({
         email: 'myemail@gmail.com',
         pass: 'wrong pass',
       });
-      return invalid.login().then(() => {
-        expect.fail();
-      }, (error: Error) => {
-        expect(error.message).to.equal('Wrong username/password.');
+      await expect(invalid.login()).rejects.toMatchObject({
+        message: 'Wrong username/password.',
       });
-    });
+    }, 20000);
 
-    it('Not fill pass', () => {
+    test('Not fill pass', () => {
       // @ts-ignore
       expect(() => new Facebook({
         email: 'myemail@gmail.com',
-      })).to.throw('Please login with email/pass or cookie!');
+      })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    it('Not fill email', () => {
+    test('Not fill email', () => {
       // @ts-ignore
       expect(() => new Facebook({
         pass: 'my pass',
-      })).to.throw('Please login with email/pass or cookie!');
+      })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    it('Not fill email+pass', () => {
+    test('Not fill email+pass', () => {
       // @ts-ignore
-      expect(() => new Facebook({})).to.throw('Please login with email/pass or cookie!');
+      expect(() => new Facebook({})).toThrowError('Please login with email/pass or cookie!');
     });
 
-    it('Fill wrong email+pass', () => {
+    test('Fill wrong email+pass', () => {
       // @ts-ignore
       expect(() => new Facebook({
         email: '',
         pass: '',
-      })).to.throw('Please login with email/pass or cookie!');
+      })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    it('Blocked account', async () => {
+    test('Blocked account', async () => {
       const blocked = new Facebook({
         email: info.blocked.email,
         pass: info.blocked.pass,
       });
-      return blocked.login().then(() => {
-        expect.fail();
-      }, (error: Error) => {
-        expect(error.message).to.equal('This account is blocked by Facebook !!!');
+      await expect(blocked.login()).rejects.toMatchObject({
+        message: 'This account is blocked by Facebook !!!',
       });
     });
   });
 
   describe('Use state', () => {
-    it('Trust cookie', async () => {
+    test('Trust cookie', async () => {
       const friend = new Facebook({
         state: info.me.tmpState,
       });
       const api = await friend.login();
       info.me.tmpState = api.getState();
-      expect(api.id).to.be.a('string');
+      expect(typeof api.id).toBe('string');
     });
 
-    it('Bad cookie', async () => {
+    test('Bad cookie', async () => {
       const friend = new Facebook({
         state: [{
           key: 'c_user',
@@ -89,27 +84,24 @@ describe('Login', () => {
           lastAccessed: '2019-03-31T17:49:29.668Z',
         }],
       });
-      try {
-        await friend.login();
-        expect.fail();
-      } catch (error) {
-        expect(error.message).to.equal('Not found cookie with name c_user');
-      }
+      await expect(friend.login()).rejects.toMatchObject({
+        message: 'Not found cookie with name c_user',
+      });
     });
   });
 
   describe('Logout', () => {
-    it('Logout after login', async () => {
+    test('Logout after login', async () => {
       const friend = new Facebook({
         state: info.me.tmpState,
       });
       const api = await friend.login();
       const headers = await api.logout();
-      expect(headers.location).to.match(/^https:\/\/www\.facebook\.com\/\?stype=lo/);
+      expect(headers.location).toMatch(/^https:\/\/www\.facebook\.com\/\?stype=lo/);
       info.me.tmpState = api.getState();
       expect(() => {
         api.browser.getCookie('c_user');
-      }).to.throw('Not found cookie with name c_user');
+      }).toThrowError('Not found cookie with name c_user');
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "env": {
-    "mocha": true
+    "jest": true
   },
   "parser": "@typescript-eslint/parser",
   "plugins": [

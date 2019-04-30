@@ -14,8 +14,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "@types/chai": "4.1.7",
-    "@types/mocha": "5.2.6",
+    "@types/jest": "^24.0.12",
     "@types/request": "2.48.1",
     "@typescript-eslint/eslint-plugin": "1.7.0",
     "@typescript-eslint/parser": "1.7.0",
@@ -30,17 +29,16 @@
     "gulp": "4.0.1",
     "gulp-typescript": "5.0.1",
     "gulp-uglify": "3.0.2",
-    "mocha": "6.1.4",
-    "nyc": "14.0.0",
-    "ts-node": "8.1.0",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2",
     "typescript": "3.4.5"
   },
   "scripts": {
-    "test": "nyc mocha test/**/*.spec.ts --timeout 40000",
+    "test": "jest -i",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "lint": "npm run lint:src && npm run lint:spec",
     "lint:src": "eslint src/**/*.ts --fix",
-    "lint:spec": "eslint test/**/*.ts --fix",
+    "lint:spec": "eslint __test__/**/*.ts --fix",
     "build": "gulp",
     "start": "tsc -watch"
   },
