@@ -43,6 +43,16 @@ export default (pMe: Promise<Api>, pFriend: Promise<Api>) => async () => {
     expect(response).have.property('name', name);
   });
 
+  it('delete user in message group', (done) => {
+    friend.removeParticipant(threadId, me.id);
+    me.once('log_admin', (message) => {
+      expect(message).have.property('type', 'ParticipantLeftGroupThread');
+      expect(message).have.property('leftId', me.id);
+      expect(message).have.property('threadId', threadId);
+      done();
+    });
+  });
+
   it('delete message group', async () => {
     try {
       await friend.deleteThread(threadId);
