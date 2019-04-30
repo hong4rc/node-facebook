@@ -119,7 +119,7 @@ export const fLog = (delta: Form): Form => {
     timestamp: meta.timestamp,
     isGroup: Boolean(meta.threadKey.threadFbId),
     adminText: meta.adminText,
-    type: delta.type,
+    type: delta.type || delta.class,
     untypedData: delta.untypedData,
     leftId: delta.leftParticipantFbId,
     addedIds: delta.addedParticipants,
