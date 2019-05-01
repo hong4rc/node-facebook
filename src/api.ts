@@ -93,6 +93,7 @@ export default class Api extends EventEmitter {
   followProfile = followProfile;
   forwardAttachment = forwardAttachment;
   graphql = graphql;
+  graphqlBatch = graphqlBatch;
   getMyId = getMyId;
   getPhotoUrl = getPhotoUrl;
   getState = getState;
