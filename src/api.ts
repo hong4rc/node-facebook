@@ -162,7 +162,7 @@ export default class Api extends EventEmitter {
   }
 
   static parseJson(body: string): Form {
-    const array = body.replace('for (;;);', '').split(/}\r?\n *{/);
+    const array = body.replace('for (;;);', '').split(/}\r?\n *{/).map(string => string.replace(/\n/g, ''));
     if (array.length > 1) {
       array[0] += '}';
     }
