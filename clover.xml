@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1556682106921" clover="3.2.0">
-  <project timestamp="1556682106921" name="All files">
-    <metrics statements="578" coveredstatements="502" conditionals="142" coveredconditionals="89" methods="141" coveredmethods="106" elements="861" coveredelements="697" complexity="0" loc="578" ncloc="578" packages="3" files="62" classes="62"/>
+<coverage generated="1556717910761" clover="3.2.0">
+  <project timestamp="1556717910761" name="All files">
+    <metrics statements="578" coveredstatements="513" conditionals="142" coveredconditionals="94" methods="141" coveredmethods="112" elements="861" coveredelements="719" complexity="0" loc="578" ncloc="578" packages="3" files="62" classes="62"/>
     <package name="src">
       <metrics statements="189" coveredstatements="186" conditionals="26" coveredconditionals="22" methods="17" coveredmethods="17"/>
       <file name="api.ts" path="/home/travis/build/Hongarc/node-facebook/src/api.ts">
@@ -64,10 +64,10 @@
         <line num="58" count="5" type="stmt"/>
         <line num="59" count="5" type="stmt"/>
         <line num="69" count="5" type="stmt"/>
-        <line num="70" count="122" type="stmt"/>
-        <line num="71" count="122" type="stmt"/>
-        <line num="72" count="3050" type="stmt"/>
-        <line num="74" count="122" type="stmt"/>
+        <line num="70" count="153" type="stmt"/>
+        <line num="71" count="153" type="stmt"/>
+        <line num="72" count="3825" type="stmt"/>
+        <line num="74" count="153" type="stmt"/>
         <line num="77" count="5" type="stmt"/>
         <line num="78" count="5" type="stmt"/>
         <line num="79" count="12" type="stmt"/>
@@ -136,38 +136,38 @@
         <line num="153" count="12" type="stmt"/>
         <line num="154" count="11" type="stmt"/>
         <line num="155" count="11" type="stmt"/>
-        <line num="159" count="117" type="stmt"/>
-        <line num="160" count="39" type="stmt"/>
-        <line num="161" count="39" type="stmt"/>
+        <line num="159" count="162" type="stmt"/>
+        <line num="160" count="54" type="stmt"/>
+        <line num="161" count="54" type="stmt"/>
         <line num="164" count="5" type="stmt"/>
         <line num="165" count="1" type="stmt"/>
         <line num="166" count="1" type="stmt"/>
         <line num="167" count="1" type="stmt"/>
         <line num="170" count="5" type="stmt"/>
-        <line num="171" count="119" type="stmt"/>
+        <line num="171" count="150" type="stmt"/>
         <line num="173" count="2" type="stmt"/>
-        <line num="177" count="117" type="stmt"/>
+        <line num="177" count="148" type="stmt"/>
         <line num="179" count="0" type="stmt"/>
-        <line num="183" count="8" type="stmt"/>
-        <line num="185" count="109" type="stmt"/>
-        <line num="188" count="5799" type="cond" truecount="2" falsecount="0"/>
-        <line num="190" count="5009" type="stmt"/>
-        <line num="192" count="727" type="cond" truecount="2" falsecount="0"/>
-        <line num="194" count="16" type="stmt"/>
-        <line num="196" count="711" type="stmt"/>
-        <line num="197" count="5655" type="cond" truecount="1" falsecount="1"/>
-        <line num="198" count="5655" type="stmt"/>
-        <line num="199" count="5655" type="stmt"/>
-        <line num="201" count="711" type="stmt"/>
+        <line num="183" count="7" type="stmt"/>
+        <line num="185" count="141" type="stmt"/>
+        <line num="188" count="8912" type="cond" truecount="2" falsecount="0"/>
+        <line num="190" count="7934" type="stmt"/>
+        <line num="192" count="893" type="cond" truecount="2" falsecount="0"/>
+        <line num="194" count="33" type="stmt"/>
+        <line num="196" count="860" type="stmt"/>
+        <line num="197" count="8707" type="cond" truecount="1" falsecount="1"/>
+        <line num="198" count="8707" type="stmt"/>
+        <line num="199" count="8707" type="stmt"/>
+        <line num="201" count="860" type="stmt"/>
         <line num="204" count="5" type="stmt"/>
-        <line num="205" count="122" type="stmt"/>
-        <line num="215" count="47" type="cond" truecount="1" falsecount="1"/>
-        <line num="216" count="47" type="stmt"/>
-        <line num="217" count="44" type="stmt"/>
-        <line num="220" count="74" type="cond" truecount="2" falsecount="0"/>
-        <line num="221" count="73" type="stmt"/>
+        <line num="205" count="153" type="stmt"/>
+        <line num="215" count="68" type="cond" truecount="1" falsecount="1"/>
+        <line num="216" count="68" type="stmt"/>
+        <line num="217" count="65" type="stmt"/>
+        <line num="220" count="84" type="cond" truecount="2" falsecount="0"/>
+        <line num="221" count="83" type="stmt"/>
         <line num="223" count="1" type="stmt"/>
-        <line num="225" count="72" type="stmt"/>
+        <line num="225" count="82" type="stmt"/>
         <line num="228" count="5" type="cond" truecount="2" falsecount="2"/>
         <line num="229" count="1" type="stmt"/>
         <line num="230" count="1" type="stmt"/>
@@ -204,7 +204,7 @@
       </file>
     </package>
     <package name="src.propApi">
-      <metrics statements="251" coveredstatements="183" conditionals="83" coveredconditionals="43" methods="87" coveredmethods="56"/>
+      <metrics statements="251" coveredstatements="194" conditionals="83" coveredconditionals="48" methods="87" coveredmethods="62"/>
       <file name="accept-friend.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/accept-friend.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="5" type="stmt"/>
@@ -287,15 +287,15 @@
         <line num="28" count="1" type="stmt"/>
       </file>
       <file name="create-poll.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/create-poll.ts">
-        <metrics statements="3" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="3" count="5" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
       </file>
       <file name="delete-message.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/delete-message.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="45" type="stmt"/>
-        <line num="4" count="15" type="stmt"/>
+        <line num="3" count="57" type="stmt"/>
+        <line num="4" count="19" type="stmt"/>
       </file>
       <file name="delete-thread.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/delete-thread.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -320,7 +320,7 @@
       <file name="get-my-id.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/get-my-id.ts">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="5" type="stmt"/>
-        <line num="4" count="11" type="stmt"/>
+        <line num="4" count="10" type="stmt"/>
       </file>
       <file name="get-photo-url.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/get-photo-url.ts">
         <metrics statements="4" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -386,57 +386,57 @@
         <line num="4" count="0" type="stmt"/>
       </file>
       <file name="listen.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/listen.ts">
-        <metrics statements="51" coveredstatements="34" conditionals="23" coveredconditionals="14" methods="10" coveredmethods="8"/>
+        <metrics statements="51" coveredstatements="39" conditionals="23" coveredconditionals="17" methods="10" coveredmethods="9"/>
         <line num="2" count="5" type="stmt"/>
         <line num="14" count="5" type="stmt"/>
-        <line num="15" count="5" type="stmt"/>
+        <line num="15" count="7" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
         <line num="22" count="7" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
         <line num="26" count="2" type="stmt"/>
         <line num="27" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
         <line num="29" count="2" type="stmt"/>
-        <line num="32" count="10" type="stmt"/>
-        <line num="33" count="10" type="stmt"/>
-        <line num="35" count="5" type="stmt"/>
+        <line num="32" count="11" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="35" count="7" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
-        <line num="38" count="5" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
         <line num="40" count="4" type="stmt"/>
         <line num="42" count="1" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="50" count="5" type="stmt"/>
-        <line num="51" count="5" type="stmt"/>
+        <line num="45" count="3" type="stmt"/>
+        <line num="46" count="3" type="stmt"/>
+        <line num="50" count="9" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="58" count="8" type="stmt"/>
-        <line num="59" count="8" type="stmt"/>
-        <line num="61" count="5" type="stmt"/>
+        <line num="58" count="10" type="stmt"/>
+        <line num="59" count="10" type="stmt"/>
+        <line num="61" count="7" type="stmt"/>
         <line num="64" count="2" type="stmt"/>
-        <line num="65" count="45" type="stmt"/>
+        <line num="65" count="66" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
-        <line num="69" count="43" type="stmt"/>
+        <line num="69" count="64" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
         <line num="75" count="0" type="stmt"/>
         <line num="76" count="0" type="stmt"/>
         <line num="78" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="87" count="38" type="stmt"/>
-        <line num="88" count="38" type="stmt"/>
-        <line num="94" count="7" type="stmt"/>
-        <line num="95" count="7" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="87" count="52" type="stmt"/>
+        <line num="88" count="52" type="stmt"/>
+        <line num="94" count="9" type="stmt"/>
+        <line num="95" count="9" type="stmt"/>
         <line num="97" count="2" type="stmt"/>
         <line num="98" count="2" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="103" count="43" type="stmt"/>
-        <line num="105" count="45" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="103" count="64" type="stmt"/>
+        <line num="105" count="66" type="stmt"/>
         <line num="107" count="2" type="stmt"/>
       </file>
       <file name="logout.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/logout.ts">
@@ -482,14 +482,14 @@
       <file name="pull.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/pull.ts">
         <metrics statements="16" coveredstatements="11" conditionals="11" coveredconditionals="9" methods="3" coveredmethods="3"/>
         <line num="1" count="5" type="stmt"/>
-        <line num="3" count="93" type="cond" truecount="2" falsecount="0"/>
-        <line num="4" count="47" type="stmt"/>
-        <line num="19" count="44" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="135" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="68" type="stmt"/>
+        <line num="19" count="65" type="cond" truecount="2" falsecount="0"/>
         <line num="23" count="3" type="stmt"/>
         <line num="24" count="3" type="stmt"/>
         <line num="26" count="3" type="stmt"/>
         <line num="29" count="2" type="stmt"/>
-        <line num="31" count="39" type="stmt"/>
+        <line num="31" count="60" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
@@ -524,7 +524,7 @@
         <line num="4" count="1" type="stmt"/>
       </file>
       <file name="send-message.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/send-message.ts">
-        <metrics statements="21" coveredstatements="20" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+        <metrics statements="21" coveredstatements="21" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
         <line num="3" count="5" type="stmt"/>
         <line num="20" count="5" type="stmt"/>
         <line num="21" count="11" type="stmt"/>
@@ -542,32 +542,32 @@
         <line num="56" count="1" type="stmt"/>
         <line num="60" count="2" type="stmt"/>
         <line num="63" count="11" type="stmt"/>
-        <line num="65" count="11" type="stmt"/>
-        <line num="66" count="11" type="stmt"/>
-        <line num="68" count="0" type="stmt"/>
+        <line num="65" count="10" type="stmt"/>
+        <line num="66" count="10" type="stmt"/>
+        <line num="68" count="1" type="stmt"/>
         <line num="71" count="11" type="stmt"/>
       </file>
       <file name="send-typing.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/send-typing.ts">
-        <metrics statements="2" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="5" type="cond" truecount="0" falsecount="2"/>
-        <line num="4" count="0" type="stmt"/>
+        <metrics statements="2" coveredstatements="2" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="3" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="4" count="1" type="stmt"/>
       </file>
       <file name="send.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/send.ts">
         <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="5" type="stmt"/>
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="12" type="stmt"/>
-        <line num="5" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="12" type="cond" truecount="2" falsecount="0"/>
       </file>
       <file name="set-admin-thread.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/set-admin-thread.ts">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
       </file>
       <file name="set-approval-mode.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/set-approval-mode.ts">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="5" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
       </file>
       <file name="set-title.ts" path="/home/travis/build/Hongarc/node-facebook/src/propApi/set-title.ts">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
@@ -637,15 +637,15 @@
         <line num="14" count="5" type="stmt"/>
         <line num="20" count="5" type="stmt"/>
         <line num="23" count="5" type="stmt"/>
-        <line num="24" count="139" type="stmt"/>
-        <line num="25" count="139" type="stmt"/>
+        <line num="24" count="170" type="stmt"/>
+        <line num="25" count="170" type="stmt"/>
         <line num="35" count="5" type="stmt"/>
         <line num="37" count="17" type="cond" truecount="2" falsecount="0"/>
         <line num="38" count="14" type="stmt"/>
         <line num="39" count="14" type="stmt"/>
         <line num="40" count="61" type="stmt"/>
         <line num="44" count="5" type="stmt"/>
-        <line num="45" count="139" type="stmt"/>
+        <line num="45" count="170" type="stmt"/>
         <line num="54" count="5" type="stmt"/>
         <line num="55" count="3" type="stmt"/>
         <line num="56" count="3" type="stmt"/>
@@ -655,16 +655,16 @@
         <line num="61" count="3" type="stmt"/>
         <line num="63" count="1" type="stmt"/>
         <line num="66" count="1" type="stmt"/>
-        <line num="70" count="74" type="cond" truecount="2" falsecount="0"/>
-        <line num="71" count="62" type="stmt"/>
-        <line num="72" count="62" type="stmt"/>
-        <line num="73" count="62" type="stmt"/>
-        <line num="74" count="62" type="stmt"/>
+        <line num="70" count="95" type="cond" truecount="2" falsecount="0"/>
+        <line num="71" count="83" type="stmt"/>
+        <line num="72" count="83" type="stmt"/>
+        <line num="73" count="83" type="stmt"/>
+        <line num="74" count="83" type="stmt"/>
         <line num="77" count="5" type="stmt"/>
-        <line num="78" count="76" type="stmt"/>
-        <line num="79" count="76" type="stmt"/>
-        <line num="80" count="76" type="stmt"/>
-        <line num="81" count="76" type="stmt"/>
+        <line num="78" count="86" type="stmt"/>
+        <line num="79" count="86" type="stmt"/>
+        <line num="80" count="86" type="stmt"/>
+        <line num="81" count="86" type="stmt"/>
         <line num="84" count="5" type="cond" truecount="1" falsecount="1"/>
         <line num="85" count="1" type="stmt"/>
         <line num="86" count="1" type="stmt"/>
@@ -672,14 +672,14 @@
         <line num="88" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
         <line num="92" count="1" type="stmt"/>
-        <line num="95" count="139" type="stmt"/>
-        <line num="97" count="139" type="stmt"/>
+        <line num="95" count="170" type="stmt"/>
+        <line num="97" count="170" type="stmt"/>
         <line num="99" count="1" type="stmt"/>
         <line num="100" count="1" type="stmt"/>
-        <line num="102" count="136" type="cond" truecount="2" falsecount="0"/>
-        <line num="103" count="136" type="stmt"/>
-        <line num="105" count="31" type="stmt"/>
-        <line num="108" count="136" type="stmt"/>
+        <line num="102" count="167" type="cond" truecount="2" falsecount="0"/>
+        <line num="103" count="167" type="stmt"/>
+        <line num="105" count="22" type="stmt"/>
+        <line num="108" count="167" type="stmt"/>
         <line num="112" count="5" type="stmt"/>
         <line num="113" count="12" type="stmt"/>
         <line num="114" count="12" type="stmt"/>
@@ -694,13 +694,13 @@
       <file name="formatter.ts" path="/home/travis/build/Hongarc/node-facebook/src/utils/formatter.ts">
         <metrics statements="57" coveredstatements="53" conditionals="19" coveredconditionals="13" methods="16" coveredmethods="12"/>
         <line num="1" count="5" type="stmt"/>
-        <line num="8" count="25" type="cond" truecount="2" falsecount="1"/>
+        <line num="8" count="35" type="cond" truecount="2" falsecount="1"/>
         <line num="9" count="5" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
         <line num="21" count="5" type="stmt"/>
         <line num="28" count="5" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
-        <line num="32" count="10" type="stmt"/>
+        <line num="32" count="11" type="stmt"/>
         <line num="33" count="4" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
@@ -720,31 +720,31 @@
         <line num="66" count="2" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="72" count="5" type="stmt"/>
-        <line num="73" count="10" type="stmt"/>
-        <line num="74" count="10" type="stmt"/>
-        <line num="77" count="10" type="stmt"/>
-        <line num="79" count="9" type="stmt"/>
-        <line num="81" count="10" type="stmt"/>
+        <line num="73" count="11" type="stmt"/>
+        <line num="74" count="11" type="stmt"/>
+        <line num="77" count="11" type="stmt"/>
+        <line num="79" count="10" type="stmt"/>
+        <line num="81" count="11" type="stmt"/>
         <line num="82" count="2" type="stmt"/>
-        <line num="87" count="10" type="stmt"/>
+        <line num="87" count="11" type="stmt"/>
         <line num="99" count="5" type="stmt"/>
         <line num="107" count="5" type="stmt"/>
         <line num="113" count="5" type="stmt"/>
-        <line num="114" count="5" type="stmt"/>
-        <line num="115" count="5" type="stmt"/>
+        <line num="114" count="9" type="stmt"/>
+        <line num="115" count="9" type="stmt"/>
         <line num="129" count="5" type="stmt"/>
-        <line num="134" count="8" type="stmt"/>
+        <line num="134" count="10" type="stmt"/>
         <line num="139" count="5" type="stmt"/>
-        <line num="141" count="1" type="stmt"/>
-        <line num="142" count="1" type="stmt"/>
-        <line num="143" count="1" type="stmt"/>
-        <line num="144" count="1" type="stmt"/>
-        <line num="145" count="1" type="stmt"/>
-        <line num="148" count="1" type="cond" truecount="2" falsecount="0"/>
-        <line num="149" count="1" type="stmt"/>
-        <line num="150" count="2" type="stmt"/>
-        <line num="151" count="1" type="stmt"/>
-        <line num="153" count="1" type="stmt"/>
+        <line num="141" count="3" type="stmt"/>
+        <line num="142" count="3" type="stmt"/>
+        <line num="143" count="3" type="stmt"/>
+        <line num="144" count="3" type="stmt"/>
+        <line num="145" count="3" type="stmt"/>
+        <line num="148" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="149" count="3" type="stmt"/>
+        <line num="150" count="6" type="stmt"/>
+        <line num="151" count="3" type="stmt"/>
+        <line num="153" count="3" type="stmt"/>
         <line num="157" count="5" type="stmt"/>
         <line num="159" count="12" type="stmt"/>
         <line num="160" count="12" type="stmt"/>
