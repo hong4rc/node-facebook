@@ -220,4 +220,9 @@ describe('Message', () => {
     const threadList = await me.getThreadList(20, Date.now());
     expect(threadList).toBeInstanceOf(Array);
   });
+
+  test('get thread message', async () => {
+    const threadMessages = await me.getThreadMessages(friend.id);
+    expect(threadMessages).toBeInstanceOf(Array);
+  });
 });
