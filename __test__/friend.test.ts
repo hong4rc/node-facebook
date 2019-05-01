@@ -15,22 +15,22 @@ describe('Friend', () => {
     await cutOff(me, friend);
   });
 
-  test('api.cancelFriend', async () => {
+  test('cancel request friend', async () => {
     const response = await me.cancelFriend(friend.id);
     expect(response).not.toHaveProperty('error');
   });
 
-  test('api.addFriend', async () => {
+  test('add friend', async () => {
     const response = await me.addFriend(friend.id);
     expect(response).toHaveProperty('payload.success', true);
   });
 
-  test('api.acceptFriend', async () => {
+  test(' accept friend', async () => {
     const response = await friend.acceptFriend(me.id);
     expect(response).toHaveProperty('payload.success', true);
   });
 
-  test('api.removeFriend', async () => {
+  test('remove friend', async () => {
     await friend.removeFriend(me.id);
     const users = await friend.getUserInfo(me.id);
     expect(users).toHaveProperty(`${me.id}.isFriend`, false);

@@ -6,7 +6,6 @@ import {
   init, final, each, clear,
 } from './user';
 
-
 let me: Api;
 let friend: Api;
 

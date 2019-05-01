@@ -3,7 +3,7 @@ import info from './info';
 
 describe('Login', () => {
   describe('Use email/pass', () => {
-    test('Email match password', async () => {
+    test('email match password', async () => {
       const me = new Facebook({
         email: info.me.email,
         pass: info.me.pass,
@@ -13,7 +13,7 @@ describe('Login', () => {
       expect(typeof api.id).toBe('string');
     });
 
-    test('Email don\'t match password', async () => {
+    test('email don\'t match password', async () => {
       const invalid = new Facebook({
         email: 'myemail@gmail.com',
         pass: 'wrong pass',
@@ -23,26 +23,26 @@ describe('Login', () => {
       });
     }, 20000);
 
-    test('Not fill pass', () => {
+    test('not fill pass', () => {
       // @ts-ignore
       expect(() => new Facebook({
         email: 'myemail@gmail.com',
       })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    test('Not fill email', () => {
+    test('not fill email', () => {
       // @ts-ignore
       expect(() => new Facebook({
         pass: 'my pass',
       })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    test('Not fill email+pass', () => {
+    test('not fill email+pass', () => {
       // @ts-ignore
       expect(() => new Facebook({})).toThrowError('Please login with email/pass or cookie!');
     });
 
-    test('Fill wrong email+pass', () => {
+    test('fill wrong email+pass', () => {
       // @ts-ignore
       expect(() => new Facebook({
         email: '',
@@ -50,7 +50,7 @@ describe('Login', () => {
       })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    test('Blocked account', async () => {
+    test('blocked account', async () => {
       const blocked = new Facebook({
         email: info.blocked.email,
         pass: info.blocked.pass,
@@ -62,7 +62,7 @@ describe('Login', () => {
   });
 
   describe('Use state', () => {
-    test('Trust cookie', async () => {
+    test('trust cookie', async () => {
       const friend = new Facebook({
         state: info.me.tmpState,
       });
@@ -71,7 +71,7 @@ describe('Login', () => {
       expect(typeof api.id).toBe('string');
     });
 
-    test('Bad cookie', async () => {
+    test('bad cookie', async () => {
       const friend = new Facebook({
         state: [{
           key: 'c_user',
@@ -91,7 +91,7 @@ describe('Login', () => {
   });
 
   describe('Logout', () => {
-    test('Logout after login', async () => {
+    test('after login', async () => {
       const friend = new Facebook({
         state: info.me.tmpState,
       });

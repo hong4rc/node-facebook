@@ -39,7 +39,7 @@ describe('Message group', () => {
     });
   });
 
-  test('delete user in message group', (done) => {
+  test('delete participant', (done) => {
     friend.removeParticipant(groupId, me.id);
     me.once('log_admin', (message) => {
       expect(message).toMatchObject({
@@ -51,7 +51,7 @@ describe('Message group', () => {
     });
   });
 
-  test('add user in message group', (done) => {
+  test('add user', (done) => {
     friend.addUserToThread(groupId, me.id);
     me.once('log_admin', (message) => {
       expect(message).toMatchObject({
@@ -63,7 +63,7 @@ describe('Message group', () => {
     });
   });
 
-  test('create poll in group', (done) => {
+  test('create poll', (done) => {
     friend.createPoll(groupId, 'This is poll', {
       yesss: true,
       hi: true,
