@@ -63,6 +63,22 @@ describe('Message group', () => {
     });
   });
 
+  test('send message', (done) => {
+    const text = 'HelLo, Friend!';
+    me.once('msg', (message) => {
+      expect(message).toMatchObject({
+        senderId: friend.id,
+        body: text,
+        threadId: groupId,
+        isGroup: true,
+      });
+      done();
+    });
+    friend.sendMessage({
+      body: text,
+    }, groupId);
+  });
+
   test('create poll', (done) => {
     friend.createPoll(groupId, 'This is poll', {
       yesss: true,
