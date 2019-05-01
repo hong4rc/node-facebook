@@ -47,12 +47,12 @@ describe('Other', () => {
     await me.archived(false, friend.id);
   });
 
-  test('followProfile', async () => {
+  test('follow profile', async () => {
     await me.followProfile(friend.id, true);
     await me.followProfile(friend.id, false);
   });
 
-  test('markAsReadAll', async () => {
+  test('mark as read all message', async () => {
     const response = await me.markAsReadAll();
     expect(response).toMatchObject({
       payload: {
@@ -60,4 +60,6 @@ describe('Other', () => {
       },
     });
   });
+
+  test('mark as read all notification', () => me.markReadNoti());
 });
