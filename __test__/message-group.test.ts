@@ -63,6 +63,25 @@ describe('Message group', () => {
     });
   });
 
+  test('create poll in group', (done) => {
+    friend.createPoll(groupId, 'This is poll', {
+      yesss: true,
+      hi: true,
+      nooooo: false,
+    });
+    me.once('log_admin', (message) => {
+      expect(message).toMatchObject({
+        senderId: friend.id,
+        threadId: groupId,
+        type: 'group_poll',
+        untypedData: {
+          eventType: 'question_creation'
+        },
+      });
+      done();
+    });
+  });
+
   test('delete message group', async () => {
     await friend.deleteThread(groupId);
     await me.deleteThread(groupId);
