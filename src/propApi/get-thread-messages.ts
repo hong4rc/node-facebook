@@ -3,7 +3,8 @@ import { fMessage } from '../utils/formatter';
 
 // todo load more old thread
 
-export default function (this: Api, threadId: Id, limit: number = 12, timestamp: number = Date.now()): Form {
+export default function (this: Api, threadId: Id,
+  limit: number = 12, timestamp: number = Date.now()): Form {
   return this.graphqlBatch({
     doc_id: '2447868575246282',
     query_params: {
