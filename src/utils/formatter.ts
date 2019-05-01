@@ -135,3 +135,20 @@ export const fDelMessage = (delta: Form): Form => ({
   threadId: getId(delta.threadKey),
   messageIds: delta.messageIds,
 });
+
+export const fThread = (thread: Form) => {
+  const {
+    threadKey,
+    threadType,
+    allParticipants,
+    lastMessage,
+    ...threadF
+  } = thread;
+
+  threadF.threadId = threadKey.threadFbid || threadKey.otherUserId;
+  threadF.isGroup = threadType === 'GROUP';
+  threadF.allParticipants = allParticipants.edges.map((edge: Form) => edge.node.messagingActor);
+  threadF.lastMessage = lastMessage[0];
+
+  return threadF;
+};
