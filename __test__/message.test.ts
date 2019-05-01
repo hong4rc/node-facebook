@@ -215,4 +215,9 @@ describe('Message', () => {
     await me.unsendMessage(messageId);
     clear();
   });
+
+  test('get thread list', async () => {
+    const threadList = await me.getThreadList(20, Date.now());
+    expect(threadList).toBeInstanceOf(Array);
+  });
 });
