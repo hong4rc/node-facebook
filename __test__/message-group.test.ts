@@ -98,6 +98,22 @@ describe('Message group', () => {
     });
   });
 
+  test('set admin', async (done) => {
+    await friend.setAdminThread(groupId, false, me.id);
+    me.once('log_admin', (data) => {
+      expect(data).toMatchObject({
+        senderId: friend.id,
+        threadId: groupId,
+        type: 'change_thread_admins',
+        untypedData: {
+          aDMINEVENT: 'add_admin'
+        },
+      });
+      done();
+    });
+    await friend.setAdminThread(groupId, true, me.id);
+  });
+
   test('delete message group', async () => {
     await friend.deleteThread(groupId);
     await me.deleteThread(groupId);
