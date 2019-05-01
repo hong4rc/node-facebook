@@ -12,14 +12,14 @@ describe('Other', () => {
     friend = await pFriend;
   });
 
-  test('Wrong server', async () => {
+  test('wrong server', async () => {
     me.iServer = Api.LEN_SV;
     await me.pull();
     expect(me.iServer).toBeGreaterThanOrEqual(0);
     expect(me.iServer).toBeLessThanOrEqual(Api.LEN_SV - 1);
   });
 
-  test('Block user', async () => {
+  test('block user', async () => {
     await me.unblockUser(friend.id);
     await expect(me.blockUser(friend.id)).rejects.toMatchObject({
       error: 1409006,
@@ -27,15 +27,13 @@ describe('Other', () => {
     await me.unblockUser(friend.id);
   });
 
-  test('Block message', async () => {
+  test('block message', async () => {
     await me.blockMessage(friend.id);
-    await expect(friend.sendMessage({
-      body: 'hi',
-    }, me.id)).rejects.toMatchObject({
-      error: 1545041,
+    await expect(friend.sendTyping(me.id)).rejects.toMatchObject({
+      error: 1356001,
     });
     await me.unblockMessage(friend.id);
   });
 
-  test('Change bio', () => me.changeBio('This is my Bio', 5000));
+  test('change bio', () => me.changeBio('This is my Bio', 5000));
 });
