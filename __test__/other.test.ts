@@ -36,4 +36,14 @@ describe('Other', () => {
   });
 
   test('change bio', () => me.changeBio('This is my Bio', 5000));
+
+  test('archived', async () => {
+    const response = await me.archived(true, friend.id);
+    expect(response).toMatchObject({
+      payload: {
+        payload_source: 'server_change_archived_status',
+      },
+    });
+    await me.archived(false, friend.id);
+  });
 });

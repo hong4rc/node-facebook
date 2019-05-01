@@ -84,7 +84,7 @@ describe('Message group', () => {
         threadId: groupId,
         type: 'group_poll',
         untypedData: {
-          eventType: 'question_creation'
+          eventType: 'question_creation',
         },
       });
       done();
@@ -99,7 +99,7 @@ describe('Message group', () => {
         threadId: groupId,
         type: 'change_thread_admins',
         untypedData: {
-          aDMINEVENT: 'add_admin'
+          aDMINEVENT: 'add_admin',
         },
       });
       done();
@@ -107,7 +107,7 @@ describe('Message group', () => {
     await friend.setAdminThread(groupId, true, me.id);
   });
 
-  test('set approval mode', async done => {
+  test('set approval mode', async (done) => {
     await friend.setApprovalMode(groupId, true);
     me.on('log_admin', (data) => {
       expect(data).toMatchObject({
