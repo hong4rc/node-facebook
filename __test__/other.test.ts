@@ -51,4 +51,13 @@ describe('Other', () => {
     await me.followProfile(friend.id, true);
     await me.followProfile(friend.id, false);
   });
+
+  test('markAsReadAll', async () => {
+    const response = await me.markAsReadAll();
+    expect(response).toMatchObject({
+      payload: {
+        payload_source: 'server_mark_folder_read',
+      },
+    });
+  });
 });
