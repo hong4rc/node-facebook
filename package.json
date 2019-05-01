@@ -34,7 +34,7 @@
     "typescript": "3.4.5"
   },
   "scripts": {
-    "test": "jest -i",
+    "test": "jest -i --color",
     "coverage": "codecov",
     "lint": "npm run lint:src && npm run lint:spec",
     "lint:src": "eslint src/**/*.ts --fix",
