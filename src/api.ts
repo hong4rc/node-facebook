@@ -26,6 +26,7 @@ import getMyId from './propApi/get-my-id';
 import getPhotoUrl from './propApi/get-photo-url';
 import getState from './propApi/get-state';
 import getThreadList from './propApi/get-thread-list';
+import getThreadMessages from './propApi/get-thread-messages';
 import getUserInfo from './propApi/get-user-info';
 import joinGroup from './propApi/join-group';
 import leaveGroup from './propApi/leave-group';
@@ -100,6 +101,7 @@ export default class Api extends EventEmitter {
   getPhotoUrl = getPhotoUrl;
   getState = getState;
   getThreadList = getThreadList;
+  getThreadMessages = getThreadMessages;
   getUserInfo = getUserInfo;
   joinGroup = joinGroup;
   leaveGroup = leaveGroup;

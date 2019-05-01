@@ -152,3 +152,15 @@ export const fThread = (thread: Form) => {
 
   return threadF;
 };
+
+// TODO format same new message
+export const fMessage = (messaged: Form) => {
+  const {
+    message,
+    ...messageF
+  } = messaged;
+
+  messageF.message = message.text;
+
+  return messageF;
+};
