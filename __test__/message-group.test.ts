@@ -31,18 +31,18 @@ describe('Message group', () => {
     groupId = response.threadId;
     expect(response).toMatchObject({
       name,
-      participants: [{
+      participants: expect.arrayContaining([expect.objectContaining({
         id: me.id,
-      }, {
+      }), expect.objectContaining({
         id: friend.id,
-      }],
+      })]),
     });
   });
 
   test('delete participant', (done) => {
     friend.removeParticipant(groupId, me.id);
-    me.once('log_admin', (message) => {
-      expect(message).toMatchObject({
+    me.once('log_admin', (data) => {
+      expect(data).toMatchObject({
         type: 'ParticipantLeftGroupThread',
         leftId: me.id,
         threadId: groupId,
@@ -53,8 +53,8 @@ describe('Message group', () => {
 
   test('add user', (done) => {
     friend.addUserToThread(groupId, me.id);
-    me.once('log_admin', (message) => {
-      expect(message).toMatchObject({
+    me.once('log_admin', (data) => {
+      expect(data).toMatchObject({
         type: 'ParticipantsAddedToGroupThread',
         addedIds: [{ userFbId: me.id }],
         threadId: groupId,
@@ -85,8 +85,8 @@ describe('Message group', () => {
       hi: true,
       nooooo: false,
     });
-    me.once('log_admin', (message) => {
-      expect(message).toMatchObject({
+    me.once('log_admin', (data) => {
+      expect(data).toMatchObject({
         senderId: friend.id,
         threadId: groupId,
         type: 'group_poll',
@@ -112,6 +112,20 @@ describe('Message group', () => {
       done();
     });
     await friend.setAdminThread(groupId, true, me.id);
+  });
+
+  test('set approval mode', async done => {
+    await friend.setApprovalMode(groupId, true);
+    me.on('log_admin', (data) => {
+      expect(data).toMatchObject({
+        senderId: friend.id,
+        threadId: groupId,
+        isGroup: true,
+        type: 'change_thread_approval_mode',
+      });
+      done();
+    });
+    await friend.setApprovalMode(groupId, false);
   });
 
   test('delete message group', async () => {
