@@ -46,4 +46,9 @@ describe('Other', () => {
     });
     await me.archived(false, friend.id);
   });
+
+  test('followProfile', async () => {
+    await me.followProfile(friend.id, true);
+    await me.followProfile(friend.id, false);
+  });
 });
