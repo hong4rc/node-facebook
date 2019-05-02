@@ -111,18 +111,30 @@ export const fReceipt = (delta: Form): Form => ({
 });
 
 export const fLog = (delta: Form): Form => {
-  const meta = delta.messageMetadata;
+  const {
+    name,
+    messageMetadata,
+    participants,
+    untypedData,
+    leftParticipantFbId: leftId,
+    addedParticipants: addedIds,
+  } = delta;
+  const {
+    actorFbId: senderId,
+    threadKey,
+    ...otherMeta
+  } = messageMetadata;
   return {
-    senderId: meta.actorFbId,
-    threadId: getId(meta.threadKey),
-    messageId: meta.messageId,
-    timestamp: meta.timestamp,
-    isGroup: Boolean(meta.threadKey.threadFbId),
-    adminText: meta.adminText,
+    name,
+    participants,
+    senderId,
+    threadId: getId(threadKey),
+    isGroup: Boolean(threadKey.threadFbId),
     type: delta.type || delta.class,
-    untypedData: delta.untypedData,
-    leftId: delta.leftParticipantFbId,
-    addedIds: delta.addedParticipants,
+    untypedData,
+    leftId,
+    addedIds,
+    ...otherMeta,
   };
 };
 
