@@ -23,13 +23,21 @@ describe('Message group', () => {
     each(me, friend);
   });
 
-  test('create message group', async () => {
+  test('create message group', async (done) => {
     const name = 'My group';
+
+    me.once('log_admin', (data) => {
+      expect(data).toMatchObject({
+        name,
+        type: 'ThreadName',
+        isGroup: true,
+      });
+      done();
+    });
     const response = await friend.createMsgGroup({
       name,
     }, me.id);
     groupId = response.threadId;
-    expect(response).toHaveProperty('name', name);
   });
 
   test('delete participant', (done) => {
