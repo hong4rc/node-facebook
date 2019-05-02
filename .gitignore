@@ -21,3 +21,6 @@ npm-debug.log*
 
 # Coverage directory
 coverage
+
+# Sample
+sample/*.json
