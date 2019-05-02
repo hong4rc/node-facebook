@@ -44,6 +44,7 @@ export default function (this: Api): boolean {
       case 'DeliveryReceipt':
         this.emit('delivery_receipt', fReceipt(delta));
         break;
+      case 'ThreadName':
       case 'AdminTextMessage':
       case 'ParticipantLeftGroupThread':
       case 'ParticipantsAddedToGroupThread':
