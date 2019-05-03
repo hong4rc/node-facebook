@@ -5,9 +5,8 @@ node_modules/
 dist/
 
 # Test
-/src/test.ts
 *.html
-test/info.json
+__test__/info.json
 
 # Cookies
 state.json
@@ -20,7 +19,8 @@ npm-debug.log*
 # Release
 *.tgz
 
-# Coverage directory used by tools like istanbul
+# Coverage directory
 coverage
-.nyc_output
-coverage.*
+
+# Sample
+sample/*.json

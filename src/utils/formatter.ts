@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import { Form, Id } from '../Api';
+import { Form, Id } from '../api';
 
 interface ThreadKey {
   threadFbId?: Id;
@@ -18,11 +18,11 @@ export const fProxy = (userId: string, presence: Form): Form => ({
   statUser: presence.p,
 });
 
-export const fTyping = (msg: Form): Form => ({
-  isTyping: Boolean(msg.st),
-  fromMobile: msg.fromMobile !== false,
-  from: msg.from,
-  threadId: msg.to || msg.threadFbid || msg.from,
+export const fTyping = (message: Form): Form => ({
+  isTyping: Boolean(message.st),
+  fromMobile: message.fromMobile !== false,
+  from: message.from,
+  threadId: message.to || message.threadFbid || message.from,
 });
 
 export const fAttachments = (attachments: Form[]): Form[] => {
@@ -46,30 +46,30 @@ export const fAttachments = (attachments: Form[]): Form[] => {
     }
     if (mercury.extensibleAttachment) {
       const story = mercury.extensibleAttachment.storyAttachment;
-      const obj: Form = {
+      const object: Form = {
         description: story.description.text,
         media: story.media,
         title: story.titleWithEntities.text,
       };
       switch (story.target.typename) {
         case 'ExternalUrl':
-          obj.type = 'url';
-          obj.url = new URL(story.url).searchParams.get('u');
+          object.type = 'url';
+          object.url = new URL(story.url).searchParams.get('u');
           break;
         case 'LightweightAction':
-          obj.type = 'ware';
-          obj.state = story.target.lwaState;
+          object.type = 'ware';
+          object.state = story.target.lwaState;
           break;
         default:
-          obj.type = 'unknow';
+          object.type = 'unknow';
       }
-      return obj;
+      return object;
     }
     return attachment;
   });
 };
 
-export const fNewMsg = (delta: Form): Form => {
+export const fNewMessage = (delta: Form): Form => {
   const meta = delta.messageMetadata;
   const mentions: Form = {};
   let menDatas;
@@ -111,18 +111,30 @@ export const fReceipt = (delta: Form): Form => ({
 });
 
 export const fLog = (delta: Form): Form => {
-  const meta = delta.messageMetadata;
+  const {
+    name,
+    messageMetadata,
+    participants,
+    untypedData,
+    leftParticipantFbId: leftId,
+    addedParticipants: addedIds,
+  } = delta;
+  const {
+    actorFbId: senderId,
+    threadKey,
+    ...otherMeta
+  } = messageMetadata;
   return {
-    senderId: meta.actorFbId,
-    threadId: getId(meta.threadKey),
-    messageId: meta.messageId,
-    timestamp: meta.timestamp,
-    isGroup: Boolean(meta.threadKey.threadFbId),
-    adminText: meta.adminText,
-    type: delta.type,
-    untypedData: delta.untypedData,
-    leftId: delta.leftParticipantFbId,
-    addedIds: delta.addedParticipants,
+    name,
+    participants,
+    senderId,
+    threadId: getId(threadKey),
+    isGroup: Boolean(threadKey.threadFbId),
+    type: delta.type || delta.class,
+    untypedData,
+    leftId,
+    addedIds,
+    ...otherMeta,
   };
 };
 
@@ -130,3 +142,37 @@ export const fMarkRead = (delta: Form): Form => ({
   threadId: getId(delta.threadKeys),
   timestamp: delta.actionTimestamp,
 });
+
+export const fDelMessage = (delta: Form): Form => ({
+  threadId: getId(delta.threadKey),
+  messageIds: delta.messageIds,
+});
+
+export const fThread = (thread: Form) => {
+  const {
+    threadKey,
+    threadType,
+    allParticipants,
+    lastMessage,
+    ...threadF
+  } = thread;
+
+  threadF.threadId = threadKey.threadFbid || threadKey.otherUserId;
+  threadF.isGroup = threadType === 'GROUP';
+  threadF.allParticipants = allParticipants.edges.map((edge: Form) => edge.node.messagingActor);
+  [threadF.lastMessage] = lastMessage;
+
+  return threadF;
+};
+
+// TODO format same new message
+export const fMessage = (messaged: Form) => {
+  const {
+    message,
+    ...messageF
+  } = messaged;
+
+  messageF.message = message && message.text;
+
+  return messageF;
+};

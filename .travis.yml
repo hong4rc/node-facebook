@@ -20,7 +20,7 @@ deploy:
   keep_history: true
   on:
     branch: develop
-  local_dir: coverage
+  local_dir: coverage/lcov-report
   email: aqua.hong.97@gmail.com
   name: Hongarc's bot
 - provider: releases

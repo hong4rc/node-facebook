@@ -1,12 +1,12 @@
-import Api, { Form } from '../Api';
-import { findForm } from '../utils/parseForm';
+import Api, { Form } from '../api';
+import { findForm } from '../utils/parse-form';
 
 export default async function (this: Api): Promise<Form> {
-  const res = await this.post('https://www.facebook.com/bluebar/modern_settings_menu/', {
+  const response = await this.post('https://www.facebook.com/bluebar/modern_settings_menu/', {
     pmid: 2,
   });
-  const str = res.data || JSON.stringify(res);
-  const h = findForm(str, 'name=\\\\"h\\\\" value=\\\\"', '\\\\"');
+  const string = response.data || JSON.stringify(response);
+  const h = findForm(string, 'name=\\\\"h\\\\" value=\\\\"', '\\\\"');
 
   return this.post('https://www.facebook.com/logout.php', { ref: 'mb', h });
 }

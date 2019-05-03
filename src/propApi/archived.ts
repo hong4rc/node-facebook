@@ -1,4 +1,4 @@
-import Api, { Form, Id } from '../Api';
+import Api, { Form, Id } from '../api';
 
 export default function (this: Api, archive: boolean, ...listId: Id[]): Form {
   const ids: Form = {};
