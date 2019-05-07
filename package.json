@@ -42,20 +42,6 @@
     "build": "gulp",
     "start": "tsc -watch"
   },
-  "nyc": {
-    "require": [
-      "ts-node/register"
-    ],
-    "include": [
-      "src/**"
-    ],
-    "reporter": [
-      "html"
-    ],
-    "extension": [
-      ".ts"
-    ]
-  },
   "files": [
     "dist/**"
   ],
