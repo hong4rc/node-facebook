@@ -38,5 +38,7 @@ describe('Message', () => {
     }, friend.id)).id;
   });
 
+  test('remove member', () => me.removeMember(groupId, friend.id, [0, 1, 2, 3, 4]));
+
   test('leave group', () => Promise.all([me.leaveGroup(groupId), friend.leaveGroup(groupId)]));
 });
