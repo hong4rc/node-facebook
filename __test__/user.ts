@@ -12,9 +12,13 @@ const hookMessageId = (message: Form) => {
 
 export const ignore = () => {};
 
-export const init = async (me: Api, friend: Api) => {
+export const becomeFriend = async (me: Api, friend: Api) => {
   await friend.addFriend(me.id).then(ignore, ignore);
   await me.acceptFriend(friend.id).then(ignore, ignore);
+};
+
+export const init = async (me: Api, friend: Api) => {
+  await becomeFriend(me, friend);
   await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
   me.listen();
