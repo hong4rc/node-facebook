@@ -3,6 +3,7 @@ import {
   pMe, pFriend,
   becomeFriend,
 } from './user';
+import { validOption } from '../src/propApi/create-group';
 
 let me: Api;
 let friend: Api;
@@ -14,6 +15,18 @@ describe('Message', () => {
     friend = await pFriend;
 
     await becomeFriend(me, friend);
+  });
+
+  test('valid option', async () => {
+    const name = 'valid option';
+    const privacy = 'open';
+
+    expect(validOption({ name, privacy, pin: true }))
+      .toMatchObject({ name, privacy, add_to_favorites: 'on' });
+
+    // @ts-ignore
+    expect(validOption({ name, pin: false }))
+      .toMatchObject({ name, privacy: 'close' , add_to_favorites: undefined });
   });
 
   test('create group', async () => {
