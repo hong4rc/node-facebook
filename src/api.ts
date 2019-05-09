@@ -15,6 +15,7 @@ import cancelJoinGroup from './propApi/cancel-join-group';
 import changeBio from './propApi/change-bio';
 import changeEmoji from './propApi/change-emoji';
 import changeNickname from './propApi/change-nickname';
+import createGroup from './propApi/create-group';
 import createMsgGroup from './propApi/create-msg-group';
 import createPoll from './propApi/create-poll';
 import deleteMessage from './propApi/delete-message';
@@ -90,6 +91,7 @@ export default class Api extends EventEmitter {
   changeBio = changeBio;
   changeEmoji = changeEmoji;
   changeNickname = changeNickname;
+  createGroup = createGroup;
   createMsgGroup = createMsgGroup;
   createPoll = createPoll;
   deleteMessage = deleteMessage;
