@@ -31,6 +31,19 @@ describe('Message group', () => {
     }, me.id)).threadId;
   });
 
+  test('set title', (done) => {
+    const newName = 'New group';
+    me.on('ThreadName', (data) => {
+      console.log(data);
+      expect(data).toMatchObject({
+        name: newName,
+        threadId: groupId,
+      });
+      done();
+    });
+    me.setTitle(groupId, newName);
+  });
+
   test('delete participant', (done) => {
     friend.removeParticipant(groupId, me.id);
     me.once('ParticipantLeftGroupThread', (data) => {
