@@ -13,27 +13,18 @@ export const findForm = (body: string, head: string, tail: string): string => {
   throw new Error(`Could not found match '${head}' -> '${tail}'`);
 };
 
-const formatCookie = (array: string[], url: string): string => `${array[0]}=${array[1]}; Path=${array[3]}; Domain=${url}`;
-
 export default (body: string, user: Info) => {
   const root = parse(body) as HTMLElement;
 
-  let form: Form = {};
-  // TODO define @types/fast-html-parser
+  const form: Form = {};
   root.querySelectorAll(QR_LOGIN).forEach((element) => {
     const { name, value } = element.attributes;
     if (name && value) {
       (form[name] = value);
     }
   });
-  const willBeCookies = body.split('"_js_');
-  willBeCookies.shift();
-  const cookies = willBeCookies.map((value): string => {
-    const cookieData = JSON.parse(`["${findForm(value, '', ']')}]`);
-    return formatCookie(cookieData, '.facebook.com');
-  });
 
-  form = Object.assign(form, {
+  return Object.assign(form, {
     email: user.email,
     pass: user.pass,
     timezone: new Date().getTimezoneOffset(),
@@ -41,8 +32,4 @@ export default (body: string, user: Info) => {
     lgnjs: Math.floor(Date.now() / 1000),
     default_persistent: '0',
   });
-  return {
-    form,
-    cookies,
-  };
 };

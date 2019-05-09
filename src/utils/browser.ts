@@ -53,11 +53,8 @@ export default class Browser {
 
   async init(user: Info): Promise<void> {
     const response = await this.get(URL_HOME);
-    const data = parseForm(response.body, user);
-    data.cookies.forEach((cookie: string) => {
-      this.cookieJar.setCookie(cookie, URL_HOME);
-    });
-    const responsePost = await this.post(URL_LOGIN, data.form);
+    const form = parseForm(response.body, user);
+    const responsePost = await this.post(URL_LOGIN, form);
     const { location } = responsePost.headers;
     if (!location) {
       throw new Error('Wrong username/password.');
