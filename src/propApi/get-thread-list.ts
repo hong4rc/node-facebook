@@ -14,5 +14,5 @@ export default function (this: Api, limit: number, timestamp: number, tags: stri
       includeDeliveryReceipts: true,
       includeSeqID: false,
     },
-  }).then((response: Form) => response.viewer.messageThreads.map(fThread));
+  }).then((response: Form) => response.viewer.messageThreads.nodes.map(fThread));
 }

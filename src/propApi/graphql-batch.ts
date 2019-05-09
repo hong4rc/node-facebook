@@ -5,5 +5,5 @@ export default function (this: Api, form: Form): Form {
     queries: JSON.stringify({
       o0: form,
     }),
-  }).then((response: Form) => Api.camelize(response.o0.data, 'nodes'));
+  }).then((response: Form) => Api.camelize(response.o0.data));
 }

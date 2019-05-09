@@ -160,7 +160,7 @@ export const fThread = (thread: Form) => {
   threadF.threadId = threadKey.threadFbid || threadKey.otherUserId;
   threadF.isGroup = threadType === 'GROUP';
   threadF.allParticipants = allParticipants.edges.map((edge: Form) => edge.node.messagingActor);
-  [threadF.lastMessage] = lastMessage;
+  [threadF.lastMessage] = lastMessage.nodes;
 
   return threadF;
 };

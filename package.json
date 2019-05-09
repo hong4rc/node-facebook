@@ -10,6 +10,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
+    "camelcase-keys": "^5.2.0",
     "kiat-html-parser": "^1.2.0",
     "request": "^2.88.0"
   },

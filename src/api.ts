@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import camelcaseKeys from 'camelcase-keys';
 
 import Browser, { Form } from './utils/browser';
 import acceptFriend from './propApi/accept-friend';
@@ -185,20 +186,8 @@ export default class Api extends EventEmitter {
     return object;
   }
 
-  static camelize(object: Form, unKey: string = ''): Form {
-    if (!object || !(object.constructor === Object || object.constructor === Array)) {
-      return object;
-    }
-    const newObject: Form = object.constructor === Array ? [] : {};
-    if (object[unKey]) {
-      return Api.camelize(object[unKey], unKey);
-    }
-    Object.keys(object).forEach((key: string) => {
-      let newKey = key.replace(/[-_\s]+(.)?/g, (match, ch) => (ch ? ch.toUpperCase() : ''));
-      newKey = newKey[0].toLocaleLowerCase() + newKey.substr(1);
-      newObject[newKey] = Api.camelize(object[key], unKey);
-    });
-    return newObject;
+  static camelize(object: Form): Form {
+    return camelcaseKeys(object, { deep: true });
   }
 
   mergeform(form: Form): Form {
