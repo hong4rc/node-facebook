@@ -7,14 +7,12 @@ export interface OptionGroup {
   pin?: boolean;
 }
 
-export const validOption = (option: OptionGroup): Form => {
-  return {
-    name: option.name,
-    privacy: option.privacy || 'close',
-    message: option.message,
-    add_to_favorites: option.pin ? 'on' : undefined,
-  }
-};
+export const validOption = (option: OptionGroup): Form => ({
+  name: option.name,
+  privacy: option.privacy || 'close',
+  message: option.message,
+  add_to_favorites: option.pin ? 'on' : undefined,
+});
 
 export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Form {
   return this.post('https://www.facebook.com/ajax/groups/create_post/', {

@@ -23,28 +23,18 @@ describe('Message group', () => {
     each(me, friend);
   });
 
-  test('create message group', async (done) => {
+  test('create message group', async () => {
     const name = 'My group';
 
-    me.once('log_admin', (data) => {
-      expect(data).toMatchObject({
-        name,
-        type: 'ThreadName',
-        isGroup: true,
-      });
-      done();
-    });
-    const response = await friend.createMsgGroup({
+    groupId = (await friend.createMsgGroup({
       name,
-    }, me.id);
-    groupId = response.threadId;
+    }, me.id)).threadId;
   });
 
   test('delete participant', (done) => {
     friend.removeParticipant(groupId, me.id);
-    me.once('log_admin', (data) => {
+    me.once('ParticipantLeftGroupThread', (data) => {
       expect(data).toMatchObject({
-        type: 'ParticipantLeftGroupThread',
         leftId: me.id,
         threadId: groupId,
       });
@@ -54,9 +44,8 @@ describe('Message group', () => {
 
   test('add user', (done) => {
     friend.addUserToThread(groupId, me.id);
-    me.once('log_admin', (data) => {
+    me.once('ParticipantsAddedToGroupThread', (data) => {
       expect(data).toMatchObject({
-        type: 'ParticipantsAddedToGroupThread',
         addedIds: [{ userFbId: me.id }],
         threadId: groupId,
       });
@@ -86,11 +75,10 @@ describe('Message group', () => {
       hi: true,
       nooooo: false,
     });
-    me.once('log_admin', (data) => {
+    me.once('group_poll', (data) => {
       expect(data).toMatchObject({
         senderId: friend.id,
         threadId: groupId,
-        type: 'group_poll',
         untypedData: {
           eventType: 'question_creation',
         },
@@ -101,13 +89,12 @@ describe('Message group', () => {
 
   test('set admin', async (done) => {
     await friend.setAdminThread(groupId, false, me.id).then(ignore, ignore);
-    me.once('log_admin', (data) => {
+    me.once('change_thread_admins', (data) => {
       expect(data).toMatchObject({
         senderId: friend.id,
         threadId: groupId,
-        type: 'change_thread_admins',
         untypedData: {
-          aDMINEVENT: 'add_admin',
+          adminEvent: 'add_admin',
         },
       });
       done();
@@ -117,12 +104,11 @@ describe('Message group', () => {
 
   test('set approval mode', async (done) => {
     await friend.setApprovalMode(groupId, true);
-    me.on('log_admin', (data) => {
+    me.on('change_thread_approval_mode', (data) => {
       expect(data).toMatchObject({
         senderId: friend.id,
         threadId: groupId,
         isGroup: true,
-        type: 'change_thread_approval_mode',
       });
       done();
     });

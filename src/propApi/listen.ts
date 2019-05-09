@@ -47,9 +47,11 @@ export default function (this: Api): boolean {
       case 'ThreadName':
       case 'AdminTextMessage':
       case 'ParticipantLeftGroupThread':
-      case 'ParticipantsAddedToGroupThread':
-        this.emit('log_admin', fLog(delta));
+      case 'ParticipantsAddedToGroupThread': {
+        const { type, ...rest } = fLog(delta);
+        this.emit(type, rest);
         break;
+      }
       case 'MarkFolderSeen':
         break;
       case 'MarkRead':

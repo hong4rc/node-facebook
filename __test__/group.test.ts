@@ -26,7 +26,7 @@ describe('Message', () => {
 
     // @ts-ignore
     expect(validOption({ name, pin: false }))
-      .toMatchObject({ name, privacy: 'close' , add_to_favorites: undefined });
+      .toMatchObject({ name, privacy: 'close', add_to_favorites: undefined });
   });
 
   test('create group', async () => {

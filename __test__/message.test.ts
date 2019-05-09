@@ -129,9 +129,8 @@ describe('Message', () => {
 
   test('emoji', (done) => {
     const emoji = '🚀';
-    me.once('log_admin', (data) => {
+    me.once('change_thread_icon', (data) => {
       expect(data).toMatchObject({
-        type: 'change_thread_icon',
         untypedData: {
           threadIcon: emoji,
         },
@@ -143,9 +142,8 @@ describe('Message', () => {
 
   test('nickname', (done) => {
     const nickname = 'your nickname';
-    me.once('log_admin', (data) => {
+    me.once('change_thread_nickname', (data) => {
       expect(data).toMatchObject({
-        type: 'change_thread_nickname',
         untypedData: {
           nickname,
         },
