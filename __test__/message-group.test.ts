@@ -34,7 +34,6 @@ describe('Message group', () => {
   test('set title', (done) => {
     const newName = 'New group';
     me.on('ThreadName', (data) => {
-      console.log(data);
       expect(data).toMatchObject({
         name: newName,
         threadId: groupId,

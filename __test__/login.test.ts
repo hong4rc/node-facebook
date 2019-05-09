@@ -1,7 +1,13 @@
 import Facebook from '../src/facebook';
 import info from './info';
+import { findForm } from '../src/utils/parse-form';
 
 describe('Login', () => {
+  test('findForm', () => {
+    expect(() => findForm('head_body_tail', 'head', 'taill'))
+      .toThrow('Could not found match \'head\' -> \'taill\'');
+  });
+
   describe('Use email/pass', () => {
     test('email match password', async () => {
       const me = new Facebook({
