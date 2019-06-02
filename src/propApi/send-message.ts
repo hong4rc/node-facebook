@@ -57,7 +57,10 @@ export default async function (this: Api, message: Message, threadId: Id): Promi
   }
 
   if (message.mentions) {
-    form.profile_xmd = message.mentions.map((mention: Mentions) => Object.assign(mention, { type: 'p' }));
+    form.profile_xmd = message.mentions.map((mention: Mentions) => ({
+      ...mention,
+      type: 'p',
+    }));
   }
 
   const profiles = await this.getUserInfo(threadId);

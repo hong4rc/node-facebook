@@ -193,14 +193,15 @@ export default class Api extends EventEmitter {
   }
 
   mergeform(form: Form): Form {
-    return Object.assign(form, {
+    return {
+      ...form,
       __user: this.id,
       __req: (++this.requestCounter).toString(36),
       __rev: this.rev,
       __a: 1,
       fb_dtsg: this.dtsg,
       jazoest: getTtstamp(this.dtsg),
-    });
+    };
   }
 
   async get(url: string, qs: Form = {}): Promise<Form> {

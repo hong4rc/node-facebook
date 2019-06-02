@@ -22,7 +22,6 @@
   "rules": {
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "no-plusplus": "off",
-    "import/named": "off",
     "import/no-cycle": "off",
     "unicorn/prevent-abbreviations": ["error", { "checkProperties": false }],
     "@typescript-eslint/camelcase": ["error", { "properties": "never" }],

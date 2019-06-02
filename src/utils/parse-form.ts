@@ -24,12 +24,13 @@ export default (body: string, user: Info) => {
     }
   });
 
-  return Object.assign(form, {
+  return {
+    ...form,
     email: user.email,
     pass: user.pass,
     timezone: new Date().getTimezoneOffset(),
     lgndim: Buffer.from('{"w":1440,"h":900,"aw":1440,"ah":834,"c":24}').toString('base64'),
     lgnjs: Math.floor(Date.now() / 1000),
     default_persistent: '0',
-  });
+  };
 };
