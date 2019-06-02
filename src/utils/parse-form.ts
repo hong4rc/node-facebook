@@ -4,6 +4,17 @@ import { Form } from './browser';
 
 const QR_LOGIN = '#login_form input';
 
+export const parseJson = (body: string): Form => {
+  const matches = (body.match(/{.*?}(?=$)/gm) || []).map((match: string) => JSON.parse(match));
+  switch (matches.length) {
+    case 0:
+      return {};
+    case 1:
+      return matches[0];
+    default:
+      return matches;
+  }
+};
 
 export const findForm = (body: string, head: string, tail: string): string => {
   const matches = new RegExp(`${head}(.*?)${tail}`).exec(body);

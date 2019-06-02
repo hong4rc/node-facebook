@@ -60,6 +60,8 @@ import unfollowGroup from './propApi/unfollow-group';
 import unsendMessage from './propApi/unsend-message';
 import uploadFile from './propApi/upload-file';
 
+import { parseJson } from './utils/parse-form';
+
 export { Form };
 export interface ApiOption {
   rev: string;
@@ -170,24 +172,6 @@ export default class Api extends EventEmitter {
     this.sticky = undefined;
   }
 
-  static parseJson(body: string): Form {
-    const array = body.replace('for (;;);', '').split(/}\r?\n *{/).map(string => string.replace(/\n/g, ''));
-    if (array.length > 1) {
-      array[0] += '}';
-    }
-    let object;
-    try {
-      object = JSON.parse(array[0]);
-    } catch (error) {
-      return { data: body };
-    }
-    // TODO update dtsg, cookie
-    if (object.error) {
-      throw object;
-    }
-    return object;
-  }
-
   static camelize(object: Form): Form {
     return camelcaseKeys(object, { deep: true });
   }
@@ -206,7 +190,7 @@ export default class Api extends EventEmitter {
 
   async get(url: string, qs: Form = {}): Promise<Form> {
     const response = await this.browser.get(url, this.mergeform(qs));
-    return Api.parseJson(response.body);
+    return parseJson(response.body);
   }
 
   async post(url: string, form: Form = {}): Promise<Form> {
@@ -214,12 +198,12 @@ export default class Api extends EventEmitter {
     if (response.headers.location) {
       return response.headers;
     }
-    return Api.parseJson(response.body);
+    return parseJson(response.body);
   }
 
   async formData(url: string, form: Form = {}, qs: Form = {}): Promise<Form> {
     const response = await this.browser.formData(url, this.mergeform(form), this.mergeform(qs));
-    return Api.parseJson(response.body);
+    return parseJson(response.body);
   }
 
   static genOTI(): number {
