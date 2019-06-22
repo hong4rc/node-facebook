@@ -12,6 +12,9 @@ export interface Info {
 interface State {
   state: Form[];
 }
+interface UserOption {
+  userAgent?: string;
+}
 export type UserInfo = Info | State;
 
 const isInfo = (object: Form): boolean => {
@@ -28,12 +31,12 @@ export default class Facebook {
   user: UserInfo;
   browser: Browser;
 
-  constructor(user: UserInfo) {
+  constructor(user: UserInfo, option: UserOption = {}) {
     if (!isUserInfo(user)) {
       throw new Error('Please login with email/pass or cookie!');
     }
     this.user = user;
-    this.browser = new Browser((user as State).state as Cookie[]);
+    this.browser = new Browser((user as State).state as Cookie[], option.userAgent);
   }
 
   async login(): Promise<Api> {

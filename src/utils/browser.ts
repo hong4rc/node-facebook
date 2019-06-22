@@ -17,25 +17,14 @@ export interface Form {
   [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/600.3.18 (KHTML, like Gecko)'
-    + ' Chrome/63.0.3239.84 Version/8.0.3 Safari/600.3.18';
-
-const getHeaders = (url: string): Form => {
-  const { host } = Url.parse(url);
-  return {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Referer: undefined,
-    Host: host,
-    Origin: undefined,
-    'User-Agent': DEFAULT_USER_AGENT,
-    Connection: 'keep-alive',
-  };
-};
+const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36';
 
 export default class Browser {
   cookieJar: CookieJar;
-  constructor(states: Cookie[] = []) {
+  userAgent: string;
+  constructor(states: Cookie[] = [], userAgent: string = DEFAULT_USER_AGENT) {
     this.cookieJar = jar();
+    this.userAgent = userAgent;
     states.forEach((state: Cookie) => {
       this.cookieJar.setCookie(`${state.key}=${state.value}; expires=${state.expires}; domain=${state.domain}; path=${state.path};`, URL_HOME);
     });
@@ -43,11 +32,23 @@ export default class Browser {
 
   getOptions(url: string): OptionsWithUrl {
     return {
-      headers: getHeaders(url),
+      headers: this.getHeaders(url),
       timeout: 60000,
       url,
       jar: this.cookieJar,
       gzip: true,
+    };
+  }
+
+  getHeaders(url: string): Form {
+    const { host } = Url.parse(url);
+    return {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Referer: undefined,
+      Host: host,
+      Origin: undefined,
+      'User-Agent': this.userAgent,
+      Connection: 'keep-alive',
     };
   }
 
