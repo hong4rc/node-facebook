@@ -14,13 +14,13 @@ export default function (this: Api, option: GroupOption, ...participants: Id[]):
       input: {
         client_mutation_id: 1,
         actor_id: this.id,
-        participants: [this.id, ...participants].map(id => ({ fbid: id })),
+        participants: [this.id, ...participants].map((id) => ({ fbid: id })),
         thread_settings: {
           name: option.name,
           joinable_mode: 'PRIVATE', // todo: change to option
           thread_image_fbid: option.img,
         },
-        entry_point: 'chat_sidebar_new_group',
+        entry_point: 'jewel_new_group',
       },
     },
   }).then((response: Form) => {

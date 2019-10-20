@@ -2,7 +2,7 @@ import Api, { Form, Id } from '../api';
 
 export interface OptionGroup {
   name: string;
-  privacy: 'close' | 'open' | 'secret';
+  privacy?: 'close' | 'open' | 'secret';
   message?: string;
   pin?: boolean;
 }

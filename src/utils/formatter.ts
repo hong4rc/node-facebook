@@ -80,7 +80,7 @@ export const fNewMessage = (delta: Form): Form => {
   }
   menDatas.forEach((data: Form) => {
     mentions[data.i] = {
-      text: delta.body.substring(data.o, data.o + data.l),
+      text: delta.body.slice(data.o, data.o + data.l),
       index: data.o,
     };
   });

@@ -58,12 +58,11 @@ export default class Browser {
     const responsePost = await this.post(URL_LOGIN, form);
     const { location } = responsePost.headers;
     const cookies = responsePost.headers['set-cookie'] as string[];
-    console.log(responsePost.headers);
-    if (!location || !cookies.some(ck => ck.includes('c_user='))) {
+    if (!cookies.some((ck) => ck.includes('c_user='))) {
+      if (location && location.includes(URL_CP)) {
+        throw new Error('This account is blocked by Facebook !!!');
+      }
       throw new Error('Wrong username/password.');
-    }
-    if (location.includes(URL_CP)) {
-      throw new Error('This account is blocked by Facebook !!!');
     }
   }
 

@@ -23,10 +23,17 @@
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "no-plusplus": "off",
     "import/no-cycle": "off",
-    "unicorn/prevent-abbreviations": ["error", { "checkProperties": false }],
+    "unicorn/prevent-abbreviations": [
+      "error", {
+        "checkProperties": false,
+        "replacements": {
+          "msg": false
+        }
+        }],
     "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/explicit-member-accessibility": "off"
   }
 }

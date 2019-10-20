@@ -26,6 +26,8 @@ export default function (this: Api): boolean {
   const id = (this.originIdListen % 2000) + 1;
   this.idListen = id;
   this.originIdListen = id;
+
+  // eslint-disable-next-line unicorn/consistent-function-scoping
   const handleDelta = (delta: Form): void => {
     switch (delta.class) {
       case 'NewMessage':
@@ -75,16 +77,18 @@ export default function (this: Api): boolean {
             this.emit('typ', fTyping(ms));
             break;
           case 'buddylist_overlay':
-            Object.entries(ms.overlay).forEach((entries: [string, Form]) => {
-              this.emit('presence', fPresence(...entries));
-            });
+            (Object.entries(ms.overlay) as [string, Form][])
+              .forEach((entries: [string, Form]) => {
+                this.emit('presence', fPresence(...entries));
+              });
             break;
           case 'chatproxy-presence':
-            Object.entries(ms.buddyList).forEach((entries: [string, Form]) => {
-              if (entries[1].p) {
-                this.emit('presence', fProxy(...entries));
-              }
-            });
+            (Object.entries(ms.buddyList) as [string, Form][])
+              .forEach((entries: [string, Form]) => {
+                if (entries[1].p) {
+                  this.emit('presence', fProxy(...entries));
+                }
+              });
             break;
           case 'delta':
             handleDelta(ms.delta);

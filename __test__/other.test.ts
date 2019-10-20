@@ -21,7 +21,7 @@ describe('Other', () => {
 
   test('block user', async () => {
     await me.unblockUser(friend.id);
-    await expect(me.blockUser(friend.id)).rejects.toMatchObject({
+    await expect(me.blockUser(friend.id)).resolves.toMatchObject({
       error: 1409006,
     });
     await me.unblockUser(friend.id);
@@ -29,7 +29,7 @@ describe('Other', () => {
 
   test('block message', async () => {
     await me.blockMessage(friend.id);
-    await expect(friend.sendTyping(me.id)).rejects.toMatchObject({
+    await expect(friend.sendTyping(me.id)).resolves.toMatchObject({
       error: 1356001,
     });
     await me.unblockMessage(friend.id);

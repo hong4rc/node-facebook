@@ -25,10 +25,10 @@ describe('Message group', () => {
 
   test('create message group', async () => {
     const name = 'My group';
-
     groupId = (await friend.createMsgGroup({
       name,
     }, me.id)).threadId;
+    expect(groupId).toBeDefined();
   });
 
   test('set title', (done) => {

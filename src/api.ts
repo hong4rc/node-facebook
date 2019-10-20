@@ -139,18 +139,18 @@ export default class Api extends EventEmitter {
   uploadFile = uploadFile;
 
   browser: Browser;
-  requestCounter: number = 0;
+  requestCounter = 0;
   id: Id;
   rev: string;
   dtsg: string;
-  iServer: number = 0;
-  seq: number = 0;
+  iServer = 0;
+  seq = 0;
   clientId: string = (Math.random() * 2147483648).toString(16);
   pool?: string;
   sticky?: string;
   lastSync?: number;
   idListen?: number;
-  originIdListen: number = 0;
+  originIdListen = 0;
 
   constructor(browser: Browser, opt: ApiOption) {
     super();

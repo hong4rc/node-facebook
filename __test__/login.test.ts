@@ -21,7 +21,7 @@ describe('Login', () => {
 
     test('email don\'t match password', async () => {
       const invalid = new Facebook({
-        email: 'myemail@gmail.com',
+        email: info.blocked.email,
         pass: 'wrong pass',
       });
       await expect(invalid.login()).rejects.toMatchObject({
@@ -49,7 +49,6 @@ describe('Login', () => {
     });
 
     test('fill wrong email+pass', () => {
-      // @ts-ignore
       expect(() => new Facebook({
         email: '',
         pass: '',

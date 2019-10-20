@@ -24,7 +24,6 @@ describe('Message', () => {
     expect(validOption({ name, privacy, pin: true }))
       .toMatchObject({ name, privacy, add_to_favorites: 'on' });
 
-    // @ts-ignore
     expect(validOption({ name, pin: false }))
       .toMatchObject({ name, privacy: 'close', add_to_favorites: undefined });
   });
