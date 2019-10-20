@@ -27,7 +27,7 @@ describe('Login', () => {
       await expect(invalid.login()).rejects.toMatchObject({
         message: 'Wrong username/password.',
       });
-    }, 20000);
+    });
 
     test('not fill pass', () => {
       // @ts-ignore
