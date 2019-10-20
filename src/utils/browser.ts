@@ -57,7 +57,9 @@ export default class Browser {
     const form = parseForm(response.body, user);
     const responsePost = await this.post(URL_LOGIN, form);
     const { location } = responsePost.headers;
-    if (!location) {
+    const cookies = responsePost.headers['set-cookie'] as string[];
+    console.log(responsePost.headers);
+    if (!location || !cookies.some(ck => ck.includes('c_user='))) {
       throw new Error('Wrong username/password.');
     }
     if (location.includes(URL_CP)) {
