@@ -23,6 +23,7 @@
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "no-plusplus": "off",
     "import/no-cycle": "off",
+    "import/extensions": ["error", "never"],
     "unicorn/prevent-abbreviations": [
       "error", {
         "checkProperties": false,

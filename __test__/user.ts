@@ -10,6 +10,7 @@ const hookMessageId = (message: Form) => {
   messageIdHook = message.messageId || '';
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const ignore = () => {};
 
 export const becomeFriend = async (me: Api, friend: Api) => {
