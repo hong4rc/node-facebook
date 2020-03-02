@@ -3,6 +3,7 @@ import request, {
   Cookie, jar, CookieJar,
   Response,
   OptionsWithUrl,
+  RequestAPI, Request, CoreOptions, RequiredUriUrl,
 } from 'request';
 
 import { Info } from '../facebook';
@@ -22,12 +23,14 @@ const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKi
 export default class Browser {
   cookieJar: CookieJar;
   userAgent: string;
+  mRequests: RequestAPI<Request, CoreOptions, RequiredUriUrl>;
   constructor(states: Cookie[] = [], userAgent: string = DEFAULT_USER_AGENT) {
     this.cookieJar = jar();
     this.userAgent = userAgent;
     states.forEach((state: Cookie) => {
       this.cookieJar.setCookie(`${state.key}=${state.value}; expires=${state.expires}; domain=${state.domain}; path=${state.path};`, URL_HOME);
     });
+    this.mRequests = request.defaults({ jar: this.cookieJar });
   }
 
   getOptions(url: string): OptionsWithUrl {
@@ -35,7 +38,6 @@ export default class Browser {
       headers: this.getHeaders(url),
       timeout: 60000,
       url,
-      jar: this.cookieJar,
       gzip: true,
     };
   }
@@ -93,17 +95,11 @@ export default class Browser {
 
   request(options: OptionsWithUrl): Promise<Response> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
-    return new Promise((resolve: any, reject: any) => request(options, (error: any, response: Response): void => {
+    return new Promise((resolve: any, reject: any) => this.mRequests(options, (error: any, response: Response): void => {
       if (error) {
         reject(error);
         return;
       }
-      const cookies = response.headers['set-cookie'] || [];
-      cookies.forEach((cookie: string) => {
-        if (cookie.includes('facebook.com')) {
-          this.cookieJar.setCookie(cookie, URL_HOME);
-        }
-      });
       resolve(response);
     }));
   }
