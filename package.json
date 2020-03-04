@@ -12,7 +12,9 @@
   "dependencies": {
     "camelcase-keys": "^6.1.2",
     "kiat-html-parser": "^1.2.0",
-    "request": "^2.88.2"
+    "mqtt": "^3.0.0",
+    "request": "^2.88.2",
+    "websocket-stream": "^5.5.0"
   },
   "devDependencies": {
     "@types/jest": "25.1.3",

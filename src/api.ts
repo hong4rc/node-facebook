@@ -33,6 +33,7 @@ import getUserInfo from './propApi/get-user-info';
 import joinGroup from './propApi/join-group';
 import leaveGroup from './propApi/leave-group';
 import listen from './propApi/listen';
+import listen2, { ListenWapper } from './propApi/listen2';
 import logout from './propApi/logout';
 import markAsRead from './propApi/mark-as-read';
 import markAsReadAll from './propApi/mark-as-read-all';
@@ -111,6 +112,8 @@ export default class Api extends EventEmitter {
   joinGroup = joinGroup;
   leaveGroup = leaveGroup;
   listen = listen;
+  listen2 = listen2;
+  listenWapper = new ListenWapper();
   logout = logout;
   markAsRead = markAsRead;
   markAsReadAll = markAsReadAll;

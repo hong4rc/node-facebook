@@ -19,6 +19,6 @@ export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Fo
     ...validOption(option),
     members: threadIds,
   }).then((response: Form) => ({
-    id: response.jsmods.require[0][3][0].match(/(?:\/groups\/)(\d*)/)[1],
+    id: response.jsmods.require[0][3][0].match(/\/groups\/(\d*)/)[1],
   }));
 }

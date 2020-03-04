@@ -10,7 +10,7 @@ import { Info } from '../facebook';
 import parseForm, { findForm } from './parse-form';
 import { ApiOption } from '../api';
 
-const URL_HOME = 'https://www.facebook.com';
+export const URL_HOME = 'https://www.facebook.com';
 const URL_CP = `${URL_HOME}/checkpoint`;
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 
