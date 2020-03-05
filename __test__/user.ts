@@ -13,6 +13,8 @@ const hookMessageId = (message: Form) => {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const ignore = () => {};
 
+let stopListen: Function;
+
 export const becomeFriend = async (me: Api, friend: Api) => {
   await friend.addFriend(me.id).then(ignore, ignore);
   await me.acceptFriend(friend.id).then(ignore, ignore);
@@ -22,8 +24,14 @@ export const init = async (me: Api, friend: Api) => {
   await becomeFriend(me, friend);
   await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
-  me.listen();
+  stopListen = await me.listen();
   me.on('msg', hookMessageId);
+};
+
+export const close = () => {
+  if (stopListen) {
+    stopListen();
+  }
 };
 
 export const cutOff = async (me: Api, friend: Api) => {

@@ -9,7 +9,7 @@ import { Info } from '../facebook';
 import parseForm, { findForm } from './parse-form';
 import { ApiOption } from '../api';
 
-const URL_HOME = 'https://www.facebook.com';
+export const URL_HOME = 'https://www.facebook.com';
 const URL_CP = `${URL_HOME}/checkpoint`;
 const URL_LOGIN = `${URL_HOME}/login.php?login_attempt=1&lwv=111`;
 
@@ -17,7 +17,7 @@ export interface Form {
   [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36';
+const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/737.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36';
 
 export default class Browser {
   cookieJar: CookieJar;

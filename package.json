@@ -12,7 +12,9 @@
   "dependencies": {
     "camelcase-keys": "^6.1.2",
     "kiat-html-parser": "^1.2.0",
-    "request": "^2.88.2"
+    "mqtt": "^3.0.0",
+    "request": "^2.88.2",
+    "websocket-stream": "^5.5.0"
   },
   "devDependencies": {
     "@types/jest": "25.1.3",
@@ -34,7 +36,7 @@
     "typescript": "3.8.2"
   },
   "scripts": {
-    "test": "jest -i --testTimeout=50000",
+    "test": "jest -i --testTimeout=20000",
     "coverage": "codecov",
     "lint": "npm run lint:src && npm run lint:spec",
     "lint:src": "eslint src/**/*.ts --fix",

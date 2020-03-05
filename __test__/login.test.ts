@@ -55,15 +55,16 @@ describe('Login', () => {
       })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    test('blocked account', async () => {
-      const blocked = new Facebook({
-        email: info.blocked.email,
-        pass: info.blocked.pass,
-      });
-      await expect(blocked.login()).rejects.toMatchObject({
-        message: 'This account is blocked by Facebook !!!',
-      });
-    });
+    // No blocked accout to test
+    // test('blocked account', async () => {
+    //   const blocked = new Facebook({
+    //     email: info.blocked.email,
+    //     pass: info.blocked.pass,
+    //   });
+    //   await expect(blocked.login()).rejects.toMatchObject({
+    //     message: 'This account is blocked by Facebook !!!',
+    //   });
+    // });
   });
 
   describe('Use state', () => {

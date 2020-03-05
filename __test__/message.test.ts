@@ -3,7 +3,7 @@ import { join } from 'path';
 import Api from '../src/api';
 import {
   pMe, pFriend,
-  init, final, each, clear,
+  init, close, final, each, clear,
 } from './user';
 
 let me: Api;
@@ -15,6 +15,10 @@ describe('Message', () => {
     friend = await pFriend;
 
     await init(me, friend);
+  });
+
+  afterAll(() => {
+    close();
   });
 
   afterAll(() => final(me));

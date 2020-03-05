@@ -2,7 +2,7 @@
 import Api, { Id } from '../src/api';
 import {
   pMe, pFriend,
-  init, final, each, ignore,
+  init, close, final, each, ignore,
 } from './user';
 
 let me: Api;
@@ -17,23 +17,36 @@ describe('Message group', () => {
     await init(me, friend);
   });
 
+  afterAll(() => {
+    close();
+  });
+
   afterAll(() => final(me));
 
   afterEach(() => {
     each(me, friend);
   });
 
-  test('create message group', async () => {
+  test('create message group', (done) => {
     const name = 'My group';
-    groupId = (await friend.createMsgGroup({
+
+    me.once('ThreadName', (data) => {
+      groupId = data.threadId;
+      expect(data).toMatchObject({
+        name,
+      });
+      done();
+    });
+
+
+    friend.createMsgGroup({
       name,
-    }, me.id)).threadId;
-    expect(groupId).toBeDefined();
+    }, me.id);
   });
 
   test('set title', (done) => {
     const newName = 'New group';
-    me.on('ThreadName', (data) => {
+    me.once('ThreadName', (data) => {
       expect(data).toMatchObject({
         name: newName,
         threadId: groupId,
@@ -81,23 +94,24 @@ describe('Message group', () => {
     }, groupId);
   });
 
-  test('create poll', (done) => {
-    friend.createPoll(groupId, 'This is poll', {
-      yesss: true,
-      hi: true,
-      nooooo: false,
-    });
-    me.once('group_poll', (data) => {
-      expect(data).toMatchObject({
-        senderId: friend.id,
-        threadId: groupId,
-        untypedData: {
-          eventType: 'question_creation',
-        },
-      });
-      done();
-    });
-  });
+  // Facebook disable create poll
+  // test('create poll', (done) => {
+  //   friend.createPoll(groupId, 'This is poll', {
+  //     yesss: true,
+  //     hi: true,
+  //     nooooo: false,
+  //   });
+  //   me.once('group_poll', (data) => {
+  //     expect(data).toMatchObject({
+  //       senderId: friend.id,
+  //       threadId: groupId,
+  //       untypedData: {
+  //         eventType: 'question_creation',
+  //       },
+  //     });
+  //     done();
+  //   });
+  // });
 
   test('set admin', async (done) => {
     await friend.setAdminThread(groupId, false, me.id).then(ignore, ignore);
