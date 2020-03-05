@@ -5,6 +5,7 @@ export interface OptionGroup {
   privacy?: 'close' | 'open' | 'secret';
   message?: string;
   pin?: boolean;
+  onlyMem?: boolean;
 }
 
 export const validOption = (option: OptionGroup): Form => ({
@@ -12,6 +13,7 @@ export const validOption = (option: OptionGroup): Form => ({
   privacy: option.privacy || 'close',
   message: option.message,
   add_to_favorites: option.pin ? 'on' : undefined,
+  discoverability: option.onlyMem ? 'members_only' : 'anyone',
 });
 
 export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Form {
@@ -19,6 +21,6 @@ export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Fo
     ...validOption(option),
     members: threadIds,
   }).then((response: Form) => ({
-    id: response.jsmods.require[0][3][0].match(/(?:\/groups\/)(\d*)/)[1],
+    id: response.jsmods.require[0][3][0].match(/\/groups\/(\d*)/)[1],
   }));
 }
