@@ -1,7 +1,10 @@
+import { Client } from 'mqtt';
+import websocket from 'websocket-stream';
+
 import Api, { Form } from '../api';
+import { URL_HOME } from '../utils/browser';
 import {
   fPresence,
-  fProxy,
   fTyping,
   fNewMessage,
   fPayLoad,
@@ -19,14 +22,35 @@ const getPayLoad = (payload: number[]): Form[] => {
   return object.deltas.map((delta: Form): Form => delta.deltaMessageReaction).filter(Boolean);
 };
 
-export default function (this: Api): boolean {
-  if (this.idListen) {
-    return false;
-  }
-  const id = (this.originIdListen % 2000) + 1;
-  this.idListen = id;
-  this.originIdListen = id;
+const topics = [
+  '/t_ms',
+  '/thread_typing',
+  '/orca_typing_notifications',
+  '/orca_presence',
+  '/legacy_web',
+  '/br_sr',
+  '/sr_res',
+  '/webrtc',
+  '/onevc',
+  '/notify_disconnect',
+  '/inbox',
+  '/mercury',
+  '/messaging_events',
+  '/orca_message_notifications',
+  '/pp',
+  '/webrtc_response',
+];
 
+export class ListenWapper {
+  lastSeqId = 0;
+  chatOn = true;
+  foreground = false;
+  syncToken = '';
+  mqttClient?: Client;
+}
+
+
+export default async function (this: Api): Promise<Function> {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const handleDelta = (delta: Form): void => {
     switch (delta.class) {
@@ -66,50 +90,122 @@ export default function (this: Api): boolean {
         this.emit('other_delta', delta);
     }
   };
-  const invoker = (): boolean => {
-    this.pull().then((response: Form): void => {
-      if (this.idListen !== id) {
-        return;
-      }
-      (response as Form[]).forEach((ms: Form) => {
-        switch (ms.type) {
-          case 'typ':
-            this.emit('typ', fTyping(ms));
-            break;
-          case 'buddylist_overlay':
-            (Object.entries(ms.overlay) as [string, Form][])
-              .forEach((entries: [string, Form]) => {
-                this.emit('presence', fPresence(...entries));
-              });
-            break;
-          case 'chatproxy-presence':
-            (Object.entries(ms.buddyList) as [string, Form][])
-              .forEach((entries: [string, Form]) => {
-                if (entries[1].p) {
-                  this.emit('presence', fProxy(...entries));
-                }
-              });
-            break;
-          case 'delta':
-            handleDelta(ms.delta);
-            break;
-          case 'notification':
-          case 'm_notification':
-          case 'notifications_sync':
-          case 'notifications_seen':
-          case 'inbox':
-            this.emit('inbox', ms);
-            break;
-          case 'deltaflow':
-            this.emit('deltaflow', ms);
-            break;
-          default:
-            this.emit('other', ms);
-        }
-      });
-      invoker();
-    }).catch(invoker);
-    return true;
+  const response = await this.graphqlBatch({
+    doc_id: '1349387578499440',
+    query_params: {
+      limit: 1,
+      before: null,
+      tags: ['INBOX'],
+      includeDeliveryReceipts: false,
+      includeSeqID: true,
+    },
+  });
+
+  this.listenWapper.lastSeqId = response.viewer.messageThreads.syncSequenceId;
+
+  const sessionID = Math.floor(Math.random() * 9007199254740991) + 1;
+  const username = {
+    u: this.id,
+    s: sessionID,
+    chat_on: this.listenWapper.chatOn,
+    fg: this.listenWapper.foreground,
+    d: this.clientId,
+    ct: 'websocket',
+    // App id from facebook
+    aid: '219994525426954',
+    mqtt_sid: '',
+    cp: 3,
+    ecp: 10,
+    st: topics,
+    pm: [],
+    dc: '',
+    no_auto_fg: true,
+    gas: null,
   };
-  return invoker();
+
+  const host = `wss://edge-chat.facebook.com/chat?sid=${sessionID}`;
+
+  const options = {
+    clientId: 'mqttwsclient',
+    protocolId: 'MQIsdp',
+    protocolVersion: 3,
+    username: JSON.stringify(username),
+    clean: true,
+    wsOptions: {
+      // TODO: sync with browser
+      headers: {
+        Cookie: this.browser.cookieJar.getCookies(URL_HOME).join('; '),
+        Origin: URL_HOME,
+        'User-Agent': this.browser.userAgent,
+        Referer: URL_HOME,
+        Host: 'edge-chat.facebook.com',
+      },
+      origin: 'https://www.facebook.com',
+      protocolVersion: 13,
+    },
+  };
+  const mqttClient = new Client(() => websocket(host, options.wsOptions), options);
+
+  mqttClient.on('error', (error) => {
+    console.error(error);
+    mqttClient.end();
+  });
+
+  mqttClient.on('connect', () => {
+    let topic;
+    const queue: Form = {
+      sync_api_version: 10,
+      max_deltas_able_to_process: 1000,
+      delta_batch_size: 500,
+      encoding: 'JSON',
+      entity_fbid: this.id,
+    };
+
+    if (this.listenWapper.syncToken) {
+      topic = '/messenger_sync_get_diffs';
+      queue.last_seq_id = this.listenWapper.lastSeqId;
+      queue.sync_token = this.listenWapper.syncToken;
+    } else {
+      topic = '/messenger_sync_create_queue';
+      queue.initial_titan_sequence_id = this.listenWapper.lastSeqId;
+      queue.device_params = null;
+    }
+
+    mqttClient.publish(topic, JSON.stringify(queue), { qos: 1, retain: false });
+  });
+
+  mqttClient.on('message', (topic, bMessage /* , packet */) => {
+    const oMessage = JSON.parse(bMessage.toString());
+    switch (topic) {
+      case '/t_ms':
+        if (oMessage.firstDeltaSeqId && oMessage.syncToken) {
+          this.listenWapper.lastSeqId = oMessage.firstDeltaSeqId;
+          this.listenWapper.syncToken = oMessage.syncToken;
+          break;
+        }
+        if ('errorCode' in oMessage) {
+          this.emit('error', oMessage);
+          break;
+        }
+        this.listenWapper.lastSeqId = oMessage.lastIssuedSeqId;
+        if (Object.prototype.hasOwnProperty.call(oMessage, 'deltas')) {
+          oMessage.deltas.forEach(handleDelta);
+        } else {
+          console.error('Can\'t find deltas');
+        }
+        break;
+      case '/thread_typing':
+      case '/orca_typing_notifications':
+        this.emit('typ', fTyping(oMessage));
+        break;
+      case '/orca_presence':
+        oMessage.list.forEach((data: Form) => this.emit('presence', fPresence(data)));
+        break;
+      default:
+        console.error(`Not support ${topic} now`);
+    }
+  });
+  return () => {
+    mqttClient.end();
+  };
 }

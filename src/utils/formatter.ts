@@ -6,10 +6,10 @@ interface ThreadKey {
   otherUserFbId?: Id;
 }
 const getId = (threadKey: ThreadKey): Id => threadKey.otherUserFbId || threadKey.threadFbId || '';
-export const fPresence = (userId: string, presence: Form): Form => ({
-  userId,
-  timestamp: presence.la * 1000,
-  statUser: presence.a,
+export const fPresence = (data: Form): Form => ({
+  userId: data.u,
+  timestamp: data.l * 1000,
+  statUser: data.p,
 });
 
 export const fProxy = (userId: string, presence: Form): Form => ({
@@ -19,10 +19,9 @@ export const fProxy = (userId: string, presence: Form): Form => ({
 });
 
 export const fTyping = (message: Form): Form => ({
-  isTyping: Boolean(message.st),
-  fromMobile: message.fromMobile !== false,
-  from: message.from,
-  threadId: message.to || message.threadFbid || message.from,
+  isTyping: Boolean(message.state),
+  from: message.sender_fbid,
+  threadId: message.thread || message.sender_fbid,
 });
 
 export const fAttachments = (attachments: Form[]): Form[] => {

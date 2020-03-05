@@ -117,6 +117,7 @@ export default class Browser {
     if (cookie) {
       return cookie;
     }
+    console.log(this.cookieJar.getCookies(url));
     throw new Error(`Not found cookie with name ${name}`);
   }
 

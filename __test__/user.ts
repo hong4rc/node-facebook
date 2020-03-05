@@ -22,7 +22,7 @@ export const init = async (me: Api, friend: Api) => {
   await becomeFriend(me, friend);
   await friend.changeEmoji(me.id, '💖').then(ignore, ignore);
 
-  me.listen();
+  await me.listen();
   me.on('msg', hookMessageId);
 };
 

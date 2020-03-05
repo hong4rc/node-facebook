@@ -1,8 +1,26 @@
 import { Client } from 'mqtt';
 import websocket from 'websocket-stream';
 
-import Api, { Form, Id } from '../api';
+import Api, { Form } from '../api';
 import { URL_HOME } from '../utils/browser';
+import {
+  fPresence,
+  fTyping,
+  fNewMessage,
+  fPayLoad,
+  fReceipt,
+  fLog,
+  fMarkRead,
+  fDelMessage,
+} from '../utils/formatter';
+
+const getPayLoad = (payload: number[]): Form[] => {
+  const object = JSON.parse(String.fromCharCode(...payload));
+  if (!Array.isArray(object.deltas)) {
+    return [];
+  }
+  return object.deltas.map((delta: Form): Form => delta.deltaMessageReaction).filter(Boolean);
+};
 
 const topics = [
   '/t_ms',
@@ -24,7 +42,7 @@ const topics = [
 ];
 
 export class ListenWapper {
-  lastSeqId = 1;
+  lastSeqId = 0;
   chatOn = true;
   foreground = false;
   syncToken = '';
@@ -32,7 +50,59 @@ export class ListenWapper {
 }
 
 
-export default function (this: Api): Function {
+export default async function (this: Api): Promise<Function> {
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const handleDelta = (delta: Form): void => {
+    switch (delta.class) {
+      case 'NewMessage':
+        this.emit('msg', fNewMessage(delta));
+        break;
+      case 'ClientPayload':
+        getPayLoad(delta.payload).forEach((data: Form) => {
+          this.emit('reaction', fPayLoad(data));
+        });
+        break;
+      case 'NoOp':
+        break;
+      case 'ReadReceipt':
+        this.emit('read_receipt', fReceipt(delta));
+        break;
+      case 'DeliveryReceipt':
+        this.emit('delivery_receipt', fReceipt(delta));
+        break;
+      case 'ThreadName':
+      case 'AdminTextMessage':
+      case 'ParticipantLeftGroupThread':
+      case 'ParticipantsAddedToGroupThread': {
+        const { type, ...rest } = fLog(delta);
+        this.emit(type, rest);
+        break;
+      }
+      case 'MarkFolderSeen':
+        break;
+      case 'MarkRead':
+        this.emit('mark_read', fMarkRead(delta));
+        break;
+      case 'MessageDelete':
+        this.emit('del_msg', fDelMessage(delta));
+        break;
+      default:
+        this.emit('other_delta', delta);
+    }
+  };
+  const response = await this.graphqlBatch({
+    doc_id: '1349387578499440',
+    query_params: {
+      limit: 1,
+      before: null,
+      tags: ['INBOX'],
+      includeDeliveryReceipts: false,
+      includeSeqID: true,
+    },
+  });
+
+  this.listenWapper.lastSeqId = response.viewer.messageThreads.syncSequenceId;
+
   const sessionID = Math.floor(Math.random() * 9007199254740991) + 1;
   const username = {
     u: this.id,
@@ -104,9 +174,8 @@ export default function (this: Api): Function {
     mqttClient.publish(topic, JSON.stringify(queue), { qos: 1, retain: false });
   });
 
-  mqttClient.on('message', (topic, bMessage, packet) => {
+  mqttClient.on('message', (topic, bMessage /* , packet */) => {
     const oMessage = JSON.parse(bMessage.toString());
-    console.log(topic);
     switch (topic) {
       case '/t_ms':
         if (oMessage.firstDeltaSeqId && oMessage.syncToken) {
@@ -119,19 +188,24 @@ export default function (this: Api): Function {
           break;
         }
         this.listenWapper.lastSeqId = oMessage.lastIssuedSeqId;
+        if (Object.prototype.hasOwnProperty.call(oMessage, 'deltas')) {
+          oMessage.deltas.forEach(handleDelta);
+        } else {
+          console.error('Can\'t find deltas');
+        }
         break;
       case '/thread_typing':
-      case '/orca_typing_notifications': {
-        const typ = {
-          type: 'typ',
-          isTyping: !!oMessage.state,
-          from: oMessage.sender_fbid.toString(),
-          threadID: utils.formatID((oMessage.thread || oMessage.sender_fbid).toString()),
-        };
-      }
+      case '/orca_typing_notifications':
+        this.emit('typ', fTyping(oMessage));
+        break;
+      case '/orca_presence':
+        oMessage.list.forEach((data: Form) => this.emit('presence', fPresence(data)));
+        break;
       default:
-        console.error('Not support now');
+        console.error(`Not support ${topic} now`);
     }
   });
-  return () => {};
+  return () => {
+    mqttClient.end();
+  };
 }

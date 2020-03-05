@@ -36,7 +36,7 @@
     "typescript": "3.8.2"
   },
   "scripts": {
-    "test": "jest -i --testTimeout=50000",
+    "test": "jest -i --testTimeout=20000",
     "coverage": "codecov",
     "lint": "npm run lint:src && npm run lint:spec",
     "lint:src": "eslint src/**/*.ts --fix",
