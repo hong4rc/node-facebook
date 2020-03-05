@@ -32,7 +32,8 @@ export default function (this: Api, form: Form = {}): Promise<Form> {
       case 'heartbeat':
         return [];
       default:
-        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`); // eslint-disable-line no-console
+        // eslint-disable-next-line no-console
+        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`);
         return [];
     }
   }, (error: Form) => {

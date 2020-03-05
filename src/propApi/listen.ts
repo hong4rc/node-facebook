@@ -147,6 +147,7 @@ export default async function (this: Api): Promise<Function> {
   const mqttClient = new Client(() => websocket(host, options.wsOptions), options);
 
   mqttClient.on('error', (error) => {
+    // eslint-disable-next-line no-console
     console.error(error);
     mqttClient.end();
   });
@@ -191,6 +192,7 @@ export default async function (this: Api): Promise<Function> {
         if (Object.prototype.hasOwnProperty.call(oMessage, 'deltas')) {
           oMessage.deltas.forEach(handleDelta);
         } else {
+          // eslint-disable-next-line no-console
           console.error('Can\'t find deltas');
         }
         break;
@@ -202,7 +204,10 @@ export default async function (this: Api): Promise<Function> {
         oMessage.list.forEach((data: Form) => this.emit('presence', fPresence(data)));
         break;
       default:
+        /* eslint-disable no-console */
         console.error(`Not support ${topic} now`);
+        console.error(oMessage);
+        /* eslint-enable no-console */
     }
   });
   return () => {

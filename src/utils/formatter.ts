@@ -30,7 +30,6 @@ export const fAttachments = (attachments: Form[]): Form[] => {
   }
   return attachments.map((attachment): Form => {
     const { mercury } = attachment;
-    console.log(mercury);
     if (!mercury) {
       return attachment;
     }
