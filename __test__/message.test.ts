@@ -1,5 +1,5 @@
 import { createReadStream } from 'fs';
-import { join } from 'path';
+import path from 'path';
 import Api from '../src/api';
 import {
   pMe, pFriend,
@@ -40,8 +40,8 @@ describe('Message', () => {
 
   test('url', (done) => {
     const data = {
-      url: 'https://github.com/Hongarc/node-facebook',
-      title: 'Hongarc/node-facebook',
+      url: 'https://github.com/hong4rc/node-facebook',
+      title: 'hong4rc/node-facebook',
     };
     me.once('msg', (message) => {
       expect(message).toMatchObject({
@@ -84,7 +84,7 @@ describe('Message', () => {
         offset: 8,
         length: 7,
       }],
-      body: 'You are Hongarc\'s friend',
+      body: 'You are hong4rc\'s friend',
     };
     me.once('msg', (message) => {
       expect(message).toMatchObject({
@@ -100,7 +100,7 @@ describe('Message', () => {
     const filename = 'package.json';
     const data = {
       body: 'This is one file',
-      attachments: [createReadStream(join(process.cwd(), filename))],
+      attachments: [createReadStream(path.join(process.cwd(), filename))],
     };
     me.once('msg', (message) => {
       expect(message).toMatchObject({

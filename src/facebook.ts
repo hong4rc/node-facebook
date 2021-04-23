@@ -20,7 +20,7 @@ export type UserInfo = Info | State;
 const isInfo = (object: Form): boolean => {
   try {
     return (object.email.length >= 5) && (object.pass.length >= 5);
-  } catch (error) {
+  } catch {
     return false;
   }
 };

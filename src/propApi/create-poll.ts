@@ -1,6 +1,6 @@
 import Api, { Form, Id } from '../api';
 
-export default function (this: Api, threadId: Id, title: string, options: Form): Form {
+export default function (this: Api, threadId: Id, title: string, options: Form): Promise<Form> {
   return this.post('https://www.facebook.com/messaging/group_polling/create_poll/', {
     question_text: title,
     target_id: threadId,

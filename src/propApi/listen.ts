@@ -49,7 +49,6 @@ export class ListenWapper {
   mqttClient?: Client;
 }
 
-
 export default async function (this: Api): Promise<Function> {
   // eslint-disable-next-line unicorn/consistent-function-scoping
   const handleDelta = (delta: Form): void => {
@@ -190,7 +189,7 @@ export default async function (this: Api): Promise<Function> {
         }
         this.listenWapper.lastSeqId = oMessage.lastIssuedSeqId;
         if (Object.prototype.hasOwnProperty.call(oMessage, 'deltas')) {
-          oMessage.deltas.forEach(handleDelta);
+          oMessage.deltas.forEach((delta: Form) => handleDelta(delta));
         } else {
           // eslint-disable-next-line no-console
           console.error('Can\'t find deltas');

@@ -16,7 +16,7 @@ export const validOption = (option: OptionGroup): Form => ({
   discoverability: option.onlyMem ? 'members_only' : 'anyone',
 });
 
-export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Form {
+export default function (this: Api, option: OptionGroup, ...threadIds: Id[]): Promise<Form> {
   return this.post('https://www.facebook.com/ajax/groups/create_post/', {
     ...validOption(option),
     members: threadIds,

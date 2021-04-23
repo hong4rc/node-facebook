@@ -8,10 +8,10 @@ export const parseJson = (body: string): Form => {
   const jsonString = body.replace(/^[^{]*(?={)/, '');
   try {
     return JSON.parse(jsonString.split('\n')[0]);
-  } catch (_) {
+  } catch {
     try {
       return JSON.parse(jsonString);
-    } catch (__) {
+    } catch {
       return {};
     }
   }

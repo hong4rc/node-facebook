@@ -2,38 +2,39 @@
   "name": "node-facebook",
   "version": "0.5.10",
   "description": "Facebook simulator web browser",
-  "author": "Hongarc",
+  "author": "hong4rc",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Hongarc/node-facebook.git"
+    "url": "https://github.com/hong4rc/node-facebook.git"
   },
   "main": "dist/index.js",
   "dependencies": {
     "camelcase-keys": "^6.1.2",
     "kiat-html-parser": "^1.2.0",
-    "mqtt": "^3.0.0",
+    "mqtt": "^4.2.6",
     "request": "^2.88.2",
     "websocket-stream": "^5.5.0"
   },
   "devDependencies": {
-    "@types/jest": "25.1.3",
-    "@types/request": "2.48.4",
+    "@types/jest": "26.0.22",
+    "@types/node": "^14.14.41",
+    "@types/request": "2.48.5",
     "@typescript-eslint/eslint-plugin": "2.20.0",
     "@typescript-eslint/parser": "2.20.0",
-    "codecov": "3.7.1",
-    "del": "5.1.0",
+    "codecov": "3.8.1",
+    "del": "6.0.0",
     "eslint": "6.8.0",
-    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-airbnb-base": "14.2.1",
     "eslint-import-resolver-typescript": "2.0.0",
-    "eslint-plugin-import": "2.20.1",
-    "eslint-plugin-unicorn": "16.1.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-unicorn": "30.0.0",
     "gulp": "4.0.2",
     "gulp-typescript": "6.0.0-alpha.1",
     "gulp-uglify": "3.0.2",
-    "jest": "25.1.0",
-    "ts-jest": "25.2.1",
-    "typescript": "3.8.2"
+    "jest": "26.6.3",
+    "ts-jest": "26.5.5",
+    "typescript": "4.2.4"
   },
   "scripts": {
     "test": "jest -i --testTimeout=20000",

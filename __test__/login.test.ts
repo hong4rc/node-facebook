@@ -55,7 +55,7 @@ describe('Login', () => {
       })).toThrowError('Please login with email/pass or cookie!');
     });
 
-    // No blocked accout to test
+    // No blocked account to test
     // test('blocked account', async () => {
     //   const blocked = new Facebook({
     //     email: info.blocked.email,

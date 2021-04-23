@@ -1,4 +1,3 @@
-
 import Api, { Id } from '../src/api';
 import {
   pMe, pFriend,
@@ -37,7 +36,6 @@ describe('Message group', () => {
       });
       done();
     });
-
 
     friend.createMsgGroup({
       name,

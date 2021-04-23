@@ -1,6 +1,6 @@
 import Api, { Form, Id } from '../api';
 
-export default function (this: Api, groupId: Id, options?: Form): Form {
+export default function (this: Api, groupId: Id, options?: Form): Promise<Form> {
   let url = 'https://www.facebook.com/groups/membership/r2j/';
   const form: Form = {
     group_id: groupId,

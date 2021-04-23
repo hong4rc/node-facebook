@@ -28,10 +28,11 @@ describe('Other', () => {
   });
 
   test('block message', async () => {
-    await me.blockMessage(friend.id);
-    await expect(friend.sendTyping(me.id)).resolves.toMatchObject({
-      error: 1356001,
-    });
+    await expect(me.blockMessage(friend.id)).resolves
+      .toMatchObject({
+        __ar: 1,
+        payload: null,
+      });
     await me.unblockMessage(friend.id);
   });
 

@@ -5,7 +5,7 @@ interface GroupOption {
   img?: Id;
 }
 
-export default function (this: Api, option: GroupOption, ...participants: Id[]): Form {
+export default function (this: Api, option: GroupOption, ...participants: Id[]): Promise<Form> {
   return this.graphql({
     doc_id: 577041672419534,
     fb_api_caller_class: 'RelayModern',

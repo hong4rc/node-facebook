@@ -1,6 +1,6 @@
 import Api, { Form, Id } from '../api';
 
-export default function (this: Api, id: Id): Form {
+export default function (this: Api, id: Id): Promise<Form> {
   const query = JSON.stringify({
     reportable_ent_token: id,
     initial_action_name: 'BLOCK_MESSAGES',

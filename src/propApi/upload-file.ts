@@ -1,7 +1,7 @@
 import { ReadStream } from 'fs';
 import Api, { Form } from '../api';
 
-export default function (this: Api, attachment: ReadStream): Form {
+export default function (this: Api, attachment: ReadStream): Promise<Form> {
   return this.formData('https://upload.facebook.com/ajax/mercury/upload.php', {
     upload_1024: attachment,
     voice_clip: 'true',

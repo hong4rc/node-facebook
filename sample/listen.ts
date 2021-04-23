@@ -8,5 +8,8 @@ const me = new Facebook({
 });
 
 me.login().then((api) => {
-  writeFileSync(join(__dirname, 'state.json'), JSON.stringify(api.getState()));
+  api.on('msg', (data) => {
+    console.log(data);
+  });
+  api.listen();
 }, console.error); // eslint-disable-line no-console

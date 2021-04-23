@@ -11,7 +11,7 @@ const reactions = new Map([
 ]);
 
 // TODO allow send name and icon
-export default function (this: Api, messageId: Id, name = 'like'): Form {
+export default function (this: Api, messageId: Id, name = 'like'): Promise<Form> {
   if (!reactions.has(name)) {
     return Promise.reject(new Error(`'We don't support ${name} now, create issue if Fb use this reaction`));
   }

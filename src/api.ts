@@ -72,8 +72,8 @@ export type Id = string;
 
 const getTtstamp = (dtsg: string): string => {
   let ttstamp = '2';
-  for (let i = 0; i < dtsg.length; i++) {
-    ttstamp += dtsg.charCodeAt(i);
+  for (let index = 0; index < dtsg.length; index++) {
+    ttstamp += dtsg.charCodeAt(index);
   }
   return ttstamp;
 };

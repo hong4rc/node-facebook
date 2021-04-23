@@ -54,6 +54,7 @@ export const each = (me: Api, friend: Api) => {
   if (messageIdHook) {
     me.deleteMessage(messageIdHook);
     friend.deleteMessage(messageIdHook);
+    me.removeAllListeners('msg');
     clear();
   }
 };

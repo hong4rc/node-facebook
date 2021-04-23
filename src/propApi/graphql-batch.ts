@@ -1,6 +1,6 @@
 import Api, { Form } from '../api';
 
-export default function (this: Api, form: Form): Form {
+export default function (this: Api, form: Form): Promise<Form> {
   return this.post('https://www.facebook.com/api/graphqlbatch/', {
     queries: JSON.stringify({
       o0: form,

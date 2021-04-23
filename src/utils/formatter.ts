@@ -29,19 +29,23 @@ export const fAttachments = (attachments: Form[]): Form[] => {
     return [];
   }
   return attachments.map((attachment): Form => {
-    const { mercury } = attachment;
+    const { mercury, mimeType } = attachment;
     if (!mercury) {
       return attachment;
     }
     if (mercury.stickerAttachment) {
-      mercury.stickerAttachment.type = 'sticker';
-      mercury.stickerAttachment.pack = mercury.stickerAttachment.pack.id;
-      return mercury.stickerAttachment;
+      return {
+        ...mercury.stickerAttachment,
+        type: 'sticker',
+        pack: mercury.stickerAttachment.pack.id,
+      };
     }
     if (mercury.blobAttachment) {
-      mercury.blobAttachment.type = 'file';
-      mercury.blobAttachment.mimeType = attachment.mimeType;
-      return mercury.blobAttachment;
+      return {
+        ...mercury.blobAttachment,
+        type: 'file',
+        mimeType,
+      };
     }
     if (mercury.extensibleAttachment) {
       const story = mercury.extensibleAttachment.storyAttachment;
@@ -74,7 +78,7 @@ export const fNewMessage = (delta: Form): Form => {
   let menDatas;
   try {
     menDatas = JSON.parse(delta.data.prng);
-  } catch (error) {
+  } catch {
     menDatas = [];
   }
   menDatas.forEach((data: Form) => {
@@ -117,6 +121,7 @@ export const fLog = (delta: Form): Form => {
     untypedData,
     leftParticipantFbId: leftId,
     addedParticipants: addedIds,
+    type,
   } = delta;
   const {
     actorFbId: senderId,
@@ -129,7 +134,7 @@ export const fLog = (delta: Form): Form => {
     senderId,
     threadId: getId(threadKey),
     isGroup: Boolean(threadKey.threadFbId),
-    type: delta.type || delta.class,
+    type: type || delta.class,
     untypedData,
     leftId,
     addedIds,

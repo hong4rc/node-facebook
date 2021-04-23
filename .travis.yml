@@ -22,7 +22,7 @@ deploy:
     branch: develop
   local_dir: coverage/lcov-report
   email: aqua.hong.97@gmail.com
-  name: Hongarc's bot
+  name: hong4rc's bot
 - provider: releases
   file_glob: true
   file: "*.tgz"
@@ -38,4 +38,4 @@ deploy:
     secure: VJkfzM/dQT401LsC6CH5np8gHf3OI/6z8/ykHKSWZtSlsVF6l4/MRPXpkWzcSLf9ILOTlqoJc/kOd3Jzy2Gi0wOxmiT1ifasWwn6kbJMokHKyUtNrsX5woWsPxUyqnpd9DypOfW3uW7/p6HZtgz1d/HeOCtPj42rBwjA180c+nwtzSSan5pSmwOuXF3YSN/cQpblNmYLSbasztFmRtrTZ9UFV78w8MRL0uWKR+6hKCJy/IQW4Y1sdQvwoBE/IzaBreNl/Ma7D2N9dxmU5VweA+k8vrNjD45jUFyNHSc+RKTYxX5Mtej3TN42/wpvH1LER1psYwFOp7V0LzGMF/LBprCITNUl1ttSxoNJnHFIoxSZuIguhAK13wOt+GXhAsFGFqrWvPLDrsnjMLK1GgQh4XUTXAJ0kHXNDT+bmJ0eNt1vaOjwoqcUAdEdy2ldMuhSXD/bEmifZ1wRrO7+mb6mR6E/E/F1RtL5IB4sELCnCws38CMZ/cFybiPsJQM/AQmj0kdxWw0NAxAVlxS54UgrtDYTdmyJ60NW+luTy51pLmFzi9AFTDulTbFuK2XBPTGN/Bavx/G2tG2gqp4Y7YojawqVz9nmxMw5Ua2nFebDLrcz+XYaXY9/y1j51pylRVf/PoYLHAvDj1qPWQlOdF5FVDWk3leYpWuop4Tmc4O4u4A=
   on:
     tags: true
-    repo: Hongarc/node-facebook
+    repo: hong4rc/node-facebook

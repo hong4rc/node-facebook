@@ -1,6 +1,6 @@
 import Api, { Form, Id } from '../api';
 
-export default function (this: Api, isAccept: boolean, ...threadIds: Id[]): Form {
+export default function (this: Api, isAccept: boolean, ...threadIds: Id[]): Promise<Form> {
   const form: Form = {};
   const key = isAccept ? 'inbox' : 'other';
   form[key] = threadIds;

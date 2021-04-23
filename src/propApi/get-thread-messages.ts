@@ -15,5 +15,6 @@ export default function (this: Api, threadId: Id,
       load_read_receipts: true,
       message_limit: limit,
     },
-  }).then((response: Form) => response.messageThread.messages.nodes.map(fMessage));
+  }).then((response: Form) => response.messageThread.messages.nodes
+    .map((messaged: Form) => fMessage(messaged)));
 }

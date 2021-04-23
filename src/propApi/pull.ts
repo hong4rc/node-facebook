@@ -30,10 +30,11 @@ export default function (this: Api, form: Form = {}): Promise<Form> {
       case 'msg':
         return Api.camelize(response.ms);
       case 'heartbeat':
+      case undefined:
         return [];
       default:
         // eslint-disable-next-line no-console
-        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/Hongarc/node-facebook/issues`);
+        console.log(`We don't support '${response.t}' now, please create issue in https://github.com/hong4rc/node-facebook/issues`);
         return [];
     }
   }, (error: Form) => {

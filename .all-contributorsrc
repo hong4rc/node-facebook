@@ -6,8 +6,8 @@
   "commit": false,
   "contributors": [
     {
-      "login": "Hongarc",
-      "name": "Hongarc",
+      "login": "hong4rc",
+      "name": "hong4rc",
       "avatar_url": "https://avatars1.githubusercontent.com/u/19208123?v=4",
       "profile": "https://fb.com/RemoveU",
       "contributions": [
@@ -34,11 +34,11 @@
       "contributions": [
         "talk
       ]
-    }  
+    }
   ],
   "contributorsPerLine": 7,
   "projectName": "node-facebook",
-  "projectOwner": "Hongarc",
+  "projectOwner": "hong4rc",
   "repoType": "github",
   "repoHost": "https://github.com"
 }

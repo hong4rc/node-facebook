@@ -1,8 +1,8 @@
-import { join } from 'path';
+import path from 'path';
 import { readFileSync } from 'fs';
 import { Form } from '../src/api';
 
-const infoPath = join(__dirname, 'info.json');
+const infoPath = path.join(__dirname, 'info.json');
 
 export interface UInfo {
   email: string;

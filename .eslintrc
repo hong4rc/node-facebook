@@ -30,7 +30,10 @@
         "replacements": {
           "msg": false
         }
-        }],
+      }
+    ],
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-null": "off",
     "@typescript-eslint/camelcase": ["error", { "properties": "never" }],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/explicit-function-return-type": "off",

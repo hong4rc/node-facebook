@@ -8,7 +8,9 @@ const deletes = [
   'invites',
 ];
 
-export default function (this: Api, groupId: Id, memberId: Id, delIndexs: number[] = []): Form {
+export default function (
+  this: Api, groupId: Id, memberId: Id, delIndexs: number[] = [],
+): Promise<Form> {
   const deleteOptions: Form = {};
   delIndexs.forEach((index: number) => {
     deleteOptions[`delete_${deletes[index]}`] = 1;

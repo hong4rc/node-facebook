@@ -1,6 +1,6 @@
 import Api, { Form, Id } from '../api';
 
-export default function (this: Api, attachmentId: Id, ...threadIds: Id[]): Form {
+export default function (this: Api, attachmentId: Id, ...threadIds: Id[]): Promise<Form> {
   const recipient: Form = {};
   threadIds.forEach((threadId: Id) => {
     recipient[Api.genOTI()] = threadId;
